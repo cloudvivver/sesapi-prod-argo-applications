@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: saude-event-agent-service
+  namespace: saude-publica
+  labels:
+    app: saude-event-agent
+    service: saude-event-agent
+spec:
+  selector:
+    app: saude-event-agent
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 8080
+    - name: api
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

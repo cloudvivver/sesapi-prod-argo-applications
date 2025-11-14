@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: floriano-service
+spec:
+  selector:
+    io.kompose.service: floriano
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 3000
+  type: ClusterIP
+
+
+

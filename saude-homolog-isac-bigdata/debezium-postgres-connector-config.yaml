@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: debezium-postgres-config
+  namespace: cuidar-isac-hml
+data:
+  connector-config.json: |
+    {
+      "name": "postgres-cdc-connector",
+      "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "tasks.max": "1",
+        "database.hostname": "${env:POSTGRES_HOST}",
+        "database.port": "${env:POSTGRES_PORT}",
+        "database.user": "${env:POSTGRES_USER}",
+        "database.password": "${env:POSTGRES_PASSWORD}",
+        "database.dbname": "${env:POSTGRES_DB}",
+        "database.server.name": "isac-postgres",
+        "table.include.list": "public.*",
+        "plugin.name": "pgoutput",
+        "publication.autocreate.mode": "filtered",
+        "slot.name": "debezium_isac_slot",
+        "topic.prefix": "isac-cdc",
+        "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+        "schema.history.internal.kafka.topic": "isac-schema-history",
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter.schemas.enable": "false",
+        "value.converter.schemas.enable": "false"
+      }
+    }

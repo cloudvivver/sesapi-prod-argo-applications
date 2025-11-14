@@ -1,0 +1,115 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: parnaiba-warmup
+  namespace: cuidar-parnaiba
+  labels:
+    app: parnaiba-warmup
+spec:
+  # Executa a cada 3 minutos para manter aquecido
+  schedule: "*/3 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: parnaiba-warmup-job
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: warmup
+            image: curlimages/curl:latest
+            imagePullPolicy: IfNotPresent
+            resources:
+              requests:
+                cpu: 10m
+                memory: 16Mi
+              limits:
+                cpu: 50m
+                memory: 32Mi
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo " Iniciando warmup da aplicação..."
+              
+              # Função para fazer requisição com timeout
+              make_request() {
+                local url=$1
+                local timeout=${2:-10}
+                echo "📡 Fazendo requisição para: $url"
+                
+                if curl -s -m $timeout \
+                   --connect-timeout 5 \
+                   --max-time $timeout \
+                   -H "User-Agent: K8s-Warmup-Bot/1.0" \
+                   -H "Accept: text/html,application/json" \
+                   -w "Status: %{http_code} | Tempo: %{time_total}s | Tamanho: %{size_download} bytes\n" \
+                   "$url" > /dev/null 2>&1; then
+                  echo " Sucesso: $url"
+                else
+                  echo " Falha: $url (pode ser normal se app estiver iniciando)"
+                fi
+              }
+              
+              # URLs dos 3 pods da aplicação (usando service discovery)
+              SERVICE_IP="parnaiba-service.cuidar-parnaiba.svc.cluster.local"
+              
+              # Requisições de warmup - rotas que provavelmente existem
+              make_request "http://$SERVICE_IP/" 15
+              make_request "http://$SERVICE_IP/health" 10
+              make_request "http://$SERVICE_IP/api/health" 10
+              
+              # Simular algumas requisições típicas de usuário
+              make_request "http://$SERVICE_IP/login" 10
+              make_request "http://$SERVICE_IP/dashboard" 10
+              
+              echo "Warmup concluído - $(date)"
+          
+          # Configurações de segurança
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            fsGroup: 65534
+            
+  # Manter apenas os 3 jobs mais recentes
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 2
+  
+  # Timeout do job
+  activeDeadlineSeconds: 180
+
+---
+# ServiceAccount para o CronJob (opcional, mas recomendado)
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: warmup-service-account
+  namespace: cuidar-parnaiba
+  
+---
+# ClusterRole mínimo apenas para network (opcional)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: warmup-role
+  namespace: cuidar-parnaiba
+rules:
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get"]
+  
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: warmup-rolebinding
+  namespace: cuidar-parnaiba
+subjects:
+- kind: ServiceAccount
+  name: warmup-service-account
+  namespace: cuidar-parnaiba
+roleRef:
+  kind: Role
+  name: warmup-role
+  apiGroup: rbac.authorization.k8s.io

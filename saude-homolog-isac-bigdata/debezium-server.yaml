@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debezium-server
+  namespace: cuidar-isac-hml
+  labels:
+    app: debezium-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: debezium-server
+  template:
+    metadata:
+      labels:
+        app: debezium-server
+    spec:
+      containers:
+        - name: debezium-server
+          image: debezium/server:2.4
+          env:
+            # Source connector (PostgreSQL)
+            - name: DEBEZIUM_SOURCE_CONNECTOR_CLASS
+              value: "io.debezium.connector.postgresql.PostgresConnector"
+            - name: DEBEZIUM_SOURCE_DATABASE_HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: hostname
+            - name: DEBEZIUM_SOURCE_DATABASE_PORT
+              value: "5432"
+            - name: DEBEZIUM_SOURCE_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: DEBEZIUM_SOURCE_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: DEBEZIUM_SOURCE_DATABASE_DBNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: database
+            - name: DEBEZIUM_SOURCE_DATABASE_SERVER_NAME
+              value: "isac-postgres"
+            - name: DEBEZIUM_SOURCE_TOPIC_PREFIX
+              value: "isac-postgres"
+            - name: DEBEZIUM_SOURCE_PLUGIN_NAME
+              value: "pgoutput"
+            - name: DEBEZIUM_SOURCE_SLOT_NAME
+              value: "debezium_server_slot"
+            - name: DEBEZIUM_SOURCE_PUBLICATION_AUTOCREATE_MODE
+              value: "filtered"
+            - name: DEBEZIUM_SOURCE_TABLE_INCLUDE_LIST
+              value: "public.*"
+            
+            # Sink connector (HTTP endpoint que irá para Azure)
+            - name: DEBEZIUM_SINK_TYPE
+              value: "http"
+            - name: DEBEZIUM_SINK_HTTP_URL
+              value: "http://azure-storage-sink:8080/webhook"
+            - name: DEBEZIUM_SINK_HTTP_TIMEOUT_MS
+              value: "10000"
+            
+            # Format configuration
+            - name: DEBEZIUM_FORMAT_VALUE
+              value: "json"
+            - name: DEBEZIUM_FORMAT_KEY
+              value: "json"
+            - name: DEBEZIUM_FORMAT_VALUE_SCHEMAS_ENABLE
+              value: "false"
+            - name: DEBEZIUM_FORMAT_KEY_SCHEMAS_ENABLE
+              value: "false"
+              
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi" 
+              cpu: "500m"
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "ps aux | grep '[j]ava.*debezium' || exit 1"
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "ps aux | grep '[j]ava.*debezium' || exit 1"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: debezium-server
+  namespace: cuidar-isac-hml
+spec:
+  selector:
+    app: debezium-server
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

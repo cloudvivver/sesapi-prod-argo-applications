@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sidekiq-isac-scaledobject
+  namespace: cuidar-isac-hml
+spec:
+  scaleTargetRef:
+    name: sidekiq
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "60"
+    - type: memory
+      metadata:
+        type: Utilization
+        value: "90"

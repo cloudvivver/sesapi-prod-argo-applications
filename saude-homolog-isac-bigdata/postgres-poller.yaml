@@ -1,0 +1,228 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-poller
+  namespace: cuidar-isac-hml
+  labels:
+    app: postgres-poller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-poller
+  template:
+    metadata:
+      labels:
+        app: postgres-poller
+    spec:
+      containers:
+        - name: postgres-poller
+          image: python:3.11-slim
+          command:
+            - /bin/sh
+            - -c
+            - |
+              pip install psycopg2-binary kafka-python requests azure-storage-blob
+              cat > /app/poller.py << 'EOF'
+              import psycopg2
+              import json
+              import time
+              import os
+              import requests
+              from datetime import datetime
+              import logging
+              from kafka import KafkaProducer
+
+              # Configure logging
+              logging.basicConfig(level=logging.INFO)
+              logger = logging.getLogger(__name__)
+
+              # Database configuration
+              DB_CONFIG = {
+                  'host': os.getenv('POSTGRES_HOST', 'dev-db-cuidar-new2.postgres.database.azure.com'),
+                  'port': int(os.getenv('POSTGRES_PORT', '6432')),
+                  'database': os.getenv('POSTGRES_DB', 'saude_homolog_tenant_isac_db'),
+                  'user': os.getenv('POSTGRES_USER', 'postgres'),
+                  'password': os.getenv('POSTGRES_PASSWORD', 'nt1L2e0AFiRn6FREfYf9hXUWcO3gsOTs'),
+                  'sslmode': 'require'
+              }
+
+              # Kafka configuration  
+              KAFKA_BOOTSTRAP_SERVERS = os.getenv('KAFKA_SERVERS', 'kafka:9092')
+              
+              # Azure Storage Sink URL
+              AZURE_SINK_URL = os.getenv('AZURE_SINK_URL', 'http://azure-storage-sink:8080/webhook')
+
+              # Tables to monitor
+              TABLES = ['users', 'organizations']  # Add your table names here
+              POLL_INTERVAL = int(os.getenv('POLL_INTERVAL_SECONDS', '30'))
+
+              def create_producer():
+                  try:
+                      return KafkaProducer(
+                          bootstrap_servers=[KAFKA_BOOTSTRAP_SERVERS],
+                          value_serializer=lambda x: json.dumps(x).encode('utf-8')
+                      )
+                  except Exception as e:
+                      logger.error(f"Failed to create Kafka producer: {e}")
+                      return None
+
+              def get_table_data(table_name, last_id=0):
+                  try:
+                      conn = psycopg2.connect(**DB_CONFIG)
+                      cur = conn.cursor()
+                      
+                      # Query for new records (assuming 'id' is the incrementing column)
+                      query = f"SELECT * FROM public.{table_name} WHERE id > %s ORDER BY id"
+                      cur.execute(query, (last_id,))
+                      
+                      columns = [desc[0] for desc in cur.description]
+                      rows = cur.fetchall()
+                      
+                      records = []
+                      for row in rows:
+                          record = dict(zip(columns, row))
+                          # Convert datetime objects to strings
+                          for key, value in record.items():
+                              if hasattr(value, 'isoformat'):
+                                  record[key] = value.isoformat()
+                          records.append(record)
+                      
+                      cur.close()
+                      conn.close()
+                      
+                      return records
+                      
+                  except Exception as e:
+                      logger.error(f"Error querying {table_name}: {e}")
+                      return []
+
+              def send_to_kafka(producer, topic, data):
+                  try:
+                      producer.send(topic, data)
+                      producer.flush()
+                      logger.info(f"Sent to Kafka topic {topic}: {data.get('id', 'unknown')}")
+                  except Exception as e:
+                      logger.error(f"Failed to send to Kafka: {e}")
+
+              def send_to_azure_sink(data):
+                  try:
+                      response = requests.post(AZURE_SINK_URL, json=data, timeout=10)
+                      if response.status_code == 200:
+                          logger.info(f"Sent to Azure sink: {data.get('id', 'unknown')}")
+                      else:
+                          logger.error(f"Azure sink returned {response.status_code}")
+                  except Exception as e:
+                      logger.error(f"Failed to send to Azure sink: {e}")
+
+              def main():
+                  logger.info("Starting PostgreSQL Poller...")
+                  logger.info(f"Monitoring tables: {TABLES}")
+                  logger.info(f"Poll interval: {POLL_INTERVAL} seconds")
+                  
+                  # Initialize Kafka producer
+                  producer = create_producer()
+                  
+                  # Track last processed ID for each table
+                  last_ids = {table: 0 for table in TABLES}
+                  
+                  while True:
+                      try:
+                          for table in TABLES:
+                              records = get_table_data(table, last_ids[table])
+                              
+                              for record in records:
+                                  # Update last processed ID
+                                  if 'id' in record:
+                                      last_ids[table] = max(last_ids[table], record['id'])
+                                  
+                                  # Prepare CDC-like message
+                                  cdc_message = {
+                                      'source': {
+                                          'table': table,
+                                          'database': DB_CONFIG['database'],
+                                          'server': DB_CONFIG['host']
+                                      },
+                                      'op': 'r',  # read operation (could be 'c' for create if you track that)
+                                      'after': record,
+                                      'ts_ms': int(time.time() * 1000)
+                                  }
+                                  
+                                  # Send to Kafka
+                                  if producer:
+                                      send_to_kafka(producer, f"isac-polling-{table}", cdc_message)
+                                  
+                                  # Send to Azure Storage Sink
+                                  send_to_azure_sink(cdc_message)
+                              
+                              if records:
+                                  logger.info(f"Processed {len(records)} records from {table}")
+                          
+                          logger.info(f"Sleeping for {POLL_INTERVAL} seconds...")
+                          time.sleep(POLL_INTERVAL)
+                          
+                      except Exception as e:
+                          logger.error(f"Error in main loop: {e}")
+                          time.sleep(10)
+
+              if __name__ == '__main__':
+                  main()
+              EOF
+              
+              mkdir -p /app
+              cd /app && python poller.py
+          env:
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: hostname
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: port
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: database
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+            - name: KAFKA_SERVERS
+              value: "kafka:9092"
+            - name: AZURE_SINK_URL
+              value: "http://azure-storage-sink:8080/webhook"
+            - name: POLL_INTERVAL_SECONDS
+              value: "30"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "ps aux | grep '[p]ython.*poller' || exit 1"
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "ps aux | grep '[p]ython.*poller' || exit 1"
+            initialDelaySeconds: 30
+            periodSeconds: 10

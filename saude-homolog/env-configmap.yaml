@@ -1,0 +1,50 @@
+apiVersion: v1
+data:
+  APP_BASE_URL: https://saude-devel.bigdatasys.net
+  REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
+  WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
+  WEBSOCKET_NOTIFICATION_ORIGIN: "saude-devel"
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  DATABASE_POOL: "10"
+  SENTRY_URL: "https://11b50674bb1c6fd8c409352cc70967f3@sentry.bigdatasys.net/5"
+  APP_HOST: saude-devel.bigdatasys.net
+  BUNDLE_JOBS: "4"
+  BUNDLE_RETRY: "3"  
+  DATABASE_HOST: dev-db-cuidar-new2.postgres.database.azure.com
+  DATABASE_PASSWORD: nt1L2e0AFiRn6FREfYf9hXUWcO3gsOTs
+  DATABASE_PORT: "6432"
+  DATABASE_PROD: saude_devel_pi  
+  DATABASE_USERNAME: postgres
+  SECRET_KEY_BASE: 8c4d9f264ea397f4767e4fc24a68a95b88d0787048711fc841e65bb33cd1e64500be8140751470177dbf55842f267b52f9e2f744e43692ee16efe57b99860580
+  RAILS_MAX_THREADS: "8"
+  WEB_CONCURRENCY: "2"
+  SIDEKIQ_CONCURRENCY: "2"
+  HYDRA_HOST: "https://regulahm.saude.pi.gov.br"
+  HIDRA_TOKEN: "882ILCri93gsJpQvzgUbTQtt"
+  DATABASE_BI_SESAPI: ""
+  RAILS_SERVE_STATIC_FILES: "true"
+  RAILS_STATIC_CACHE_CONTROL: "public, max-age=31536000, immutable"
+  # Redis Optimizations
+  REDIS_MAXMEMORY_POLICY: "allkeys-lfu"
+  REDIS_TIMEOUT: "1"
+  # Rails Cache Optimizations  
+  RAILS_ACTION_CACHE: "true"
+  RAILS_FRAGMENT_CACHE: "true"
+  RAILS_CACHE_STORE: "configured"
+  RAILS_CACHE_EXPIRES_IN: "configured"
+  RAILS_DESKTOP_CACHE_TTL: "configured"
+  # Database Optimizations
+  DATABASE_INCLUDES_CACHE: "enabled"
+  DATABASE_TIMEOUT: "5000"           # 5s timeout
+  DATABASE_CHECKOUT_TIMEOUT: "5000"  # 5s checkout timeout  
+  DATABASE_REAPING_FREQUENCY: "60"   # Limpa connections a cada 10s
+  DATABASE_STATEMENT_LIMIT: "1000"   # Limita prepared statements
+
+kind: ConfigMap
+metadata:
+  labels:
+    io.kompose.service: pgweb-env
+  name: env
+  namespace: saude-homolog

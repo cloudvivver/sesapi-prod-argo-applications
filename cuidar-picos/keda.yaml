@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: picos-scaledobject
+  namespace: cuidar-picos
+spec:
+  scaleTargetRef:
+    name: picos
+  minReplicaCount: 3
+  maxReplicaCount: 3
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "60"
+    - type: memory
+      metadata:
+        type: Utilization
+        value: "80"

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: airflow-worker
+  name: airflow-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      io.kompose.service: airflow-worker
+  template:
+    metadata:
+      labels:
+        io.kompose.service: airflow-worker
+    spec:
+      containers:
+        - name: airflow-worker
+          image: apache/airflow:3.0.6
+          command: ["airflow", "celery", "worker"]
+          volumeMounts:
+            - name: airflow-logs
+              mountPath: /opt/airflow/logs
+            - name: airflow-dags
+              mountPath: /opt/airflow/dags
+          envFrom:
+            - configMapRef:
+                name: env
+          env:
+            - name: DUMB_INIT_SETSID
+              value: "0"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1500m"
+              memory: "3Gi"
+          livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - -f
+                - "airflow celery worker"
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          readinessProbe:
+            exec:
+              command:
+                - pgrep
+                - -f
+                - "airflow celery worker"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      volumes:
+        - name: airflow-logs
+          persistentVolumeClaim:
+            claimName: airflow-logs-pvc
+        - name: airflow-dags
+          persistentVolumeClaim:
+            claimName: airflow-dags-pvc
+      restartPolicy: Always

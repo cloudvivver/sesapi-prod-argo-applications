@@ -1,0 +1,45 @@
+Olá equipe AWS! 👋
+
+Preciso de ajuda para configurar um registro DNS no Route53:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 CONFIGURAÇÃO SOLICITADA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tipo: CNAME
+Nome: saude-devel.bigdatasys.net
+Aponta para: a8ecc5d6022ed430d83089b7ab2a8873-b481ee7df7e0ce24.elb.sa-east-1.amazonaws.com
+TTL: 300
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 OBJETIVO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ambiente de homologação da aplicação Saúde Pública
+Kubernetes Ingress → ELB → saude-devel.bigdatasys.net
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 COMANDO (se for Route53)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Via AWS Console:
+1. Route53 → Hosted Zones
+2. Selecionar "bigdatasys.net"
+3. Create Record:
+   - Name: saude-devel
+   - Type: CNAME
+   - Value: a8ecc5d6022ed430d83089b7ab2a8873-b481ee7df7e0ce24.elb.sa-east-1.amazonaws.com
+   - TTL: 300
+
+Ou via CLI:
+aws route53 list-hosted-zones | grep bigdatasys.net
+# Usar o Zone ID para criar o registro
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Após configurado, vou validar com:
+nslookup saude-devel.bigdatasys.net
+
+Obrigado! 🙏
+
+Documentação completa: SOLICITACAO-DNS.md

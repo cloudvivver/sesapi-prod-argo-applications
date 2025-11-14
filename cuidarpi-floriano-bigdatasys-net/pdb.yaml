@@ -1,0 +1,12 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: floriano-pdb
+  namespace: cuidar-floriano
+  labels:
+    app.kubernetes.io/instance: cuidarpi-floriano
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      io.kompose.service: floriano

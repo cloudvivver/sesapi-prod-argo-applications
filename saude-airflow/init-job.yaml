@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: airflow-init
+  labels:
+    app: airflow-init
+spec:
+  template:
+    metadata:
+      labels:
+        app: airflow-init
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: airflow-init
+          image: apache/airflow:3.0.6
+          command:
+            - /bin/bash
+            - -c
+            - |
+              echo "Waiting for database..."
+              airflow db init
+              echo "Creating admin user..."
+              airflow users create \
+                --username admin \
+                --firstname Admin \
+                --lastname User \
+                --email admin@example.com \
+                --role Admin \
+                --password admin
+              echo "Airflow initialization completed"
+          envFrom:
+            - configMapRef:
+                name: env
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"

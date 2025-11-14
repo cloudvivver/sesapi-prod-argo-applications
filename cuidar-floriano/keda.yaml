@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: floriano-scaledobject
+  namespace: cuidar-floriano
+spec:
+  scaleTargetRef:
+    name: floriano
+  minReplicaCount: 3
+  maxReplicaCount: 6
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "60"
+    - type: memory
+      metadata:
+        type: Utilization
+        value: "80"

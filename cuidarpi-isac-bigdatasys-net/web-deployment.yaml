@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: isac
+  name: isac
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.kompose.service: isac
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 180
+  template:
+    metadata:
+      labels:
+        io.kompose.service: isac
+    spec:
+      initContainers:
+        - name: migrate
+          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3089
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              mkdir -p app/tmp/pids
+              mkdir -p app/tmp/sockets
+              bundle exec rake db:migrate
+          envFrom:
+            - configMapRef:
+                name: env
+      containers:
+        - name: isac
+          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3089
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              mkdir -p app/tmp/pids
+              mkdir -p app/tmp/sockets
+              bundle exec puma -C config/puma/production.rb
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: azurefile
+              mountPath: /mnt/compartilhado
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 240      # Aguarda 5 minutos para dar tempo do app subir
+            timeoutSeconds: 10
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 240      # Aguarda 5 minutos antes de considerar que o app deve estar respondendo
+            timeoutSeconds: 10
+            periodSeconds: 20
+            failureThreshold: 5
+
+          envFrom:
+            - configMapRef:
+                name: env
+          resources:
+            requests:
+              cpu: "1600m"
+              memory: "7Gi"
+            limits:
+              cpu: "1900m"
+              memory: "9Gi"
+      volumes:
+        - name: azurefile
+          persistentVolumeClaim:
+            claimName: azurefile-pvc
+      restartPolicy: Always

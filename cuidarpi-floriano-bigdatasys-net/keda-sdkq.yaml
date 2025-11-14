@@ -1,0 +1,16 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sidekiq-floriano-scaledobject
+  namespace: cuidar-floriano
+
+spec:
+  scaleTargetRef:
+    name: sidekiq
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "60"

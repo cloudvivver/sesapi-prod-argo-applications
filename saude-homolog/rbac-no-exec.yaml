@@ -1,0 +1,68 @@
+# RBAC para restringir kubectl exec/cp
+# Usuários com esta role NÃO conseguem acessar pods
+
+---
+# Role sem permissão de exec/attach/cp
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pods-read-only
+  namespace: saude-homolog
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list", "watch"]
+  # Permite ver pods e logs
+  # NÃO permite: "create", "delete", "exec", "attach"
+
+- apiGroups: [""]
+  resources: ["pods/exec", "pods/attach"]
+  verbs: []  # VAZIO = bloqueado
+
+- apiGroups: ["apps"]
+  resources: ["deployments", "replicasets"]
+  verbs: ["get", "list", "watch"]
+
+---
+# RoleBinding para usuários padrão
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pods-read-only-binding
+  namespace: saude-homolog
+subjects:
+- kind: Group
+  name: developers  # Grupo de desenvolvedores
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pods-read-only
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Role para administradores (podem exec/cp)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pods-admin
+  namespace: saude-homolog
+rules:
+- apiGroups: [""]
+  resources: ["*"]
+  verbs: ["*"]
+
+---
+# RoleBinding para admins específicos
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pods-admin-binding
+  namespace: saude-homolog
+subjects:
+- kind: User
+  name: admin@empresa.com  # Trocar pelo email do admin
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pods-admin
+  apiGroup: rbac.authorization.k8s.io

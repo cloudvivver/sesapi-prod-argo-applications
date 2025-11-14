@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: corrente-ingress
+  namespace: cuidar-corrente
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/load-balance: "least_conn"
+    cert-manager.io/cluster-issuer: letsencrypt-http
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - cuidarpi-corrente.bigdatasys.net
+      secretName: corrente-tls
+  rules:
+    - host: cuidarpi-corrente.bigdatasys.net
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: corrente-service
+                port:
+                  number: 80

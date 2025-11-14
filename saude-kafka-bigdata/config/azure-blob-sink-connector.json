@@ -1,0 +1,24 @@
+{
+  "name": "azure-parquet-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.azure.blob.AzureBlobStorageSinkConnector",
+    "tasks.max": "1",
+    "topics": "eventos-rails",
+    "flush.size": "1000",
+    "azure.blob.storage.account.name": "${env:AZURE_STORAGE_ACCOUNT_NAME}",
+    "azure.blob.storage.account.key": "${env:AZURE_STORAGE_ACCOUNT_KEY}",
+    "azure.blob.storage.container.name": "formulario-acessos-raw",
+    "format.class": "io.confluent.connect.azure.blob.format.parquet.ParquetFormat",
+    "partitioner.class": "io.confluent.connect.storage.partitioner.TimeBasedPartitioner",
+    "partition.duration.ms": "3600000",
+    "path.format": "'ano'=YYYY/'mes'=MM/'dia'=dd/'hora'=HH",
+    "locale": "pt_BR",
+    "timezone": "America/Sao_Paulo",
+    "timestamp.extractor": "Record",
+    "timestamp.field": "timestamp",
+    "schema.compatibility": "NONE",
+    "filename.offset.zero.pad.width": "10",
+    "s3.region": "default",
+    "storage.class": "io.confluent.connect.azure.blob.storage.AzureBlobStorage"
+  }
+}

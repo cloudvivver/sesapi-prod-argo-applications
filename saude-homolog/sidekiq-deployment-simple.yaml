@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidekiq
+  namespace: saude-homolog
+  labels:
+    app: sidekiq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidekiq
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+    spec:
+      containers:
+        - name: sidekiq
+          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3050
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "Aguardando banco de dados..."
+              sleep 15
+
+              echo "Iniciando Sidekiq..."
+              bundle exec sidekiq -C config/sidekiq.yml
+          envFrom:
+            - configMapRef:
+                name: env
+            - secretRef:
+                name: app-secrets
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "1Gi"
+            limits:
+              cpu: "800m"
+              memory: "2Gi"
+
+      restartPolicy: Always

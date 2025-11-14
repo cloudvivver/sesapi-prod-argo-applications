@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: c-tv
+  labels:
+    io.kompose.service: web
+    app.kubernetes.io/name: c-tv
+    app.kubernetes.io/component: web
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  selector:
+    matchLabels:
+      io.kompose.service: web
+  template:
+    metadata:
+      labels:
+        io.kompose.service: web
+        app.kubernetes.io/name: c-tv
+        app.kubernetes.io/component: web
+    spec:
+      containers:
+      - name: c-tv
+        image: acrcuidarnew.azurecr.io/c-tv:5
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: env
+        env:
+        - name: AZURE_TTS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: azure-tts-secret
+              key: api-key
+              optional: true
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        volumeMounts:
+        - name: audio-cache
+          mountPath: /app/audio_cache
+        - name: certificates
+          mountPath: /app/certs
+          readOnly: true
+      volumes:
+      - name: audio-cache
+        persistentVolumeClaim:
+          claimName: audio-cache-pvc
+      - name: certificates
+        configMap:
+          name: certificates-config
+          optional: true
+      restartPolicy: Always

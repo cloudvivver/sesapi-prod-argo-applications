@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidekiq
+  labels:
+    app: sidekiq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidekiq
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+    spec:
+      containers:
+        - name: sidekiq
+          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3022
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              bundle exec sidekiq -C config/sidekiq.yml
+          envFrom:
+            - configMapRef:
+                name: env
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "2Gi"
+            limits:
+              cpu: "800m"
+              memory: "3Gi"
+
+      restartPolicy: Always

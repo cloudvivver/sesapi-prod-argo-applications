@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env
+  namespace: c-tv
+  labels:
+    io.kompose.service: c-tv-env
+    app.kubernetes.io/name: c-tv
+    app.kubernetes.io/component: config
+data:
+  # Application Environment
+  CTV_ENV: "prod"
+  CTV_SSL: "TRUE"
+  CTV_PORT: "8080"
+
+  # Server Configuration
+  HTTP_READ_TIMEOUT: "30s"
+  HTTP_WRITE_TIMEOUT: "30s"
+  HTTP_IDLE_TIMEOUT: "60s"
+
+  # Cache Configuration
+  CACHE_DIRECTORY: "/app/audio_cache"
+  CACHE_TTL_MINUTES: "10"
+  CACHE_MAX_SIZE_MB: "1024"
+
+  # TTS Configuration
+  TTS_PROVIDER: "microsoft"
+  TTS_VOICE: "pt-BR-FranciscaNeural"
+  TTS_RATE: "medium"
+  TTS_PITCH: "medium"
+
+  # Azure TTS Configuration (secrets should be in a separate Secret resource)
+  AZURE_TTS_REGION: "brazilsouth"
+
+  # Audio Configuration
+  AUDIO_FORMAT: "mp3"
+  AUDIO_SAMPLE_RATE: "22050"
+
+  # Logging
+  LOG_LEVEL: "info"
+  LOG_FORMAT: "json"
+
+  # Health Check
+  HEALTH_CHECK_ENDPOINT: "/health"
+
+  # Fixed Host for TTS info endpoint
+  FIXED_HOST: "c-tv-dev-k8s.bigdatasys.net"
+
+  # Sentry Configuration
+  SENTRY_DSN: "https://fdeb263e6ac5905a26c7bddebe432a4e@sentry.bigdatasys.net/27"

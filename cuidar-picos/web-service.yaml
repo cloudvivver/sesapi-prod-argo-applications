@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: picos-service
+spec:
+  selector:
+    io.kompose.service: picos
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 3000
+  type: ClusterIP
+
+
+

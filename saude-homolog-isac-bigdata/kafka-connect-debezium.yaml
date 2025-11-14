@@ -1,0 +1,141 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-connect-debezium-isac
+  namespace: cuidar-isac-hml
+  labels:
+    app: kafka-connect-debezium-isac
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-connect-debezium-isac
+  template:
+    metadata:
+      labels:
+        app: kafka-connect-debezium-isac
+    spec:
+      initContainers:
+        - name: install-connectors
+          image: curlimages/curl:latest
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /kafka/connect/plugins
+              cd /kafka/connect/plugins
+              
+              # Download Debezium PostgreSQL connector (versão compatível com Azure)
+              curl -L https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/1.9.8.Final/debezium-connector-postgres-1.9.8.Final-plugin.tar.gz -o debezium-postgres.tar.gz
+              tar -xf debezium-postgres.tar.gz
+              rm debezium-postgres.tar.gz
+              
+              # Download JDBC Source Connector
+              mkdir -p jdbc-connector
+              cd jdbc-connector
+              curl -L https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.7.4/confluentinc-kafka-connect-jdbc-10.7.4.zip -o jdbc-connector.zip
+              unzip -q jdbc-connector.zip || echo "Failed to download JDBC connector"
+              cd ..
+              
+              # Download PostgreSQL JDBC driver
+              curl -L https://jdbc.postgresql.org/download/postgresql-42.6.0.jar -o jdbc-connector/confluentinc-kafka-connect-jdbc-10.7.4/lib/postgresql-42.6.0.jar
+              
+              echo "Available connectors:"
+              find /kafka/connect/plugins -name "*.jar" | head -10
+              
+              echo "Plugins installed successfully"
+          volumeMounts:
+            - name: plugins-volume
+              mountPath: /kafka/connect/plugins
+      containers:
+        - name: kafka-connect-debezium-isac
+          image: confluentinc/cp-kafka-connect:7.5.0
+          ports:
+            - containerPort: 8083
+          env:
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: "kafka:9092"
+            - name: CONNECT_REST_ADVERTISED_HOST_NAME
+              value: "kafka-connect-debezium-isac"
+            - name: CONNECT_GROUP_ID
+              value: "debezium-cluster-isac"
+            - name: CONNECT_CONFIG_STORAGE_TOPIC
+              value: "debezium-configs-isac"
+            - name: CONNECT_OFFSET_STORAGE_TOPIC
+              value: "debezium-offsets-isac"
+            - name: CONNECT_STATUS_STORAGE_TOPIC
+              value: "debezium-status-isac"
+            - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_KEY_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_VALUE_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE
+              value: "false"
+            - name: CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE
+              value: "false"
+            - name: CONNECT_PLUGIN_PATH
+              value: "/kafka/connect/plugins"
+            # PostgreSQL credentials from secret
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: hostname
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: port
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: database
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8083
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /connectors
+              port: 8083
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+            - name: plugins-volume
+              mountPath: /kafka/connect/plugins
+      volumes:
+        - name: plugins-volume
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-connect-debezium-isac
+  namespace: cuidar-isac-hml
+spec:
+  selector:
+    app: kafka-connect-debezium-isac
+  ports:
+    - port: 8083
+      targetPort: 8083
+      nodePort: 30085
+  type: NodePort

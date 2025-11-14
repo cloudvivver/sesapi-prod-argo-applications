@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: webhomolog
+  name: webhomolog
+  namespace: saude-homolog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: webhomolog
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  template:
+    metadata:
+      labels:
+        io.kompose.service: webhomolog
+    spec:
+      containers:
+        - name: webhomolog
+          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3050
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "Iniciando aplicação..."
+              mkdir -p /app/public/prd/sia
+              mkdir -p /app/tmp/pids
+              mkdir -p /app/tmp/sockets
+              mkdir -p /app/log
+
+              # Aguardar banco de dados estar pronto
+              echo "Aguardando banco de dados..."
+              sleep 10
+
+              # Executar migrations
+              bundle exec rake db:migrate || echo "Migrations failed, continuing..."
+
+              # Iniciar servidor
+              bundle exec puma -C config/puma/production.rb
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: azurefile
+              mountPath: /mnt/compartilhado
+          envFrom:
+            - configMapRef:
+                name: env
+            - secretRef:
+                name: app-secrets
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "2Gi"
+            limits:
+              cpu: "2000m"
+              memory: "4Gi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+
+      volumes:
+        - name: azurefile
+          persistentVolumeClaim:
+            claimName: azurefile-pvc
+
+      restartPolicy: Always

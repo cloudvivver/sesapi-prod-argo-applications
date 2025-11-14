@@ -1,0 +1,144 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidekiq
+  namespace: saude-homolog
+  labels:
+    app: sidekiq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidekiq
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+    spec:
+      # Init container para descriptografar código em tmpfs (RAM)
+      # Cada pod do Sidekiq terá sua própria cópia em RAM
+      initContainers:
+        - name: decrypt-source
+          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3050
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "========================================"
+              echo "Descriptografando código-fonte para RAM (tmpfs)..."
+              echo "========================================"
+
+              # 1. Ler chave do Secret
+              if [ ! -f "/secrets/key" ]; then
+                echo "ERRO: Chave não encontrada em /secrets/key"
+                exit 1
+              fi
+
+              ENCRYPTION_KEY=$(cat /secrets/key)
+              echo "✓ Chave lida do Secret"
+
+              # 2. Descriptografar código da imagem
+              if [ ! -f "/tmp/source-encrypted.tar.gz.enc" ]; then
+                echo "ERRO: Código criptografado não encontrado na imagem"
+                exit 1
+              fi
+
+              echo "Descriptografando código-fonte..."
+              echo "$ENCRYPTION_KEY" | openssl enc -aes-256-cbc \
+                -d \
+                -salt \
+                -pbkdf2 \
+                -in /tmp/source-encrypted.tar.gz.enc \
+                -out /tmp/source-code.tar.gz \
+                -pass stdin
+
+              echo "✓ Código descriptografado"
+
+              # 3. Extrair para /app (tmpfs - RAM)
+              echo "Extraindo código para /app (RAM)..."
+              mkdir -p /app
+              tar -xzf /tmp/source-code.tar.gz -C /app
+
+              # Verificar extração
+              if [ ! -f "/app/Gemfile" ]; then
+                echo "ERRO: Falha ao extrair código"
+                exit 1
+              fi
+
+              echo "✓ Código extraído com sucesso"
+
+              # 4. Limpar arquivos temporários e variáveis sensíveis
+              rm -f /tmp/source-code.tar.gz
+              rm -f /tmp/source-encrypted.tar.gz.enc
+              unset ENCRYPTION_KEY
+
+              # Mostrar uso de memória
+              echo ""
+              echo "Uso de memória do /app:"
+              du -sh /app
+
+              echo ""
+              echo "========================================"
+              echo "✓ Código-fonte carregado em RAM (tmpfs)!"
+              echo "✓ Código será destruído ao reiniciar pod"
+              echo "========================================"
+          volumeMounts:
+            - name: secrets
+              mountPath: /secrets
+              readOnly: true
+            - name: app-code
+              mountPath: /app
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+
+      # Container principal
+      containers:
+        - name: sidekiq
+          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3050
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              cd /app
+
+              # Verificar se código está disponível
+              if [ ! -f "Gemfile" ]; then
+                echo "ERRO: Código não encontrado em /app"
+                exit 1
+              fi
+
+              echo "Iniciando Sidekiq..."
+              bundle exec sidekiq -C config/sidekiq.yml
+          workingDir: /app
+          volumeMounts:
+            - name: app-code
+              mountPath: /app
+          envFrom:
+            - configMapRef:
+                name: env
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "2Gi"
+            limits:
+              cpu: "800m"
+              memory: "3Gi"
+
+      volumes:
+        # Secret com chave de criptografia
+        - name: secrets
+          secret:
+            secretName: source-encryption-key-3050
+
+        # tmpfs (RAM) para código descriptografado
+        # SEGURANÇA MÁXIMA: código apenas em memória, destruído ao reiniciar
+        # NOTA: Cada pod do Sidekiq terá sua própria cópia (não compartilhada)
+        - name: app-code
+          emptyDir:
+            medium: Memory      # Usar RAM ao invés de disco
+            sizeLimit: 3Gi      # Limitar uso de RAM (código + dependências)
+
+      restartPolicy: Always

@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: isac-scaledobject
+  namespace: cuidar-isac
+spec:
+  scaleTargetRef:
+    name: isac
+  minReplicaCount: 3
+  maxReplicaCount: 6
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "60"
+    - type: memory
+      metadata:
+        type: Utilization
+        value: "80"

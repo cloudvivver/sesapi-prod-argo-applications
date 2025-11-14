@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-storage-sink
+  namespace: cuidar-isac-hml
+  labels:
+    app: azure-storage-sink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-storage-sink
+  template:
+    metadata:
+      labels:
+        app: azure-storage-sink
+    spec:
+      containers:
+        - name: azure-storage-sink
+          image: python:3.11-slim
+          command:
+            - /bin/sh
+            - -c
+            - |
+              pip install flask azure-storage-blob requests
+              mkdir -p /app
+              cat > /app/sink.py << 'EOF'
+              from flask import Flask, request, jsonify
+              from azure.storage.blob import BlobServiceClient
+              import json
+              import os
+              from datetime import datetime
+              import logging
+
+              app = Flask(__name__)
+              logging.basicConfig(level=logging.INFO)
+
+              # Azure Storage configuration (you'll need to set these)
+              AZURE_STORAGE_CONNECTION_STRING = os.getenv('AZURE_STORAGE_CONNECTION_STRING', '')
+              CONTAINER_NAME = os.getenv('CONTAINER_NAME', 'debezium-cdc')
+
+              def init_blob_client():
+                  if AZURE_STORAGE_CONNECTION_STRING:
+                      return BlobServiceClient.from_connection_string(AZURE_STORAGE_CONNECTION_STRING)
+                  return None
+
+              @app.route('/webhook', methods=['POST'])
+              def webhook():
+                  try:
+                      data = request.get_json()
+                      
+                      # Log received data
+                      app.logger.info(f"Received CDC event: {data}")
+                      
+                      # Generate filename with timestamp
+                      timestamp = datetime.now().strftime('%Y/%m/%d/%H')
+                      table_name = data.get('source', {}).get('table', 'unknown')
+                      filename = f"cdc/{table_name}/{timestamp}/{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.json"
+                      
+                      # Save locally for now (can extend to Azure later)
+                      os.makedirs('/data/cdc', exist_ok=True)
+                      local_file = f"/data/cdc/{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.json"
+                      with open(local_file, 'w') as f:
+                          json.dump(data, f, indent=2)
+                      
+                      app.logger.info(f"Saved CDC event to {local_file}")
+                      
+                      # TODO: Upload to Azure Storage Blob
+                      # blob_client = init_blob_client()
+                      # if blob_client:
+                      #     blob_client.get_blob_client(container=CONTAINER_NAME, blob=filename).upload_blob(
+                      #         json.dumps(data, indent=2), overwrite=True
+                      #     )
+                      
+                      return jsonify({"status": "success", "file": local_file}), 200
+                      
+                  except Exception as e:
+                      app.logger.error(f"Error processing webhook: {str(e)}")
+                      return jsonify({"status": "error", "message": str(e)}), 500
+
+              @app.route('/health', methods=['GET'])
+              def health():
+                  return jsonify({"status": "healthy"}), 200
+
+              if __name__ == '__main__':
+                  app.run(host='0.0.0.0', port=8080, debug=True)
+              EOF
+              cd /app && python sink.py
+          ports:
+            - containerPort: 8080
+          env:
+            - name: AZURE_STORAGE_CONNECTION_STRING
+              value: ""  # You'll need to set this
+            - name: CONTAINER_NAME
+              value: "debezium-cdc"
+          volumeMounts:
+            - name: data-volume
+              mountPath: /data
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "250m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: data-volume
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-storage-sink
+  namespace: cuidar-isac-hml
+spec:
+  selector:
+    app: azure-storage-sink
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

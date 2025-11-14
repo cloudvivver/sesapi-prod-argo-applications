@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhomolog-service
+  namespace: saude-homolog
+  labels:
+    app: webhomolog
+    environment: homolog
+spec:
+  type: ClusterIP
+  selector:
+    io.kompose.service: webhomolog
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  sessionAffinity: ClientIP  # Importante para Rails sessions
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800  # 3 horas
+
+
+

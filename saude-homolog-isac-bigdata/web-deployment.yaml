@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: isachomolog
+  name: isachomolog
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      io.kompose.service: isachomolog
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 180
+  template:
+    metadata:
+      labels:
+        io.kompose.service: isachomolog
+    spec:
+      containers:
+        - name: isachomolog
+          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:2724
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              mkdir -p app/public/prd/sia
+              mkdir -p app/tmp/pids
+              mkdir -p app/tmp/sockets
+              bundle exec rake db:migrate
+              bundle exec puma -C config/puma/production.rb
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: azurefile
+              mountPath: /mnt/compartilhado
+          envFrom:
+            - configMapRef:
+                name: env
+          resources:
+            requests:
+              cpu: "400m"
+              memory: "4Gi"
+            limits:
+              cpu: "900m"
+              memory: "5Gi"
+      volumes:
+        - name: azurefile
+          persistentVolumeClaim:
+            claimName: azurefile-pvc
+      restartPolicy: Always
+

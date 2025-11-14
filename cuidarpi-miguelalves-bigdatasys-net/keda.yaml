@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: miguelalves-scaledobject
+  namespace: cuidar-miguelalves
+spec:
+  scaleTargetRef:
+    name: miguelalves
+  minReplicaCount: 3
+  maxReplicaCount: 3
+  triggers:
+    - type: cpu
+      metadata:
+        type: Utilization
+        value: "60"
+    - type: memory
+      metadata:
+        type: Utilization
+        value: "80"

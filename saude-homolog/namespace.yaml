@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: saude-homolog
+  labels:
+    name: saude-homolog
+    environment: homolog
+    app: saude-publica

@@ -1,0 +1,125 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: learning-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      io.kompose.service: learning
+  policyTypes:
+    - Ingress
+    - Egress
+
+  # Regras de entrada (quem pode acessar os pods)
+  ingress:
+    # Permitir tráfego do ingress controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 3000
+
+    # Permitir tráfego de outros pods do mesmo namespace (para debugging)
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 3000
+
+  # Regras de saída (para onde os pods podem conectar)
+  egress:
+    # Permitir conexão ao PostgreSQL
+    - to:
+        - podSelector:
+            matchLabels:
+              app: postgres
+      ports:
+        - protocol: TCP
+          port: 5432
+
+    # Permitir conexão ao Redis
+    - to:
+        - podSelector:
+            matchLabels:
+              app: redis
+      ports:
+        - protocol: TCP
+          port: 6379
+
+    # Permitir DNS (necessário)
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+        - podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+
+    # Permitir HTTPS externo (para APIs externas)
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: sidekiq-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: sidekiq
+  policyTypes:
+    - Ingress
+    - Egress
+
+  # Sidekiq não precisa receber tráfego externo
+  ingress:
+    # Permitir apenas comunicação interna para debugging
+    - from:
+        - podSelector: {}
+
+  # Regras de saída (para onde os pods podem conectar)
+  egress:
+    # Permitir conexão ao PostgreSQL
+    - to:
+        - podSelector:
+            matchLabels:
+              app: postgres
+      ports:
+        - protocol: TCP
+          port: 5432
+
+    # Permitir conexão ao Redis
+    - to:
+        - podSelector:
+            matchLabels:
+              app: redis
+      ports:
+        - protocol: TCP
+          port: 6379
+
+    # Permitir DNS (necessário)
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+        - podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+
+    # Permitir HTTPS externo (para APIs externas)
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443
