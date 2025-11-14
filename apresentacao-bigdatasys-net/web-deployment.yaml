@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
         - name: migrate
-          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:2893
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
           command: ["/bin/bash", "-c"]
           args:
             - |
@@ -34,7 +34,7 @@ spec:
                 name: env
       containers:
         - name: apresentacao
-          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:2893
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
           command: ["/bin/bash", "-c"]
           args:
             - |

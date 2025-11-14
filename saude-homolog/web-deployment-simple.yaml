@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: webhomolog
-          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3050
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
           command: ["/bin/bash", "-c"]
           args:
             - |

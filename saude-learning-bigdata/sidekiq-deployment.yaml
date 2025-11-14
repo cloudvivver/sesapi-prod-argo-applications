@@ -27,7 +27,7 @@ spec:
 
       containers:
         - name: sidekiq
-          image: acrcuidarnew.azurecr.io/saude-publica-prd-web:3083
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
           # Distroless: executar Ruby diretamente (sem shell)
           # Usa bundle exec sidekiq -C config/sidekiq.yml via Ruby
           command: ["/usr/local/rbenv/versions/2.5.0/bin/ruby"]
