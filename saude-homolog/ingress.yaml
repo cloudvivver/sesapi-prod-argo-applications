@@ -47,11 +47,11 @@ spec:
   # TLS Configuration (descomente quando cert-manager estiver instalado)
   # tls:
   #   - hosts:
-  #       - saude-devel.bigdatasys.net
+  #       - saude.devel.saude.pi.gov.br
   #     secretName: webhomolog-tls-cert
 
   rules:
-    - host: saude-devel.bigdatasys.net
+    - host: saude.devel.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal

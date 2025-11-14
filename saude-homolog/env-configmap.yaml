@@ -1,8 +1,8 @@
 apiVersion: v1
 data:
   # Application URLs
-  APP_BASE_URL: https://saude-devel.bigdatasys.net
-  APP_HOST: saude-devel.bigdatasys.net
+  APP_BASE_URL: https://saude.devel.saude.pi.gov.br
+  APP_HOST: saude.devel.saude.pi.gov.br
   REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
   WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
   WEBSOCKET_NOTIFICATION_ORIGIN: "saude-devel"

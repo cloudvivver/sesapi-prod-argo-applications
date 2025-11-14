@@ -52,11 +52,11 @@ spec:
   # TLS Configuration - Certificado automático via Let's Encrypt
   tls:
     - hosts:
-        - saude-devel.bigdatasys.net
+        - saude.devel.saude.pi.gov.br
       secretName: webhomolog-tls-cert  # Cert-manager criará este secret automaticamente
 
   rules:
-    - host: saude-devel.bigdatasys.net
+    - host: saude.devel.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal

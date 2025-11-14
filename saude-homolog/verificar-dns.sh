@@ -5,7 +5,7 @@
 
 set -e
 
-DOMAIN="saude-devel.bigdatasys.net"
+DOMAIN="saude.devel.saude.pi.gov.br"
 EXPECTED_TARGET="a8ecc5d6022ed430d83089b7ab2a8873-b481ee7df7e0ce24.elb.sa-east-1.amazonaws.com"
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
