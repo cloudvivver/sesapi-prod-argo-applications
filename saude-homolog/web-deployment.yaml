@@ -24,7 +24,7 @@ spec:
       # Init container para descriptografar código em tmpfs (RAM)
       initContainers:
         - name: decrypt-source
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:1
           command: ["/bin/bash", "-c"]
           args:
             - |
@@ -103,7 +103,7 @@ spec:
       # Container principal
       containers:
         - name: webhomolog
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:1
           command: ["/bin/bash", "-c"]
           args:
             - |
