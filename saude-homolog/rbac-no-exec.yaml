@@ -14,10 +14,7 @@ rules:
   verbs: ["get", "list", "watch"]
   # Permite ver pods e logs
   # NÃO permite: "create", "delete", "exec", "attach"
-
-- apiGroups: [""]
-  resources: ["pods/exec", "pods/attach"]
-  verbs: []  # VAZIO = bloqueado
+  # (ausência de permissão = bloqueado)
 
 - apiGroups: ["apps"]
   resources: ["deployments", "replicasets"]
