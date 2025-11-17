@@ -35,7 +35,7 @@ metadata:
     nginx.ingress.kubernetes.io/limit-connections: "50"
 
     # Cert-Manager (descomente quando cert-manager estiver instalado)
-    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 
     # AWS Annotations (opcional, se usar AWS ALB ao invés de Nginx)
     # alb.ingress.kubernetes.io/scheme: internet-facing
@@ -45,10 +45,10 @@ spec:
   ingressClassName: nginx
 
   # TLS Configuration (descomente quando cert-manager estiver instalado)
-  # tls:
-  #   - hosts:
-  #       - homolog.saude.pi.gov.br
-  #     secretName: webhomolog-tls-cert
+  tls:
+    - hosts:
+        - homolog.saude.pi.gov.br
+      secretName: webhomolog-tls
 
   rules:
     - host: homolog.saude.pi.gov.br
