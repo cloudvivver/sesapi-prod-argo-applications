@@ -1,0 +1,78 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: parnaiba-ingress
+  namespace: parnaiba-pi
+  labels:
+    app: parnaiba
+    environment: production
+  annotations:
+    # Nginx Ingress Controller Annotations
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+
+    # Load Balancing
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$remote_addr"
+
+    # Session Affinity (importante para Rails)
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"  # 48 horas
+    nginx.ingress.kubernetes.io/session-cookie-secure: "true"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "Lax"
+
+    # Security Headers
+    nginx.ingress.kubernetes.io/enable-cors: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
+
+    # Rate Limiting (proteção contra DDoS)
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+    nginx.ingress.kubernetes.io/limit-connections: "50"
+
+    # Cert-Manager (descomente quando cert-manager estiver instalado)
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+
+spec:
+  ingressClassName: nginx
+
+  # TLS Configuration (descomente quando cert-manager estiver instalado)
+  # tls:
+  #   - hosts:
+  #       - parnaiba.saude.pi.gov.br
+  #     secretName: apresentacao-tls-cert
+
+  rules:
+    - host: parnaiba.saude.pi.gov.br
+      http:
+        paths:
+          # Aplicação principal
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: parnaiba-service
+                port:
+                  number: 80
+
+          # Health check endpoint (se existir)
+          - path: /health
+            pathType: Exact
+            backend:
+              service:
+                name: parnaiba-service
+                port:
+                  number: 80
+
+          # API endpoints (se necessário)
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: parnaiba-service
+                port:
+                  number: 80

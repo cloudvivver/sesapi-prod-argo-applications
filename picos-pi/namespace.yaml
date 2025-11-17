@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: picos-pi
+  labels:
+    name: picos-pi
+    environment: production
+    app: saude-publica

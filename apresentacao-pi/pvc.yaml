@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: azurefile-pvc
+  namespace: apresentacao-pi
+  labels:
+    app: apresentacao
+spec:
+  accessModes:
+    - ReadWriteOnce  # EBS suporta apenas RWO (ReadWriteOnce)
+  storageClassName: gp3  # AWS EBS gp3 (padrão do cluster)
+  resources:
+    requests:
+      storage: 100Gi
+---
+# PVC adicional para backup/restore se necessário
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backup-restore-pvc
+  namespace: apresentacao-pi
+  labels:
+    app: backup
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3
+  resources:
+    requests:
+      storage: 20Gi
