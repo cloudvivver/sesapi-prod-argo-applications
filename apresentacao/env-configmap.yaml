@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env
+  namespace: apresentacao-pi
+  labels:
+    app: apresentacao
+    environment: production
+data:
+  # Application URLs
+  RAILS_ENV: production
+  APP_BASE_URL: https://apresentacao.saude.pi.gov.br
+  APP_HOST: apresentacao.saude.pi.gov.br
+  REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
+  WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
+  WEBSOCKET_NOTIFICATION_ORIGIN: "apresentacao-pi"
+
+  # Redis Configuration
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  REDIS_MAXMEMORY_POLICY: "allkeys-lfu"
+  REDIS_TIMEOUT: "1"
+
+  # Database Configuration (AWS RDS via Proxy)
+  # Sensitive values (username, password) are loaded from app-secrets Secret
+  DATABASE_HOST: proxy-db-viverdb.proxy-cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
+  DATABASE_PORT: "5432"
+  DATABASE_PROD: apresentacao_pi
+  DATABASE_DEV: apresentacao_pi
+  DATABASE_TEST: apresentacao_pi
+  DATABASE_BI_SESAPI: ""
+
+  # Database Connection Pool (optimized for RDS Proxy)
+  DATABASE_POOL: "20"
+  DATABASE_TIMEOUT: "5000"
+  DATABASE_CHECKOUT_TIMEOUT: "120000"
+  DATABASE_REAPING_FREQUENCY: "60"
+  DATABASE_STATEMENT_LIMIT: "1000"
+  DATABASE_INCLUDES_CACHE: "enabled"
+
+  # Database SSL/TLS (required by RDS Proxy)
+  DATABASE_SSLMODE: "require"
+
+  # Rails Application Settings
+  RAILS_MAX_THREADS: "8"
+  WEB_CONCURRENCY: "2"
+  SIDEKIQ_CONCURRENCY: "2"
+  RAILS_SERVE_STATIC_FILES: "true"
+  RAILS_STATIC_CACHE_CONTROL: "public, max-age=31536000, immutable"
+
+  # Rails Cache Optimizations
+  RAILS_ACTION_CACHE: "true"
+  RAILS_FRAGMENT_CACHE: "true"
+  RAILS_CACHE_STORE: "configured"
+  RAILS_CACHE_EXPIRES_IN: "configured"
+  RAILS_DESKTOP_CACHE_TTL: "configured"
+
+  # Build Configuration
+  BUNDLE_JOBS: "4"
+  BUNDLE_RETRY: "3"
+
+  # External Services
+  HYDRA_HOST: "https://regulapiaui.sesapi.pi.gov.br"

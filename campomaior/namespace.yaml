@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: campomaior-pi
+  labels:
+    name: campomaior-pi
+    environment: production
+    app: saude-publica

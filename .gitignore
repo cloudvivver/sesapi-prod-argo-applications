@@ -1,3 +1,6 @@
 ARGOCD-CONFIG.md
 saude-homolog/*.md
 .git-old-backup/
+*/README.md
+*/DNS.txt
+*/.claude
