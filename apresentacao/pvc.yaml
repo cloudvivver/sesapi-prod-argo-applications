@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: azurefile-pvc
-  namespace: apresentacao-pi
+  namespace: apresentacao
   labels:
     app: apresentacao
 spec:
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: backup-restore-pvc
-  namespace: apresentacao-pi
+  namespace: apresentacao
   labels:
     app: backup
 spec:

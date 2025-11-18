@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: env
-  namespace: apresentacao-pi
+  namespace: apresentacao
   labels:
     app: apresentacao
     environment: production
