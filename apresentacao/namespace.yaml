@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: apresentacao-pi
+  name: apresentacao
   labels:
-    name: apresentacao-pi
+    name: apresentacao
     environment: production
     app: saude-publica

@@ -53,7 +53,7 @@ spec:
               }
               
               # URLs dos 3 pods da aplicação (usando service discovery)
-              SERVICE_IP="apresentacao-service.cuidar-apresentacao.svc.cluster.local"
+              SERVICE_IP="apresentacao-service.apresentacao.svc.cluster.local"
               
               # Requisições de warmup - rotas que provavelmente existem
               make_request "http://$SERVICE_IP/" 15
