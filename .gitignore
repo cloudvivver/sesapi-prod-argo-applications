@@ -4,3 +4,5 @@ saude-homolog/*.md
 */README.md
 */DNS.txt
 */.claude
+*/*.md
+*/*.sh
