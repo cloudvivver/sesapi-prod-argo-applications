@@ -26,6 +26,9 @@ spec:
               echo "Aguardando banco de dados..."
               sleep 15
 
+              # Inicializar rbenv
+              source /etc/profile.d/rbenv.sh
+
               echo "Iniciando Sidekiq..."
               bundle exec sidekiq -C config/sidekiq.yml
           envFrom:
