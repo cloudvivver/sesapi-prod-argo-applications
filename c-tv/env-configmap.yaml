@@ -10,7 +10,7 @@ metadata:
 data:
   # Application Environment
   CTV_ENV: "prod"
-  CTV_SSL: "TRUE"
+  CTV_SSL: "FALSE"  # Ingress faz TLS termination, backend usa HTTP
   CTV_PORT: "8080"
 
   # Server Configuration
