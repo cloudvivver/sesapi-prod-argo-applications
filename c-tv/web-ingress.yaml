@@ -12,7 +12,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-    nginx.ingress.kubernetes.io/load-balance: "least_conn"
 
     # WebSocket Support
     nginx.ingress.kubernetes.io/websocket-services: "web-service"
