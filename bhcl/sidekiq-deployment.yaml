@@ -20,6 +20,8 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
+              # Inicializar rbenv
+              source /etc/profile.d/rbenv.sh
               bundle exec sidekiq -C config/sidekiq.yml
           envFrom:
             - configMapRef:

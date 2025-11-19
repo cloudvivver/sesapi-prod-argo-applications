@@ -22,7 +22,7 @@ spec:
       labels:
         app: apresentacao
       annotations:
-        kubectl.kubernetes.io/restartedAt: "2025-11-19T16:09:00Z"
+        kubectl.kubernetes.io/restartedAt: "2025-11-19T17:43:00Z"
     spec:
       containers:
         - name: apresentacao

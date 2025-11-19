@@ -40,6 +40,8 @@ spec:
               sleep 10
 
               # Executar migrations
+              # Inicializar rbenv
+              source /etc/profile.d/rbenv.sh
               bundle exec rake db:migrate || echo "Migrations failed, continuing..."
 
               # Iniciar servidor

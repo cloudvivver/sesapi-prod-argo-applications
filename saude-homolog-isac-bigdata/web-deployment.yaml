@@ -29,6 +29,8 @@ spec:
               mkdir -p app/public/prd/sia
               mkdir -p app/tmp/pids
               mkdir -p app/tmp/sockets
+              # Inicializar rbenv
+              source /etc/profile.d/rbenv.sh
               bundle exec rake db:migrate
               bundle exec puma -C config/puma/production.rb
           ports:

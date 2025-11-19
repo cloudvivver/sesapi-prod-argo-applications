@@ -30,6 +30,8 @@ spec:
             - |
               mkdir -p app/tmp/pids
               mkdir -p app/tmp/sockets
+              # Inicializar rbenv
+              source /etc/profile.d/rbenv.sh
               bundle exec rake db:migrate
           envFrom:
             - configMapRef:
@@ -46,6 +48,8 @@ spec:
             - |
               mkdir -p app/tmp/pids
               mkdir -p app/tmp/sockets
+              # Inicializar rbenv
+              source /etc/profile.d/rbenv.sh
               bundle exec puma -C config/puma/production.rb
           ports:
             - containerPort: 3000
