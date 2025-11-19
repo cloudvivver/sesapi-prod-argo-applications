@@ -48,7 +48,7 @@ spec:
           httpGet:
             path: /health
             port: 5000
-          initialDelaySeconds: 300  # 5 min para carregar modelo
+          initialDelaySeconds: 180  # 3 min para carregar modelo
           periodSeconds: 60
           timeoutSeconds: 10
           failureThreshold: 3
@@ -56,7 +56,7 @@ spec:
           httpGet:
             path: /health
             port: 5000
-          initialDelaySeconds: 300  # 5 min para carregar modelo
+          initialDelaySeconds: 180  # 3 min para carregar modelo
           periodSeconds: 30
           timeoutSeconds: 10
           failureThreshold: 3
