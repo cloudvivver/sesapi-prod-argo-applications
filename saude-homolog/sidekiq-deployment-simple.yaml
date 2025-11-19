@@ -25,6 +25,11 @@ spec:
               sleep 15
 
               echo "Iniciando Sidekiq..."
+              # Configurar rbenv
+              export RBENV_ROOT=/usr/local/rbenv
+              export PATH="${RBENV_ROOT}/bin:${RBENV_ROOT}/shims:${PATH}"
+              eval "$(rbenv init - bash)"
+
               bundle exec sidekiq -C config/sidekiq.yml
           envFrom:
             - configMapRef:
