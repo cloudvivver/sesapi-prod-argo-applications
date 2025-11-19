@@ -41,8 +41,8 @@ spec:
               echo "Aguardando banco de dados..."
               sleep 10
 
-              # Inicializar rbenv
-              source /etc/profile.d/rbenv.sh
+              # Configurar PATH para rbenv
+              export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
 
               # Executar migrations
               bundle exec rake db:migrate || echo "Migrations failed, continuing..."

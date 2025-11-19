@@ -26,8 +26,8 @@ spec:
               echo "Aguardando banco de dados..."
               sleep 15
 
-              # Inicializar rbenv
-              source /etc/profile.d/rbenv.sh
+              # Configurar PATH para rbenv
+              export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
 
               echo "Iniciando Sidekiq..."
               bundle exec sidekiq -C config/sidekiq.yml

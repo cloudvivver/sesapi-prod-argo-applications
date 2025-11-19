@@ -30,8 +30,8 @@ spec:
             - |
               mkdir -p app/tmp/pids
               mkdir -p app/tmp/sockets
-              # Inicializar rbenv
-              source /etc/profile.d/rbenv.sh
+              # Configurar PATH para rbenv
+              export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec rake db:migrate
           envFrom:
             - configMapRef:
@@ -46,8 +46,8 @@ spec:
             - |
               mkdir -p app/tmp/pids
               mkdir -p app/tmp/sockets
-              # Inicializar rbenv
-              source /etc/profile.d/rbenv.sh
+              # Configurar PATH para rbenv
+              export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec puma -C config/puma/production.rb
           ports:
             - containerPort: 3000

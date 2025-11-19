@@ -20,8 +20,8 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
-              # Inicializar rbenv
-              source /etc/profile.d/rbenv.sh
+              # Configurar PATH para rbenv
+              export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec sidekiq -C config/sidekiq.yml
           envFrom:
             - configMapRef:

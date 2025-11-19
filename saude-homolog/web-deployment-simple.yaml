@@ -38,8 +38,8 @@ spec:
               sleep 10
 
               # Executar migrations
-              # Inicializar rbenv
-              source /etc/profile.d/rbenv.sh
+              # Configurar PATH para rbenv
+              export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec rake db:migrate || echo "Migrations failed, continuing..."
 
               # Iniciar servidor
