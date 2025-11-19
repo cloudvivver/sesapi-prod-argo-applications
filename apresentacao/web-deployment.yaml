@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: apresentacao
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:apresentacao
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
