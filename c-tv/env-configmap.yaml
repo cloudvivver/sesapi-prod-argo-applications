@@ -19,18 +19,21 @@ data:
   HTTP_IDLE_TIMEOUT: "60s"
 
   # Cache Configuration
-  CACHE_DIRECTORY: "/app/audio_cache"
+  CACHE_DIRECTORY: "/app/cache_audio"
   CACHE_TTL_MINUTES: "10"
   CACHE_MAX_SIZE_MB: "1024"
 
   # TTS Configuration
-  TTS_PROVIDER: "microsoft"
-  TTS_VOICE: "pt-BR-FranciscaNeural"
+  TTS_PROVIDER: "coqui-http"
+  TTS_VOICE: "coqui_xtts_v2_cloned"
   TTS_RATE: "medium"
   TTS_PITCH: "medium"
 
-  # Azure TTS Configuration (secrets should be in a separate Secret resource)
-  AZURE_TTS_REGION: "brazilsouth"
+  # Coqui TTS Configuration
+  COQUI_SERVER_URL: "http://coqui-server:5000"
+
+  # AWS Polly Configuration (mantido para uso futuro)
+  AWS_REGION: "sa-east-1"
 
   # Audio Configuration
   AUDIO_FORMAT: "mp3"
@@ -44,7 +47,7 @@ data:
   HEALTH_CHECK_ENDPOINT: "/health"
 
   # Fixed Host for TTS info endpoint
-  FIXED_HOST: "c-tv-dev-k8s.bigdatasys.net"
+  FIXED_HOST: "c-tv.saude.pi.gov.br"
 
   # Sentry Configuration
   SENTRY_DSN: "https://fdeb263e6ac5905a26c7bddebe432a4e@sentry.bigdatasys.net/27"

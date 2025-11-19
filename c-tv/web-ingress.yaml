@@ -7,23 +7,34 @@ metadata:
     app.kubernetes.io/name: c-tv
     app.kubernetes.io/component: web
   annotations:
+    # NGINX Ingress Configuration
     nginx.ingress.kubernetes.io/proxy-body-size: "100m"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/load-balance: "least_conn"
+
+    # WebSocket Support
     nginx.ingress.kubernetes.io/websocket-services: "web-service"
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
+
+    # SSL/TLS Configuration
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
+
+    # Ingress Class
     kubernetes.io/ingress.class: "nginx"
+
+    # cert-manager: Let's Encrypt SSL
     cert-manager.io/cluster-issuer: letsencrypt-http
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - c-tv-dev-k8s.bigdatasys.net
-    secretName: ctv-tls
+    - c-tv.saude.pi.gov.br
+    secretName: c-tv-tls
   rules:
-  - host: c-tv-dev-k8s.bigdatasys.net
+  - host: c-tv.saude.pi.gov.br
     http:
       paths:
       - path: /

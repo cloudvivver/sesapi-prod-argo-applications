@@ -5,9 +5,9 @@ metadata:
   namespace: c-tv
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce  # RWO - gp2/gp3 padrão (sem EFS)
   resources:
     requests:
       storage: 10Gi
-  volumeName: azurefile-pv-ctv-audio
-  storageClassName: ""
+  # storageClassName: gp2  # Descomente se precisar especificar
+  # Nota: Sem storageClassName usa o padrão do cluster (geralmente gp2 ou gp3)

@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coqui-server
+  namespace: c-tv
+  labels:
+    app.kubernetes.io/name: c-tv
+    app.kubernetes.io/component: coqui-tts
+spec:
+  replicas: 1  # Coqui Server é stateful, manter 1 réplica
+  strategy:
+    type: Recreate  # Evitar múltiplas instâncias carregando o modelo
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: c-tv
+      app.kubernetes.io/component: coqui-tts
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: c-tv
+        app.kubernetes.io/component: coqui-tts
+    spec:
+      containers:
+      - name: coqui-tts
+        image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/coqui-tts-server:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+        env:
+        - name: FLASK_PORT
+          value: "5000"
+        - name: COQUI_REFERENCE_AUDIO
+          value: "/app/voice_samples/reference_voice.wav"
+        - name: COQUI_TEMP_DIR
+          value: "/app/cache_audio"
+        - name: COQUI_TOS_AGREED
+          value: "1"
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "3Gi"  # Modelo XTTS-v2 precisa de ~3-4GB
+          limits:
+            cpu: "2000m"
+            memory: "5Gi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 300  # 5 min para carregar modelo
+          periodSeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 300  # 5 min para carregar modelo
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        volumeMounts:
+        - name: audio-cache
+          mountPath: /app/cache_audio
+        - name: voice-reference
+          mountPath: /app/voice_samples
+          readOnly: true
+      volumes:
+      - name: audio-cache
+        persistentVolumeClaim:
+          claimName: audio-cache-pvc
+      - name: voice-reference
+        secret:
+          secretName: coqui-voice-reference
+      restartPolicy: Always

@@ -8,13 +8,10 @@ metadata:
     app.kubernetes.io/name: c-tv
     app.kubernetes.io/component: web
 spec:
-  replicas: 3
+  replicas: 1  # RWO (sem EFS) - apenas 1 réplica por enquanto
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
-  minReadySeconds: 30
+    type: Recreate  # RWO não permite múltiplos pods, usar Recreate
+  minReadySeconds: 10
   selector:
     matchLabels:
       io.kompose.service: web
@@ -25,9 +22,20 @@ spec:
         app.kubernetes.io/name: c-tv
         app.kubernetes.io/component: web
     spec:
+      # Pod Affinity: rodar no mesmo nó que o Coqui Server (compartilhar PVC RWO)
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: In
+                values:
+                - coqui-tts
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: c-tv
-        image: acrcuidarnew.azurecr.io/c-tv:5
+        image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/c-tv:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -36,13 +44,6 @@ spec:
         envFrom:
         - configMapRef:
             name: env
-        env:
-        - name: AZURE_TTS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: azure-tts-secret
-              key: api-key
-              optional: true
         resources:
           requests:
             cpu: "500m"
@@ -68,7 +69,7 @@ spec:
           failureThreshold: 3
         volumeMounts:
         - name: audio-cache
-          mountPath: /app/audio_cache
+          mountPath: /app/cache_audio
         - name: certificates
           mountPath: /app/certs
           readOnly: true
