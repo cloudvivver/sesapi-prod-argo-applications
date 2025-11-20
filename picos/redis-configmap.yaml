@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: picos-pi
+  namespace: picos
   name: redis-config
 data:
   redis.conf: |

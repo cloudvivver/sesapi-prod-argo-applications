@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: picos-pi
+  namespace: picos
   name: redis
   labels:
     app: redis

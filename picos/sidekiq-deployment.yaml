@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sidekiq
-  namespace: picos-pi
+  namespace: picos
   labels:
     app: sidekiq
     environment: production
