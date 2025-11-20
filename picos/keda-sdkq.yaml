@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: sidekiq-picos-scaledobject
-  namespace: cuidar-picos
+  namespace: picos
 spec:
   scaleTargetRef:
     name: sidekiq
