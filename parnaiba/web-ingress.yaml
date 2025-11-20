@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: parnaiba-ingress
-  namespace: parnaiba-pi
+  namespace: parnaiba
   labels:
     app: parnaiba
     environment: production

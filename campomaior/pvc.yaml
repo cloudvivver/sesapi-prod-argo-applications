@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: azurefile-pvc
-  namespace: campomaior-pi
+  namespace: campomaior
   labels:
     app: campomaior
 spec:
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: backup-restore-pvc
-  namespace: campomaior-pi
+  namespace: campomaior
   labels:
     app: backup
 spec:

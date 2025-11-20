@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: sidekiq-campomaior-scaledobject
-  namespace: cuidar-campomaior
+  namespace: campomaior
 spec:
   scaleTargetRef:
     name: sidekiq

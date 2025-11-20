@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: campomaior
-  namespace: campomaior-pi
+  namespace: campomaior
   labels:
     app: campomaior
     environment: production

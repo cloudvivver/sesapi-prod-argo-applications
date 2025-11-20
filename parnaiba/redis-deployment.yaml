@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: parnaiba-pi
+  namespace: parnaiba
   name: redis
   labels:
     app: redis

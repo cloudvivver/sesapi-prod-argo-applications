@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: campomaior-ingress
-  namespace: campomaior-pi
+  namespace: campomaior
   labels:
     app: campomaior
     environment: production

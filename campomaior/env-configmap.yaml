@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: env
-  namespace: campomaior-pi
+  namespace: campomaior
   labels:
     app: campomaior
     environment: production
@@ -11,9 +11,6 @@ data:
   RAILS_ENV: production
   APP_BASE_URL: https://campomaior.saude.pi.gov.br
   APP_HOST: campomaior.saude.pi.gov.br
-  REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
-  WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
-  WEBSOCKET_NOTIFICATION_ORIGIN: "campomaior-pi"
 
   # Redis Configuration
   REDIS_HOST: redis
@@ -25,9 +22,9 @@ data:
   # Database Configuration (AWS RDS via Proxy)
   DATABASE_HOST: proxy-db-viverdb.proxy-cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
   DATABASE_PORT: "5432"
-  DATABASE_PROD: tenant_cuidar_campo_maior_db
-  DATABASE_DEV: tenant_cuidar_campo_maior_db
-  DATABASE_TEST: tenant_cuidar_campo_maior_db
+  DATABASE_PROD: cuidar_parnaiba_pi
+  DATABASE_DEV: cuidar_parnaiba_pi
+  DATABASE_TEST: cuidar_parnaiba_pi
   DATABASE_BI_SESAPI: ""
 
   # Database Connection Pool (optimized for RDS Proxy)

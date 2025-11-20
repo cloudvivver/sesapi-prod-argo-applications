@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: sidekiq-parnaiba-scaledobject
-  namespace: cuidar-parnaiba
+  namespace: parnaiba
 spec:
   scaleTargetRef:
     name: sidekiq

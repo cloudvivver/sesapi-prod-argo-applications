@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: parnaiba-service
-  namespace: parnaiba-pi
+  namespace: parnaiba
   labels:
     app: parnaiba
     environment: production
