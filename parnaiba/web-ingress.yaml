@@ -34,17 +34,17 @@ metadata:
     nginx.ingress.kubernetes.io/limit-rps: "100"
     nginx.ingress.kubernetes.io/limit-connections: "50"
 
-    # Cert-Manager (descomente quando cert-manager estiver instalado)
-    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Cert-Manager
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 
 spec:
   ingressClassName: nginx
 
-  # TLS Configuration (descomente quando cert-manager estiver instalado)
-  # tls:
-  #   - hosts:
-  #       - parnaiba.saude.pi.gov.br
-  #     secretName: apresentacao-tls-cert
+  # TLS Configuration
+  tls:
+    - hosts:
+        - parnaiba.saude.pi.gov.br
+      secretName: parnaiba-tls
 
   rules:
     - host: parnaiba.saude.pi.gov.br
