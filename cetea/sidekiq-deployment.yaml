@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sidekiq
-  namespace: cetea-pi
+  namespace: cetea
   labels:
     app: sidekiq
     environment: production

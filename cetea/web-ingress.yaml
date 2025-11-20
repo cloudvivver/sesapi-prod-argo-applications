@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: cetea-ingress
-  namespace: cetea-pi
+  namespace: cetea
   labels:
     app: cetea
     environment: production
