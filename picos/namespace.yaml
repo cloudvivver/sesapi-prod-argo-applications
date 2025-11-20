@@ -3,6 +3,6 @@ kind: Namespace
 metadata:
   name: picos
   labels:
-    name: picos-
+    name: picos
     environment: production
     app: saude-publica
