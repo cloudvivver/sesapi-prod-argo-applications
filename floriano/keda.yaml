@@ -10,10 +10,10 @@ spec:
   maxReplicaCount: 6
   triggers:
     - type: cpu
+      metricType: Utilization
       metadata:
-        type: Utilization
         value: "60"
     - type: memory
+      metricType: Utilization
       metadata:
-        type: Utilization
         value: "80"
