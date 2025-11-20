@@ -37,6 +37,21 @@ metadata:
     # Cert-Manager (descomente quando cert-manager estiver instalado)
     cert-manager.io/cluster-issuer: letsencrypt-prod
 
+    # Cache Configuration para Assets Estáticos
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      location ~* \.(css|js|gif|jpe?g|png|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+      }
+
+      location ~* ^/assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+        gzip_static on;
+      }
+
     # AWS Annotations (opcional, se usar AWS ALB ao invés de Nginx)
     # alb.ingress.kubernetes.io/scheme: internet-facing
     # alb.ingress.kubernetes.io/target-type: ip
