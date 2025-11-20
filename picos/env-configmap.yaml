@@ -10,11 +10,7 @@ data:
   # Application URLs
   RAILS_ENV: production
   APP_BASE_URL: https://picos.saude.pi.gov.br
-  APP_HOST: picos.saude.pi.gov.br
-  REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
-  WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
-  WEBSOCKET_NOTIFICATION_ORIGIN: "picos-pi"
-
+  APP_HOST: picos.saude.pi.gov.br  
   # Redis Configuration
   REDIS_HOST: redis
   REDIS_PORT: "6379"
@@ -25,9 +21,7 @@ data:
   # Database Configuration (AWS RDS via Proxy)
   DATABASE_HOST: proxy-db-viverdb.proxy-cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
   DATABASE_PORT: "5432"
-  DATABASE_PROD: tenant_cuidar_picos_db
-  DATABASE_DEV: tenant_cuidar_picos_db
-  DATABASE_TEST: tenant_cuidar_picos_db
+  DATABASE_PROD: cuidar_picos_pi
   DATABASE_BI_SESAPI: ""
 
   # Database Connection Pool (optimized for RDS Proxy)
