@@ -3,13 +3,17 @@ kind: ScaledObject
 metadata:
   name: sidekiq-idene-scaledobject
   namespace: idene
+
 spec:
   scaleTargetRef:
     name: sidekiq
   minReplicaCount: 1
   maxReplicaCount: 3
+  pollingInterval: 30
+  cooldownPeriod: 300
   triggers:
-    - type: cpu
-      metricType: Utilization
+    - type: redis
       metadata:
-        value: "60"
+        address: redis.idene.svc.cluster.local:6379
+        listName: queue:default
+        listLength: "10"
