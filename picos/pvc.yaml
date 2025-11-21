@@ -7,8 +7,8 @@ metadata:
     app: picos
 spec:
   accessModes:
-    - ReadWriteOnce  # EBS suporta apenas RWO (ReadWriteOnce)
-  storageClassName: gp3  # AWS EBS gp3 (padrão do cluster)
+    - ReadWriteMany  # EFS suporta RWX (ReadWriteMany) para múltiplos pods
+  storageClassName: efs-sc  # AWS EFS para acesso compartilhado
   resources:
     requests:
       storage: 100Gi
