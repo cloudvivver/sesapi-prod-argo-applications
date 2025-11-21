@@ -22,6 +22,18 @@ spec:
       labels:
         app: cetea
     spec:
+      initContainers:
+        - name: sync-public-assets
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:2
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
+              echo "Sincronizando /app/public para volume compartilhado..."
+              cp -R /app/public/. /shared-public
+          volumeMounts:
+            - name: public-assets
+              mountPath: /shared-public
       containers:
         - name: cetea
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:2
@@ -51,6 +63,8 @@ spec:
           volumeMounts:
             - name: azurefile
               mountPath: /mnt/compartilhado
+            - name: public-assets
+              mountPath: /app/public
           envFrom:
             - configMapRef:
                 name: env
@@ -77,10 +91,25 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 10
             timeoutSeconds: 5
+        - name: nginx-sidecar
+          image: nginx:1.25
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: public-assets
+              mountPath: /app/public
 
       volumes:
         - name: azurefile
           persistentVolumeClaim:
             claimName: azurefile-pvc
+        - name: nginx-config
+          configMap:
+            name: nginx-sidecar-config
+        - name: public-assets
+          emptyDir: {}
 
       restartPolicy: Always
