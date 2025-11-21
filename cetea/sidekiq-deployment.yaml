@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: sidekiq
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:2
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-1
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
