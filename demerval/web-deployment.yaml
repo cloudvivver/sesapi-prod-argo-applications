@@ -52,20 +52,6 @@ spec:
           volumeMounts:
             - name: azurefile
               mountPath: /mnt/compartilhado
-          readinessProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 240      # Aguarda 5 minutos para dar tempo do app subir
-            timeoutSeconds: 10
-            periodSeconds: 10
-            failureThreshold: 5
-          livenessProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 240      # Aguarda 5 minutos antes de considerar que o app deve estar respondendo
-            timeoutSeconds: 10
-            periodSeconds: 20
-            failureThreshold: 5
 
           envFrom:
             - configMapRef:

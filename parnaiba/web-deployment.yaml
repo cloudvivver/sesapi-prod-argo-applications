@@ -77,39 +77,3 @@ spec:
             limits:
               cpu: "3000m"
               memory: "5Gi"
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 3000
-            initialDelaySeconds: 120
-            periodSeconds: 30
-            timeoutSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 3000
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            timeoutSeconds: 5
-        - name: nginx-sidecar
-          image: nginx:1.25
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: nginx-config
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
-            - name: public-assets
-              mountPath: /app/public
-
-      volumes:
-        - name: azurefile
-          persistentVolumeClaim:
-            claimName: azurefile-pvc
-        - name: nginx-config
-          configMap:
-            name: nginx-sidecar-config
-        - name: public-assets
-          emptyDir: {}
-
-      restartPolicy: Always

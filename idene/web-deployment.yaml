@@ -67,20 +67,6 @@ spec:
               mountPath: /mnt/compartilhado
             - name: public-assets
               mountPath: /app/public
-          readinessProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 230      # Aguarda 4 minutos para dar tempo do app subir
-            timeoutSeconds: 10
-            periodSeconds: 10
-            failureThreshold: 5
-          livenessProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 230      # Aguarda 4 minutos antes de considerar que o app deve estar respondendo
-            timeoutSeconds: 10
-            periodSeconds: 20
-            failureThreshold: 5
 
           envFrom:
             - configMapRef:
@@ -104,6 +90,13 @@ spec:
               subPath: nginx.conf
             - name: public-assets
               mountPath: /app/public
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
       volumes:
         - name: azurefile
           persistentVolumeClaim:
