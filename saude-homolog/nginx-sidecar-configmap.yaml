@@ -28,9 +28,9 @@ data:
         listen 80;
 
         # Serve static assets directly
-        location ~ ^/assets/ {
+        location ~ ^/(assets|stylesheets|javascripts)/ {
           root /app/public;
-          try_files $uri =404;
+          try_files $uri $uri/ =404;
           add_header Cache-Control "public, max-age=31536000, immutable";
           access_log off;
         }
