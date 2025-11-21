@@ -24,6 +24,7 @@ spec:
       initContainers:
         - name: sync-public-assets
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-homolog:latest
+          imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -36,6 +37,7 @@ spec:
       containers:
         - name: webhomolog
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-homolog:latest
+          imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
             - |
