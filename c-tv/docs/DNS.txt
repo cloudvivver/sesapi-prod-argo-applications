@@ -1,0 +1,8 @@
+c-tv.saude.pi.gov.br
+
+Configuração DNS necessária:
+- Tipo: A ou CNAME
+- Apontar para o LoadBalancer do Ingress Controller do cluster Kubernetes
+
+Para obter o endereço do LoadBalancer:
+kubectl get svc -n ingress-nginx ingress-nginx-controller
