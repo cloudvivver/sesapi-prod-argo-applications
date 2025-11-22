@@ -22,8 +22,8 @@ spec:
         app.kubernetes.io/name: c-tv
         app.kubernetes.io/component: web
     spec:
-      # Service Account com IRSA para acesso ao S3
-      serviceAccountName: c-tv-s3-cache
+      # Service Account com IRSA para acesso ao S3 (desabilitado temporariamente)
+      # serviceAccountName: c-tv-s3-cache
 
       # Pod Affinity: rodar no mesmo nó que o Coqui Server (compartilhar PVC RWO)
       affinity:
