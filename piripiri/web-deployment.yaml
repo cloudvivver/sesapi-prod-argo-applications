@@ -69,11 +69,11 @@ spec:
                 name: env
           resources:
             requests:
-              cpu: "4000m"
-              memory: "20Gi"
+              cpu: "2000m"
+              memory: "10Gi"
             limits:
-              cpu: "5000m"
-              memory: "25Gi"
+              cpu: "3000m"
+              memory: "12Gi"
         - name: nginx-sidecar
           image: nginx:1.25
           ports:

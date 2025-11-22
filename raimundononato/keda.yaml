@@ -6,8 +6,8 @@ metadata:
 spec:
   scaleTargetRef:
     name: raimundononato
-  minReplicaCount: 3
-  maxReplicaCount: 4
+  minReplicaCount: 2
+  maxReplicaCount: 6
   triggers:
     - type: cpu
       metricType: Utilization

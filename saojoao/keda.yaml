@@ -6,8 +6,8 @@ metadata:
 spec:
   scaleTargetRef:
     name: saojoao
-  minReplicaCount: 3
-  maxReplicaCount: 6
+  minReplicaCount: 2
+  maxReplicaCount: 5
   triggers:
     - type: cpu
       metricType: Utilization
