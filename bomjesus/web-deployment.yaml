@@ -72,11 +72,11 @@ spec:
                 name: redis-credentials
           resources:
             requests:
-              cpu: "16000m"
-              memory: "32Gi"
+              cpu: "3500m"
+              memory: "15Gi"
             limits:
-              cpu: "17600m"
-              memory: "37Gi"
+              cpu: "4500m"
+              memory: "20Gi"
         - name: nginx-sidecar
           image: nginx:1.25
           ports:
