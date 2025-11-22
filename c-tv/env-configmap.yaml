@@ -8,6 +8,10 @@ metadata:
     app.kubernetes.io/name: c-tv
     app.kubernetes.io/component: config
 data:
+  # ============================================================
+  # CONFIGURAÇÕES DA APLICAÇÃO C-TV
+  # ============================================================
+
   # Application Environment
   CTV_ENV: "prod"
   CTV_SSL: "FALSE"  # Ingress faz TLS termination, backend usa HTTP
@@ -18,36 +22,72 @@ data:
   HTTP_WRITE_TIMEOUT: "30s"
   HTTP_IDLE_TIMEOUT: "60s"
 
-  # Cache Configuration
+  # ============================================================
+  # CACHE CONFIGURATION (Híbrido: Memória + S3)
+  # ============================================================
+
+  # Cache Backend: "memory", "s3", ou "hybrid" (recomendado)
+  CACHE_BACKEND: "hybrid"
+
+  # Memory Cache (Hot Cache - Resposta rápida)
+  CACHE_MEMORY_ENABLED: "true"
+  CACHE_MEMORY_MAX_MB: "512"              # Máximo 512MB em memória por pod
+  CACHE_MEMORY_TTL_MINUTES: "60"          # 1 hora em memória (hot cache)
+
+  # S3 Cache (Warm/Cold Cache - Persistente)
+  S3_CACHE_ENABLED: "true"
+  S3_CACHE_BUCKET: "cuidar-storage"
+  S3_CACHE_REGION: "sa-east-1"
+  S3_CACHE_PREFIX: "c-tv/cache"
+  S3_CACHE_TTL_HOURS: "720"               # 30 dias no S3 (warm cache)
+
+  # Legacy (manter para compatibilidade)
   CACHE_DIRECTORY: "/app/cache_audio"
-  CACHE_TTL_MINUTES: "10"
-  CACHE_MAX_SIZE_MB: "1024"
+  CACHE_TTL_MINUTES: "60"
+  CACHE_MAX_SIZE_MB: "512"
+
+  API_URL: "https://c-tv.saude.pi.gov.br"
 
   # TTS Configuration
-  TTS_PROVIDER: "coqui-http"
+  TTS_PROVIDER: "coqui-http"  # Usar servidor Coqui HTTP separado
   TTS_VOICE: "coqui_xtts_v2_cloned"
   TTS_RATE: "medium"
   TTS_PITCH: "medium"
 
-  # Coqui TTS Configuration
+  # ============================================================
+  # CONFIGURAÇÕES DO SERVIDOR COQUI TTS (para app C-TV)
+  # ============================================================
   COQUI_SERVER_URL: "http://coqui-server:5000"
 
-  # AWS Polly Configuration (mantido para uso futuro)
+  # ============================================================
+  # CONFIGURAÇÕES DO SERVIDOR COQUI TTS (para deployment coqui-server)
+  # Estas variáveis são usadas pelo coqui-deployment.yaml
+  # ============================================================
+  FLASK_PORT: "5000"
+  COQUI_REFERENCE_AUDIO: "/app/voice_samples/reference_voice.wav"
+  COQUI_TEMP_DIR: "/app/cache_audio"
+  COQUI_TOS_AGREED: "1"
+
+  # ============================================================
+  # AWS POLLY (mantido para fallback/migração futura)
+  # ============================================================
   AWS_REGION: "sa-east-1"
 
-  # Audio Configuration
+  # ============================================================
+  # AUDIO & LOGGING
+  # ============================================================
   AUDIO_FORMAT: "mp3"
   AUDIO_SAMPLE_RATE: "22050"
-
-  # Logging
   LOG_LEVEL: "info"
   LOG_FORMAT: "json"
 
-  # Health Check
+  # ============================================================
+  # HEALTH CHECK & MONITORING
+  # ============================================================
   HEALTH_CHECK_ENDPOINT: "/health"
-
-  # Fixed Host for TTS info endpoint
   FIXED_HOST: "c-tv.saude.pi.gov.br"
 
-  # Sentry Configuration
+  # ============================================================
+  # SENTRY ERROR TRACKING
+  # ============================================================
   SENTRY_DSN: "https://fdeb263e6ac5905a26c7bddebe432a4e@sentry.bigdatasys.net/27"

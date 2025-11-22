@@ -28,15 +28,9 @@ spec:
         - containerPort: 5000
           name: http
           protocol: TCP
-        env:
-        - name: FLASK_PORT
-          value: "5000"
-        - name: COQUI_REFERENCE_AUDIO
-          value: "/app/voice_samples/reference_voice.wav"
-        - name: COQUI_TEMP_DIR
-          value: "/app/cache_audio"
-        - name: COQUI_TOS_AGREED
-          value: "1"
+        envFrom:
+        - configMapRef:
+            name: env  # Usar ConfigMap para todas as variáveis de ambiente
         resources:
           requests:
             cpu: "1000m"
