@@ -12,19 +12,3 @@ spec:
   resources:
     requests:
       storage: 100Gi
----
-# PVC adicional para backup/restore se necessário
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: backup-restore-pvc
-  namespace: saude-homolog
-  labels:
-    app: backup
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: gp3
-  resources:
-    requests:
-      storage: 20Gi
