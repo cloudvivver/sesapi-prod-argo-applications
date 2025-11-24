@@ -7,7 +7,7 @@ spec:
   scaleTargetRef:
     name: isac
   minReplicaCount: 1
-  maxReplicaCount: 6
+  maxReplicaCount: 1
   triggers:
     - type: cpu
       metricType: Utilization

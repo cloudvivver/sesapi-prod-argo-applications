@@ -3,11 +3,12 @@ kind: PersistentVolumeClaim
 metadata:
   name: azurefile-pvc
   namespace: isac
+  labels:
+    app: isac
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
+  storageClassName: gp3
   resources:
     requests:
       storage: 100Gi
-  volumeName: azurefile-pv-isac
-  storageClassName: ""

@@ -8,7 +8,7 @@ spec:
   scaleTargetRef:
     name: sidekiq
   minReplicaCount: 1
-  maxReplicaCount: 3
+  maxReplicaCount: 1
   triggers:
     - type: cpu
       metricType: Utilization
