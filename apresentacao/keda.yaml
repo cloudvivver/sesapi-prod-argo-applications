@@ -7,7 +7,7 @@ spec:
   scaleTargetRef:
     name: apresentacao
   minReplicaCount: 1
-  maxReplicaCount: 1
+  maxReplicaCount: 3
   triggers:
     - type: cpu
       metricType: Utilization
