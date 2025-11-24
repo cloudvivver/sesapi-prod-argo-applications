@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: isac-ingress
-  namespace: cuidarpi-isac-bigdatasys-net
+  namespace: isac
   labels:
     app: isac
     environment: production

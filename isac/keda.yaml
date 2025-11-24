@@ -6,7 +6,7 @@ metadata:
 spec:
   scaleTargetRef:
     name: isac
-  minReplicaCount: 3
+  minReplicaCount: 1
   maxReplicaCount: 6
   triggers:
     - type: cpu

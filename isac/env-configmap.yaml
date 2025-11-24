@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: env
-  namespace: cuidarpi-isac-bigdatasys-net
+  namespace: isac
   labels:
     app: isac
     environment: production
@@ -13,7 +13,7 @@ data:
   APP_HOST: isac.saude.pi.gov.br
   REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
   WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
-  WEBSOCKET_NOTIFICATION_ORIGIN: "cuidarpi-isac"
+  WEBSOCKET_NOTIFICATION_ORIGIN: "isac"
 
   # External APIs
   PI_DIGITAL_API_URL: "https://pidigital.pi.gov.br/api/assinatura-ws/assinatura"
