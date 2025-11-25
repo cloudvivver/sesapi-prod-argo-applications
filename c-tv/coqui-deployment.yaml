@@ -20,6 +20,20 @@ spec:
         app.kubernetes.io/name: c-tv
         app.kubernetes.io/component: coqui-tts
     spec:
+      # Configurar fsGroup para garantir permissões corretas no volume compartilhado
+      securityContext:
+        fsGroup: 1000  # Mesmo grupo do pod web (ctv)
+        fsGroupChangePolicy: "OnRootMismatch"
+
+      # InitContainer para configurar permissões do diretório de cache
+      initContainers:
+      - name: fix-permissions
+        image: busybox:latest
+        command: ['sh', '-c', 'chmod -R 775 /app/cache_audio && chown -R 0:1000 /app/cache_audio && rm -rf /app/cache_audio/lost+found']
+        volumeMounts:
+        - name: audio-cache
+          mountPath: /app/cache_audio
+
       containers:
       - name: coqui-tts
         image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/coqui-tts-server:latest

@@ -25,6 +25,11 @@ spec:
       # Service Account com IRSA para acesso ao S3 (desabilitado temporariamente)
       # serviceAccountName: c-tv-s3-cache
 
+      # Configurar fsGroup para garantir permissões corretas no volume compartilhado
+      securityContext:
+        fsGroup: 1000  # Grupo do usuário ctv
+        fsGroupChangePolicy: "OnRootMismatch"
+
       # Pod Affinity: rodar no mesmo nó que o Coqui Server (compartilhar PVC RWO)
       affinity:
         podAffinity:
