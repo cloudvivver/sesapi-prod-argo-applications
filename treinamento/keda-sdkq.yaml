@@ -1,0 +1,16 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sidekiq-treinamento-scaledobject
+  namespace: treinamento
+
+spec:
+  scaleTargetRef:
+    name: sidekiq
+  minReplicaCount: 1
+  maxReplicaCount: 1
+  triggers:
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        value: "60"
