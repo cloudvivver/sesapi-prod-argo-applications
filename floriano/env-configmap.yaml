@@ -25,9 +25,7 @@ data:
   # Database Configuration (AWS RDS via Proxy)
   DATABASE_HOST: proxy-db-viverdb.proxy-cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
   DATABASE_PORT: "5432"
-  DATABASE_PROD: tenant_cuidar_floriano_db
-  DATABASE_DEV: tenant_cuidar_floriano_db
-  DATABASE_TEST: tenant_cuidar_floriano_db
+  DATABASE_PROD: cuidar_floriano_pi
   DATABASE_BI_SESAPI: ""
 
   # Database Connection Pool (optimized for RDS Proxy)
