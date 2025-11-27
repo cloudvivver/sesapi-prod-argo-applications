@@ -51,14 +51,26 @@ spec:
               mountPath: /shared-public
       containers:
         - name: floriano
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-9
           command: ["/bin/bash", "-c"]
           args:
             - |
-              mkdir -p app/tmp/pids
-              mkdir -p app/tmp/sockets
+              echo "Iniciando aplicação..."
+              mkdir -p /app/public/prd/sia
+              mkdir -p /app/tmp/pids
+              mkdir -p /app/tmp/sockets
+              mkdir -p /app/log
+
+              # Aguardar banco de dados estar pronto
+              echo "Aguardando banco de dados..."
+              sleep 10
+
+              # Executar migrations
               # Configurar PATH para rbenv
               export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
+              bundle exec rake db:migrate || echo "Migrations failed, continuing..."
+
+              # Iniciar servidor
               bundle exec puma -C config/puma/production.rb
           ports:
             - containerPort: 3000
