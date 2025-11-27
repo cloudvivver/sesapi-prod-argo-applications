@@ -6,7 +6,7 @@ metadata:
 spec:
   scaleTargetRef:
     name: piripiri
-  minReplicaCount: 3
+  minReplicaCount: 2
   maxReplicaCount: 8
   triggers:
     - type: cpu
