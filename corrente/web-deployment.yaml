@@ -6,7 +6,7 @@ metadata:
   name: corrente
   namespace: corrente
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: corrente
@@ -81,8 +81,8 @@ spec:
                 name: env
           resources:
             requests:
-              cpu: "2000m"
-              memory: "7Gi"
+              cpu: "1000m"
+              memory: "3Gi"
             limits:
               cpu: "3000m"
               memory: "9Gi"

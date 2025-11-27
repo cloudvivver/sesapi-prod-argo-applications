@@ -6,7 +6,7 @@ metadata:
   name: saojoao
   namespace: saojoao
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: saojoao
@@ -82,10 +82,10 @@ spec:
           resources:
             requests:
               cpu: "1000m"
-              memory: "4Gi"
+              memory: "3Gi"
             limits:
-              cpu: "1500m"
-              memory: "6Gi"
+              cpu: "3000m"
+              memory: "9Gi"
         - name: nginx-sidecar
           image: nginx:1.25
           ports:
