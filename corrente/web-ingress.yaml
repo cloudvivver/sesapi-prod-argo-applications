@@ -41,10 +41,10 @@ spec:
   ingressClassName: nginx
 
   # TLS Configuration (descomente quando cert-manager estiver instalado)
-  # tls:
-  #   - hosts:
-  #       - corrente.saude.pi.gov.br
-  #     secretName: corrente-tls-cert
+  tls:
+    - hosts:
+        - corrente.saude.pi.gov.br
+      secretName: corrente-tls-cert
 
   rules:
     - host: corrente.saude.pi.gov.br
