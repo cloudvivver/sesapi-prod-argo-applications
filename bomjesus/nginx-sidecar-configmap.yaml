@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nginx-sidecar-config
-  namespace: cuidar-bomjesus
+  namespace: bomjesus
 data:
   nginx.conf: |
     worker_processes  1;

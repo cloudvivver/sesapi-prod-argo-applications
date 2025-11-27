@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: bomjesus-scaledobject
-  namespace: cuidar-bomjesus
+  namespace: bomjesus
 spec:
   scaleTargetRef:
     name: bomjesus

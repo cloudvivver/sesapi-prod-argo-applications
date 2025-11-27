@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: bomjesus-ingress
-  namespace: cuidarpi-bomjesus-bigdatasys-net
+  namespace: bomjesus
   labels:
     app: bomjesus
     environment: production
@@ -34,17 +34,17 @@ metadata:
     nginx.ingress.kubernetes.io/limit-rps: "100"
     nginx.ingress.kubernetes.io/limit-connections: "50"
 
-    # Cert-Manager (descomente quando cert-manager estiver instalado)
-    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Cert-Manager
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 
 spec:
   ingressClassName: nginx
 
   # TLS Configuration (descomente quando cert-manager estiver instalado)
-  # tls:
-  #   - hosts:
-  #       - bomjesus.saude.pi.gov.br
-  #     secretName: bomjesus-tls-cert
+  tls:
+    - hosts:
+        - bomjesus.saude.pi.gov.br
+      secretName: bomjesus-tls-cert
 
   rules:
     - host: bomjesus.saude.pi.gov.br
