@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: env
-  namespace: cuidar-floriano
+  namespace: floriano
   labels:
     app: floriano
     environment: production
