@@ -32,8 +32,7 @@ data:
   DATABASE_PORT: "5432"
   DATABASE_NAME: cuidar_saojoao_pi
   DATABASE_PROD: cuidar_saojoao_pi
-  DATABASE_DEV: cuidar_saojoao_pi
-  DATABASE_TEST: cuidar_saojoao_pi
+  HTTP_POSTMAN_TOKEN: "ignore_this_value"
   DATABASE_BI_SESAPI: ""
 
   # Database Connection Pool (optimized for RDS Proxy)
