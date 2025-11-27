@@ -34,8 +34,8 @@ metadata:
     nginx.ingress.kubernetes.io/limit-rps: "100"
     nginx.ingress.kubernetes.io/limit-connections: "50"
 
-    # Cert-Manager (descomente quando cert-manager estiver instalado)
-    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Cert-Manager
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 
 spec:
   ingressClassName: nginx
