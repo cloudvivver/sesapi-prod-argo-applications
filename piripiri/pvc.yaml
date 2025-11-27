@@ -2,12 +2,13 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: azurefile-pvc
-  namespace: cuidar-piripiri
+  namespace: piripiri
+  labels:
+    app: piripiri
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce  # EBS RWO + podAffinity para escalar no mesmo node
+  storageClassName: gp3  # AWS EBS gp3
   resources:
     requests:
       storage: 100Gi
-  volumeName: azurefile-pv-piripiri
-  storageClassName: ""

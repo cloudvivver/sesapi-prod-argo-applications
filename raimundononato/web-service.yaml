@@ -2,9 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: raimundononato-service
+  namespace: raimundononato
 spec:
   selector:
-    io.kompose.service: raimundononato
+    app: raimundononato
   ports:
     - name: http
       protocol: TCP

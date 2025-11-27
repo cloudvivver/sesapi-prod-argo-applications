@@ -2,9 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: saojoao-service
+  namespace: saojoao
 spec:
   selector:
-    io.kompose.service: saojoao
+    app: saojoao
   ports:
     - name: http
       protocol: TCP

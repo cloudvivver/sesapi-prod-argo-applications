@@ -2,13 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: bomjesus
+    app: bomjesus
   name: bomjesus
+  namespace: bomjesus
 spec:
   replicas: 3
   selector:
     matchLabels:
-      io.kompose.service: bomjesus
+      app: bomjesus
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,16 +19,16 @@ spec:
   template:
     metadata:
       labels:
-        io.kompose.service: bomjesus
+        app: bomjesus
     spec:
       initContainers:
         - name: migrate
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-9
           command: ["/bin/bash", "-c"]
           args:
             - |
-              mkdir -p app/tmp/pids
-              mkdir -p app/tmp/sockets
+              mkdir -p /app/tmp/pids
+              mkdir -p /app/tmp/sockets
               # Configurar PATH para rbenv
               export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec rake db:migrate
@@ -37,7 +38,7 @@ spec:
             - secretRef:
                 name: redis-credentials
         - name: sync-public-assets
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-9
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -49,14 +50,25 @@ spec:
               mountPath: /shared-public
       containers:
         - name: bomjesus
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:latest
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-9
           command: ["/bin/bash", "-c"]
           args:
             - |
-              mkdir -p app/tmp/pids
-              mkdir -p app/tmp/sockets
-              # Configurar PATH para rbenv
+              echo "Iniciando aplicação..."
+              mkdir -p /app/public/prd/sia
+              mkdir -p /app/tmp/pids
+              mkdir -p /app/tmp/sockets
+              mkdir -p /app/log
+
+              # Aguardar banco de dados estar pronto
+              echo "Aguardando banco de dados..."
+              sleep 10
+
+              # Executar migrations
               export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
+              bundle exec rake db:migrate || echo "Migrations failed, continuing..."
+
+              # Iniciar servidor
               bundle exec puma -C config/puma/production.rb
           ports:
             - containerPort: 3000
