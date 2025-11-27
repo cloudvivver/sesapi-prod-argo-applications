@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: azurefile-pvc
-  namespace: raimundononato
+  namespace: saoraimundononato
   labels:
     app: raimundononato
 spec:

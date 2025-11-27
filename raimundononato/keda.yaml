@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: raimundononato-scaledobject
-  namespace: cuidar-raimundononato
+  namespace: saoraimundononato
 spec:
   scaleTargetRef:
     name: raimundononato
