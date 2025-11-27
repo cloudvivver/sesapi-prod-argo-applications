@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nginx-sidecar-config
+  namespace: saojoao
 data:
   nginx.conf: |
     worker_processes  1;

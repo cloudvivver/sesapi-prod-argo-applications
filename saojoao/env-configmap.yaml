@@ -30,10 +30,10 @@ data:
   # Database Configuration (AWS RDS via Proxy)
   DATABASE_HOST: proxy-db-viverdb.proxy-cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
   DATABASE_PORT: "5432"
-  DATABASE_NAME: tenant_sao_joao_db
-  DATABASE_PROD: tenant_sao_joao_db
-  DATABASE_DEV: tenant_sao_joao_db
-  DATABASE_TEST: tenant_sao_joao_db
+  DATABASE_NAME: cuidar_saojoao_pi
+  DATABASE_PROD: cuidar_saojoao_pi
+  DATABASE_DEV: cuidar_saojoao_pi
+  DATABASE_TEST: cuidar_saojoao_pi
   DATABASE_BI_SESAPI: ""
 
   # Database Connection Pool (optimized for RDS Proxy)
