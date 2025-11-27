@@ -35,6 +35,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: env
+            - secretRef:
+                name: app-secrets
         - name: sync-public-assets
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-9
           command: ["/bin/sh", "-c"]
@@ -71,21 +73,20 @@ spec:
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: azurefile
-              mountPath: /mnt/compartilhado
             - name: public-assets
               mountPath: /app/public
-
           envFrom:
             - configMapRef:
                 name: env
+            - secretRef:
+                name: app-secrets
           resources:
             requests:
-              cpu: "2000m"
-              memory: "10Gi"
+              cpu: "1500m"
+              memory: "6Gi"
             limits:
-              cpu: "3000m"
-              memory: "12Gi"
+              cpu: "2000m"
+              memory: "8Gi"
         - name: nginx-sidecar
           image: nginx:1.25
           ports:
@@ -104,9 +105,6 @@ spec:
               cpu: "500m"
               memory: "512Mi"
       volumes:
-        - name: azurefile
-          persistentVolumeClaim:
-            claimName: azurefile-pvc
         - name: nginx-config
           configMap:
             name: nginx-sidecar-config

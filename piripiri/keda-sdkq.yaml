@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: sidekiq-piripiri-scaledobject
-  namespace: cuidar-piripiri
+  namespace: piripiri
 
 spec:
   scaleTargetRef:

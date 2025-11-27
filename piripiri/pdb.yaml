@@ -2,7 +2,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: piripiri-pdb
-  namespace: cuidar-piripiri
+  namespace: piripiri
   labels:
     app.kubernetes.io/instance: cuidarpi-piripiri
 spec:
