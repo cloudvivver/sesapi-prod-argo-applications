@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: env
-  namespace: cuidarpi-corrente-bigdatasys-net
+  namespace: corrente
   labels:
     app: corrente
     environment: production

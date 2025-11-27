@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: corrente-scaledobject
-  namespace: cuidar-corrente
+  namespace: corrente
 spec:
   scaleTargetRef:
     name: corrente
