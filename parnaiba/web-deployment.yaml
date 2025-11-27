@@ -77,3 +77,30 @@ spec:
             limits:
               cpu: "3000m"
               memory: "5Gi"
+        - name: nginx-sidecar
+          image: nginx:1.25
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: public-assets
+              mountPath: /app/public
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      volumes:
+        - name: azurefile
+          persistentVolumeClaim:
+            claimName: azurefile-pvc
+        - name: nginx-config
+          configMap:
+            name: nginx-sidecar-config
+        - name: public-assets
+          emptyDir: {}
+      restartPolicy: Always
