@@ -9,8 +9,8 @@ metadata:
 data:
   # Application URLs
   RAILS_ENV: production
-  APP_BASE_URL: https://corrente.saude.pi.gov.br
-  APP_HOST: corrente.saude.pi.gov.br  
+  APP_BASE_URL: https://cuidarpi.corrente.saude.pi.gov.br
+  APP_HOST: cuidarpi.corrente.saude.pi.gov.br  
   # Redis Configuration
   REDIS_HOST: redis
   REDIS_PORT: "6379"

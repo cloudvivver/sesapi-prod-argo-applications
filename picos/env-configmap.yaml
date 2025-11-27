@@ -9,8 +9,8 @@ metadata:
 data:
   # Application URLs
   RAILS_ENV: production
-  APP_BASE_URL: https://picos.saude.pi.gov.br
-  APP_HOST: picos.saude.pi.gov.br  
+  APP_BASE_URL: https://cuidarpi.picos.saude.pi.gov.br
+  APP_HOST: cuidarpi.picos.saude.pi.gov.br  
   # Redis Configuration
   REDIS_HOST: redis
   REDIS_PORT: "6379"

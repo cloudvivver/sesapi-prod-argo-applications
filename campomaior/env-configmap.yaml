@@ -9,8 +9,8 @@ metadata:
 data:
   # Application URLs
   RAILS_ENV: production
-  APP_BASE_URL: https://campomaior.saude.pi.gov.br
-  APP_HOST: campomaior.saude.pi.gov.br
+  APP_BASE_URL: https://cuidarpi.campomaior.saude.pi.gov.br
+  APP_HOST: cuidarpi.campomaior.saude.pi.gov.br
 
   # Redis Configuration
   REDIS_HOST: redis

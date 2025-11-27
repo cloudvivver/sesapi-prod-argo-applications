@@ -9,8 +9,8 @@ metadata:
 data:
   # Application URLs
   RAILS_ENV: production
-  APP_BASE_URL: https://saojoao.saude.pi.gov.br
-  APP_HOST: saojoao.saude.pi.gov.br
+  APP_BASE_URL: https://cuidarpi.saojoao.saude.pi.gov.br
+  APP_HOST: cuidarpi.saojoao.saude.pi.gov.br
   REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
   WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
   WEBSOCKET_NOTIFICATION_ORIGIN: "cuidarpi-saojoao"

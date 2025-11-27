@@ -43,11 +43,11 @@ spec:
   # TLS Configuration
   tls:
     - hosts:
-        - floriano.saude.pi.gov.br
-      secretName: floriano-tls
+        - cuidarpi.floriano.saude.pi.gov.br
+      secretName: cuidarpi-floriano-tls
 
   rules:
-    - host: floriano.saude.pi.gov.br
+    - host: cuidarpi.floriano.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal

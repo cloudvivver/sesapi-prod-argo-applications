@@ -43,11 +43,11 @@ spec:
   # TLS Configuration (descomente quando cert-manager estiver instalado)
   tls:
     - hosts:
-        - raimundononato.saude.pi.gov.br
-      secretName: raimundononato-tls-cert
+        - cuidarpi.saoraimundononato.saude.pi.gov.br
+      secretName: cuidarpi-saoraimundononato-tls
 
   rules:
-    - host: raimundononato.saude.pi.gov.br
+    - host: cuidarpi.saoraimundononato.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal

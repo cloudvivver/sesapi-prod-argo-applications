@@ -43,11 +43,11 @@ spec:
   # TLS Configuration
   tls:
     - hosts:
-        - parnaiba.saude.pi.gov.br
-      secretName: parnaiba-tls
+        - cuidarpi.parnaiba.saude.pi.gov.br
+      secretName: cuidarpi-parnaiba-tls
 
   rules:
-    - host: parnaiba.saude.pi.gov.br
+    - host: cuidarpi.parnaiba.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal

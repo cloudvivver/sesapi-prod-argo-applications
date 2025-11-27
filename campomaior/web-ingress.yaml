@@ -43,11 +43,11 @@ spec:
   # TLS Configuration
   tls:
     - hosts:
-        - campomaior.saude.pi.gov.br
-      secretName: campomaior-tls
+        - cuidarpi.campomaior.saude.pi.gov.br
+      secretName: cuidarpi-campomaior-tls
 
   rules:
-    - host: campomaior.saude.pi.gov.br
+    - host: cuidarpi.campomaior.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal

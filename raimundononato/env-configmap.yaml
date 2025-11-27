@@ -9,8 +9,8 @@ metadata:
 data:
   # Application URLs
   RAILS_ENV: production
-  APP_BASE_URL: https://raimundononato.saude.pi.gov.br
-  APP_HOST: raimundononato.saude.pi.gov.br
+  APP_BASE_URL: https://cuidarpi.saoraimundononato.saude.pi.gov.br
+  APP_HOST: cuidarpi.saoraimundononato.saude.pi.gov.br
   REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
   WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
   WEBSOCKET_NOTIFICATION_ORIGIN: "cuidarpi-raimundononato"

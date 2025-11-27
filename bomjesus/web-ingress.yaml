@@ -43,11 +43,11 @@ spec:
   # TLS Configuration (descomente quando cert-manager estiver instalado)
   tls:
     - hosts:
-        - bomjesus.saude.pi.gov.br
-      secretName: bomjesus-tls-cert
+        - cuidarpi.bomjesus.saude.pi.gov.br
+      secretName: cuidarpi-bomjesus-tls
 
   rules:
-    - host: bomjesus.saude.pi.gov.br
+    - host: cuidarpi.bomjesus.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal

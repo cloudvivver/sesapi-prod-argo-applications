@@ -9,8 +9,8 @@ metadata:
 data:
   # Application URLs
   RAILS_ENV: production
-  APP_BASE_URL: https://parnaiba.saude.pi.gov.br
-  APP_HOST: parnaiba.saude.pi.gov.br
+  APP_BASE_URL: https://cuidarpi.parnaiba.saude.pi.gov.br
+  APP_HOST: cuidarpi.parnaiba.saude.pi.gov.br
   # Redis Configuration
   REDIS_HOST: redis
   REDIS_PORT: "6379"

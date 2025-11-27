@@ -43,11 +43,11 @@ spec:
   # TLS Configuration (descomente quando cert-manager estiver instalado)
   tls:
     - hosts:
-        - saojoao.saude.pi.gov.br
-      secretName: saojoao-tls-cert
+        - cuidarpi.saojoao.saude.pi.gov.br
+      secretName: cuidarpi-saojoao-tls-cert
 
   rules:
-    - host: saojoao.saude.pi.gov.br
+    - host: cuidarpi.saojoao.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal

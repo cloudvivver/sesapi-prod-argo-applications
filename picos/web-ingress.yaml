@@ -43,11 +43,11 @@ spec:
   # TLS Configuration
   tls:
     - hosts:
-        - picos.saude.pi.gov.br
-      secretName: picos-tls
+        - cuidarpi.picos.saude.pi.gov.br
+      secretName: cuidarpi-picos-tls
 
   rules:
-    - host: picos.saude.pi.gov.br
+    - host: cuidarpi.picos.saude.pi.gov.br
       http:
         paths:
           # Aplicação principal
