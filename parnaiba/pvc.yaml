@@ -7,8 +7,8 @@ metadata:
     app: parnaiba
 spec:
   accessModes:
-    - ReadWriteOnce  # EBS suporta apenas RWO (ReadWriteOnce)
-  storageClassName: gp3  # AWS EBS gp3 (padrão do cluster)
+    - ReadWriteOnce  # EBS RWO + podAffinity para escalar no mesmo node
+  storageClassName: gp3  # AWS EBS gp3
   resources:
     requests:
       storage: 100Gi

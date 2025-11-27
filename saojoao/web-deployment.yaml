@@ -100,4 +100,15 @@ spec:
             name: nginx-sidecar-config
         - name: public-assets
           emptyDir: {}
+
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - saojoao
+              topologyKey: "kubernetes.io/hostname"
       restartPolicy: Always

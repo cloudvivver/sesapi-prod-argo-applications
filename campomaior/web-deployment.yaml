@@ -105,4 +105,14 @@ spec:
         - name: public-assets
           emptyDir: {}
 
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - campomaior
+              topologyKey: "kubernetes.io/hostname"
       restartPolicy: Always
