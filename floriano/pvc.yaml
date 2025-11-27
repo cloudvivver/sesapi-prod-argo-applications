@@ -3,11 +3,12 @@ kind: PersistentVolumeClaim
 metadata:
   name: azurefile-pvc
   namespace: floriano
+  labels:
+    app: floriano
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce  # EBS RWO + podAffinity para escalar no mesmo node
+  storageClassName: gp3  # AWS EBS gp3
   resources:
     requests:
       storage: 100Gi
-  volumeName: azurefile-pv-floriano
-  storageClassName: ""
