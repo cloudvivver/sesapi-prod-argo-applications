@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: corrente
+  labels:
+    app: corrente
+    environment: production
