@@ -6,7 +6,7 @@ metadata:
 spec:
   scaleTargetRef:
     name: idene
-  minReplicaCount: 3
+  minReplicaCount: 2
   maxReplicaCount: 5
   triggers:
     - type: cpu
