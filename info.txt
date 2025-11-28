@@ -1,0 +1,2856 @@
+{
+    "Reservations": [
+        {
+            "ReservationId": "r-056d0778fd4cd77b1",
+            "OwnerId": "961341521437",
+            "RequesterId": "396704183725",
+            "Groups": [],
+            "Instances": [
+                {
+                    "Architecture": "x86_64",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/xvda",
+                            "Ebs": {
+                                "AttachTime": "2025-11-01T13:27:16+00:00",
+                                "DeleteOnTermination": true,
+                                "Status": "attached",
+                                "VolumeId": "vol-0abd2d28034401943"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdaa",
+                            "Ebs": {
+                                "AttachTime": "2025-11-28T18:09:42.904000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-0ff19e255818351ec"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdab",
+                            "Ebs": {
+                                "AttachTime": "2025-11-28T18:25:16.709000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-080829fe9e19a663e"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdac",
+                            "Ebs": {
+                                "AttachTime": "2025-11-28T18:25:19.982000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-017c4ab21318a4892"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdad",
+                            "Ebs": {
+                                "AttachTime": "2025-11-28T18:25:20.846000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-04c97238bf9c1acb1"
+                            }
+                        }
+                    ],
+                    "ClientToken": "fleet-850c35af-fa3e-4194-ac9a-842ab68e1995-0",
+                    "EbsOptimized": false,
+                    "EnaSupport": true,
+                    "Hypervisor": "xen",
+                    "IamInstanceProfile": {
+                        "Arn": "arn:aws:iam::961341521437:instance-profile/eks-fccd1fcc-92d3-7f31-e77f-70dcf612414e",
+                        "Id": "AIPA57VDLPYORSDUBWKH5"
+                    },
+                    "NetworkInterfaces": [
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-01T13:27:15+00:00",
+                                "AttachmentId": "eni-attach-090c13263707e9763",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 0,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "0a:e5:4b:e5:f8:63",
+                            "NetworkInterfaceId": "eni-071ea776cac71717b",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-233.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.233",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-233.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.233"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-193.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.193"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-227.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.227"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-231.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.231"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-230.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.230"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-198.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.198"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-235.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.235"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-239.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.239"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-175.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.175"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-206.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.206"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-144.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.144"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-179.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.179"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-214.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.214"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-157.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.157"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-254.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.254"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-001aae2cf7162d7c1",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-01T13:27:50+00:00",
+                                "AttachmentId": "eni-attach-028847d36404f8667",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 1,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-0c483e9cb153a3b54",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "0a:f4:2d:0d:53:fd",
+                            "NetworkInterfaceId": "eni-024713913d04688b3",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-192.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.192",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-192.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.192"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-195.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.195"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-133.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.133"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-199.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.199"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-234.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.234"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-207.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.207"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-211.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.211"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-212.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.212"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-247.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.247"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-182.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.182"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-246.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.246"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-186.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.186"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-218.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.218"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-253.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.253"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-159.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.159"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-001aae2cf7162d7c1",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-22T13:41:15+00:00",
+                                "AttachmentId": "eni-attach-0f6a26999d7b7270d",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 2,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-0c483e9cb153a3b54",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "0a:bd:58:75:de:19",
+                            "NetworkInterfaceId": "eni-0ac370449b1919f17",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-160.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.160",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-160.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.160"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-163.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.163"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-137.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.137"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-136.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.136"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-138.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.138"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-202.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.202"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-205.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.205"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-177.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.177"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-176.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.176"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-208.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.208"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-147.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.147"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-249.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.249"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-184.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.184"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-152.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.152"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-156.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.156"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-001aae2cf7162d7c1",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        }
+                    ],
+                    "RootDeviceName": "/dev/xvda",
+                    "RootDeviceType": "ebs",
+                    "SecurityGroups": [
+                        {
+                            "GroupId": "sg-03abea22efa32a501",
+                            "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Tags": [
+                        {
+                            "Key": "eks:nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "aws:eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "nodegroup-role",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "aws:autoscaling:groupName",
+                            "Value": "eks-prod-viver-app-fccd1fcc-92d3-7f31-e77f-70dcf612414e"
+                        },
+                        {
+                            "Key": "Name",
+                            "Value": "prod-viver-prod-viver-app-Node"
+                        },
+                        {
+                            "Key": "eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "aws:ec2:fleet-id",
+                            "Value": "fleet-850c35af-fa3e-4194-ac9a-842ab68e1995"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:id",
+                            "Value": "lt-07e29c88209cc289d"
+                        },
+                        {
+                            "Key": "kubernetes.io/cluster/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-type",
+                            "Value": "managed"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:version",
+                            "Value": "1"
+                        },
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/enabled",
+                            "Value": "true"
+                        }
+                    ],
+                    "VirtualizationType": "hvm",
+                    "CpuOptions": {
+                        "CoreCount": 4,
+                        "ThreadsPerCore": 2
+                    },
+                    "CapacityReservationSpecification": {
+                        "CapacityReservationPreference": "open"
+                    },
+                    "HibernationOptions": {
+                        "Configured": false
+                    },
+                    "MetadataOptions": {
+                        "State": "applied",
+                        "HttpTokens": "required",
+                        "HttpPutResponseHopLimit": 2,
+                        "HttpEndpoint": "enabled",
+                        "HttpProtocolIpv6": "disabled",
+                        "InstanceMetadataTags": "disabled"
+                    },
+                    "EnclaveOptions": {
+                        "Enabled": false
+                    },
+                    "BootMode": "uefi-preferred",
+                    "PlatformDetails": "Linux/UNIX",
+                    "UsageOperation": "RunInstances",
+                    "UsageOperationUpdateTime": "2025-11-01T13:27:15+00:00",
+                    "PrivateDnsNameOptions": {
+                        "HostnameType": "ip-name",
+                        "EnableResourceNameDnsARecord": false,
+                        "EnableResourceNameDnsAAAARecord": false
+                    },
+                    "MaintenanceOptions": {
+                        "AutoRecovery": "default",
+                        "RebootMigration": "default"
+                    },
+                    "CurrentInstanceBootMode": "uefi",
+                    "NetworkPerformanceOptions": {
+                        "BandwidthWeighting": "default"
+                    },
+                    "Operator": {
+                        "Managed": false
+                    },
+                    "InstanceId": "i-0c483e9cb153a3b54",
+                    "ImageId": "ami-0f8a86c7410797f4b",
+                    "State": {
+                        "Code": 16,
+                        "Name": "running"
+                    },
+                    "PrivateDnsName": "ip-10-161-50-233.sa-east-1.compute.internal",
+                    "PublicDnsName": "",
+                    "StateTransitionReason": "",
+                    "AmiLaunchIndex": 0,
+                    "ProductCodes": [],
+                    "InstanceType": "m6i.2xlarge",
+                    "LaunchTime": "2025-11-01T13:27:15+00:00",
+                    "Placement": {
+                        "AvailabilityZoneId": "sae1-az3",
+                        "GroupName": "",
+                        "Tenancy": "default",
+                        "AvailabilityZone": "sa-east-1c"
+                    },
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "SubnetId": "subnet-001aae2cf7162d7c1",
+                    "VpcId": "vpc-06d9881426945100d",
+                    "PrivateIpAddress": "10.161.50.233"
+                }
+            ]
+        },
+        {
+            "ReservationId": "r-0d127c5e8f461127a",
+            "OwnerId": "961341521437",
+            "RequesterId": "396704183725",
+            "Groups": [],
+            "Instances": [
+                {
+                    "Architecture": "x86_64",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/xvda",
+                            "Ebs": {
+                                "AttachTime": "2025-11-03T20:51:31+00:00",
+                                "DeleteOnTermination": true,
+                                "Status": "attached",
+                                "VolumeId": "vol-02e28faad8c001522"
+                            }
+                        }
+                    ],
+                    "ClientToken": "fleet-251f948d-880f-6c3c-869a-258a2cd019cf-0",
+                    "EbsOptimized": false,
+                    "EnaSupport": true,
+                    "Hypervisor": "xen",
+                    "IamInstanceProfile": {
+                        "Arn": "arn:aws:iam::961341521437:instance-profile/eks-fccd1fcc-92d3-7f31-e77f-70dcf612414e",
+                        "Id": "AIPA57VDLPYORSDUBWKH5"
+                    },
+                    "NetworkInterfaces": [
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-03T20:51:30+00:00",
+                                "AttachmentId": "eni-attach-0506d357ef57f2bb8",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 0,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "0a:13:4a:0c:9a:47",
+                            "NetworkInterfaceId": "eni-090838dd5cdd86c4b",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-240.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.240",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-240.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.240"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-225.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.225"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-228.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.228"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-201.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.201"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-168.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.168"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-139.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.139"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-171.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.171"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-146.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.146"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-181.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.181"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-244.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.244"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-215.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.215"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-248.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.248"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-252.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.252"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-188.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.188"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-191.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.191"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-001aae2cf7162d7c1",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-03T20:52:00+00:00",
+                                "AttachmentId": "eni-attach-0ab31a3e8afc82920",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 1,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-0f9640e15c37e7c25",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "0a:10:07:59:07:0d",
+                            "NetworkInterfaceId": "eni-005f9dd8fb903afce",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-224.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.224",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-224.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.224"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-229.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.229"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-165.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.165"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-132.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.132"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-164.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.164"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-200.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.200"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-232.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.232"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-140.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.140"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-172.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.172"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-210.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.210"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-242.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.242"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-149.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.149"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-185.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.185"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-155.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.155"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-221.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.221"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-001aae2cf7162d7c1",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-21T22:19:06+00:00",
+                                "AttachmentId": "eni-attach-029c59f9f38354869",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 2,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-0f9640e15c37e7c25",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "0a:4a:ba:6e:cb:87",
+                            "NetworkInterfaceId": "eni-0ea5bcecc12d97dda",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-194.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.194",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-194.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.194"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-196.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.196"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-135.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.135"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-203.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.203"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-238.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.238"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-209.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.209"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-145.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.145"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-178.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.178"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-148.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.148"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-150.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.150"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-217.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.217"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-251.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.251"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-219.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.219"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-222.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.222"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-158.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.158"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-001aae2cf7162d7c1",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-28T18:11:51+00:00",
+                                "AttachmentId": "eni-attach-0874b2774222d9f0c",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 3,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-0f9640e15c37e7c25",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "0a:a3:eb:fe:3d:1f",
+                            "NetworkInterfaceId": "eni-01700b4d840ae9921",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-162.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.162",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-162.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.162"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-226.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.226"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-167.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.167"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-134.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.134"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-141.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.141"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-236.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.236"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-204.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.204"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-143.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.143"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-142.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.142"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-241.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.241"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-213.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.213"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-189.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.189"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-220.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.220"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-223.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.223"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-190.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.190"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-001aae2cf7162d7c1",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        }
+                    ],
+                    "RootDeviceName": "/dev/xvda",
+                    "RootDeviceType": "ebs",
+                    "SecurityGroups": [
+                        {
+                            "GroupId": "sg-03abea22efa32a501",
+                            "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Tags": [
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/enabled",
+                            "Value": "true"
+                        },
+                        {
+                            "Key": "kubernetes.io/cluster/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:id",
+                            "Value": "lt-07e29c88209cc289d"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-type",
+                            "Value": "managed"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:version",
+                            "Value": "1"
+                        },
+                        {
+                            "Key": "eks:nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "nodegroup-role",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "Name",
+                            "Value": "prod-viver-prod-viver-app-Node"
+                        },
+                        {
+                            "Key": "aws:autoscaling:groupName",
+                            "Value": "eks-prod-viver-app-fccd1fcc-92d3-7f31-e77f-70dcf612414e"
+                        },
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "aws:ec2:fleet-id",
+                            "Value": "fleet-251f948d-880f-6c3c-869a-258a2cd019cf"
+                        },
+                        {
+                            "Key": "eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-name",
+                            "Value": "prod-viver-app"
+                        }
+                    ],
+                    "VirtualizationType": "hvm",
+                    "CpuOptions": {
+                        "CoreCount": 4,
+                        "ThreadsPerCore": 2
+                    },
+                    "CapacityReservationSpecification": {
+                        "CapacityReservationPreference": "open"
+                    },
+                    "HibernationOptions": {
+                        "Configured": false
+                    },
+                    "MetadataOptions": {
+                        "State": "applied",
+                        "HttpTokens": "required",
+                        "HttpPutResponseHopLimit": 2,
+                        "HttpEndpoint": "enabled",
+                        "HttpProtocolIpv6": "disabled",
+                        "InstanceMetadataTags": "disabled"
+                    },
+                    "EnclaveOptions": {
+                        "Enabled": false
+                    },
+                    "BootMode": "uefi-preferred",
+                    "PlatformDetails": "Linux/UNIX",
+                    "UsageOperation": "RunInstances",
+                    "UsageOperationUpdateTime": "2025-11-03T20:51:30+00:00",
+                    "PrivateDnsNameOptions": {
+                        "HostnameType": "ip-name",
+                        "EnableResourceNameDnsARecord": false,
+                        "EnableResourceNameDnsAAAARecord": false
+                    },
+                    "MaintenanceOptions": {
+                        "AutoRecovery": "default",
+                        "RebootMigration": "default"
+                    },
+                    "CurrentInstanceBootMode": "uefi",
+                    "NetworkPerformanceOptions": {
+                        "BandwidthWeighting": "default"
+                    },
+                    "Operator": {
+                        "Managed": false
+                    },
+                    "InstanceId": "i-0f9640e15c37e7c25",
+                    "ImageId": "ami-0f8a86c7410797f4b",
+                    "State": {
+                        "Code": 16,
+                        "Name": "running"
+                    },
+                    "PrivateDnsName": "ip-10-161-50-240.sa-east-1.compute.internal",
+                    "PublicDnsName": "",
+                    "StateTransitionReason": "",
+                    "AmiLaunchIndex": 0,
+                    "ProductCodes": [],
+                    "InstanceType": "m6i.2xlarge",
+                    "LaunchTime": "2025-11-03T20:51:30+00:00",
+                    "Placement": {
+                        "AvailabilityZoneId": "sae1-az3",
+                        "GroupName": "",
+                        "Tenancy": "default",
+                        "AvailabilityZone": "sa-east-1c"
+                    },
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "SubnetId": "subnet-001aae2cf7162d7c1",
+                    "VpcId": "vpc-06d9881426945100d",
+                    "PrivateIpAddress": "10.161.50.240"
+                }
+            ]
+        },
+        {
+            "ReservationId": "r-0256179416d299183",
+            "OwnerId": "961341521437",
+            "RequesterId": "396704183725",
+            "Groups": [],
+            "Instances": [
+                {
+                    "Architecture": "x86_64",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/xvda",
+                            "Ebs": {
+                                "AttachTime": "2025-11-03T20:51:31+00:00",
+                                "DeleteOnTermination": true,
+                                "Status": "attached",
+                                "VolumeId": "vol-0fc7374da0abd2566"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdaa",
+                            "Ebs": {
+                                "AttachTime": "2025-11-19T12:07:14.164000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-0ec182f43f21a0e63"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdab",
+                            "Ebs": {
+                                "AttachTime": "2025-11-22T13:58:40.684000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-028f69746e1a56d40"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdac",
+                            "Ebs": {
+                                "AttachTime": "2025-11-27T14:20:48.538000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-048d3cc9d44ddb31d"
+                            }
+                        }
+                    ],
+                    "ClientToken": "fleet-8d061525-fa1c-cbb4-049a-a4081f290a16-0",
+                    "EbsOptimized": false,
+                    "EnaSupport": true,
+                    "Hypervisor": "xen",
+                    "IamInstanceProfile": {
+                        "Arn": "arn:aws:iam::961341521437:instance-profile/eks-fccd1fcc-92d3-7f31-e77f-70dcf612414e",
+                        "Id": "AIPA57VDLPYORSDUBWKH5"
+                    },
+                    "NetworkInterfaces": [
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-03T20:51:30+00:00",
+                                "AttachmentId": "eni-attach-077531b75b1ff7703",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 0,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "02:90:24:b8:cf:e3",
+                            "NetworkInterfaceId": "eni-089cddc22c10499a0",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-49-176.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.49.176",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-49-176.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.176"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-225.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.225"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-165.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.165"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-229.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.229"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-135.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.135"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-201.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.201"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-200.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.200"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-170.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.170"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-207.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.207"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-210.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.210"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-148.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.148"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-180.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.180"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-183.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.183"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-214.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.214"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-186.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.186"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-03394eb2212d62ed4",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-03T20:52:02+00:00",
+                                "AttachmentId": "eni-attach-0a6b111a7b6a20e86",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 1,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-0d14f8a82b5b4a765",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "02:9a:87:dd:eb:85",
+                            "NetworkInterfaceId": "eni-00fd2352f94dc7439",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-49-161.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.49.161",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-49-161.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.161"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-224.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.224"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-194.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.194"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-169.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.169"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-205.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.205"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-140.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.140"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-206.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.206"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-145.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.145"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-146.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.146"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-217.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.217"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-184.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.184"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-187.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.187"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-156.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.156"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-188.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.188"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-222.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.222"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-03394eb2212d62ed4",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-27T14:45:21+00:00",
+                                "AttachmentId": "eni-attach-011ecdb4d02e4d327",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 2,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-0d14f8a82b5b4a765",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "02:4f:ab:68:5c:b3",
+                            "NetworkInterfaceId": "eni-043e3ae97f0c7604e",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-49-193.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.49.193",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-49-193.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.193"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-164.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.164"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-230.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.230"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-136.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.136"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-174.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.174"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-240.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.240"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-243.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.243"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-151.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.151"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-150.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.150"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-246.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.246"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-249.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.249"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-153.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.153"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-155.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.155"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-250.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.250"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-252.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.252"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-03394eb2212d62ed4",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        }
+                    ],
+                    "RootDeviceName": "/dev/xvda",
+                    "RootDeviceType": "ebs",
+                    "SecurityGroups": [
+                        {
+                            "GroupId": "sg-03abea22efa32a501",
+                            "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Tags": [
+                        {
+                            "Key": "Name",
+                            "Value": "prod-viver-prod-viver-app-Node"
+                        },
+                        {
+                            "Key": "eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "aws:autoscaling:groupName",
+                            "Value": "eks-prod-viver-app-fccd1fcc-92d3-7f31-e77f-70dcf612414e"
+                        },
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "aws:ec2:fleet-id",
+                            "Value": "fleet-8d061525-fa1c-cbb4-049a-a4081f290a16"
+                        },
+                        {
+                            "Key": "aws:eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "kubernetes.io/cluster/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/enabled",
+                            "Value": "true"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-type",
+                            "Value": "managed"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:version",
+                            "Value": "1"
+                        },
+                        {
+                            "Key": "eks:nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "nodegroup-role",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:id",
+                            "Value": "lt-07e29c88209cc289d"
+                        }
+                    ],
+                    "VirtualizationType": "hvm",
+                    "CpuOptions": {
+                        "CoreCount": 4,
+                        "ThreadsPerCore": 2
+                    },
+                    "CapacityReservationSpecification": {
+                        "CapacityReservationPreference": "open"
+                    },
+                    "HibernationOptions": {
+                        "Configured": false
+                    },
+                    "MetadataOptions": {
+                        "State": "applied",
+                        "HttpTokens": "required",
+                        "HttpPutResponseHopLimit": 2,
+                        "HttpEndpoint": "enabled",
+                        "HttpProtocolIpv6": "disabled",
+                        "InstanceMetadataTags": "disabled"
+                    },
+                    "EnclaveOptions": {
+                        "Enabled": false
+                    },
+                    "BootMode": "uefi-preferred",
+                    "PlatformDetails": "Linux/UNIX",
+                    "UsageOperation": "RunInstances",
+                    "UsageOperationUpdateTime": "2025-11-03T20:51:30+00:00",
+                    "PrivateDnsNameOptions": {
+                        "HostnameType": "ip-name",
+                        "EnableResourceNameDnsARecord": false,
+                        "EnableResourceNameDnsAAAARecord": false
+                    },
+                    "MaintenanceOptions": {
+                        "AutoRecovery": "default",
+                        "RebootMigration": "default"
+                    },
+                    "CurrentInstanceBootMode": "uefi",
+                    "NetworkPerformanceOptions": {
+                        "BandwidthWeighting": "default"
+                    },
+                    "Operator": {
+                        "Managed": false
+                    },
+                    "InstanceId": "i-0d14f8a82b5b4a765",
+                    "ImageId": "ami-0f8a86c7410797f4b",
+                    "State": {
+                        "Code": 16,
+                        "Name": "running"
+                    },
+                    "PrivateDnsName": "ip-10-161-49-176.sa-east-1.compute.internal",
+                    "PublicDnsName": "",
+                    "StateTransitionReason": "",
+                    "AmiLaunchIndex": 1,
+                    "ProductCodes": [],
+                    "InstanceType": "m6i.2xlarge",
+                    "LaunchTime": "2025-11-03T20:51:30+00:00",
+                    "Placement": {
+                        "AvailabilityZoneId": "sae1-az1",
+                        "GroupName": "",
+                        "Tenancy": "default",
+                        "AvailabilityZone": "sa-east-1a"
+                    },
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "SubnetId": "subnet-03394eb2212d62ed4",
+                    "VpcId": "vpc-06d9881426945100d",
+                    "PrivateIpAddress": "10.161.49.176"
+                },
+                {
+                    "Architecture": "x86_64",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/xvda",
+                            "Ebs": {
+                                "AttachTime": "2025-11-03T20:51:31+00:00",
+                                "DeleteOnTermination": true,
+                                "Status": "attached",
+                                "VolumeId": "vol-0e3f731e59c39e3b0"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdaa",
+                            "Ebs": {
+                                "AttachTime": "2025-11-21T22:06:49.870000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-00906ecf4cc46c474"
+                            }
+                        }
+                    ],
+                    "ClientToken": "fleet-8d061525-fa1c-cbb4-049a-a4081f290a16-0",
+                    "EbsOptimized": false,
+                    "EnaSupport": true,
+                    "Hypervisor": "xen",
+                    "IamInstanceProfile": {
+                        "Arn": "arn:aws:iam::961341521437:instance-profile/eks-fccd1fcc-92d3-7f31-e77f-70dcf612414e",
+                        "Id": "AIPA57VDLPYORSDUBWKH5"
+                    },
+                    "NetworkInterfaces": [
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-03T20:51:30+00:00",
+                                "AttachmentId": "eni-attach-0c39695f9c27e5f81",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 0,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "02:c0:00:9c:b4:11",
+                            "NetworkInterfaceId": "eni-02d77561bdd9225cd",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-49-219.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.49.219",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-49-219.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.219"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-227.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.227"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-133.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.133"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-231.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.231"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-167.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.167"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-233.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.233"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-235.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.235"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-139.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.139"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-202.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.202"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-234.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.234"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-204.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.204"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-175.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.175"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-143.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.143"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-245.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.245"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-215.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.215"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-03394eb2212d62ed4",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-27T18:22:20+00:00",
+                                "AttachmentId": "eni-attach-0fe91108900fd81fd",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 2,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-037f6e01ed617517b",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "02:15:81:7e:fc:fd",
+                            "NetworkInterfaceId": "eni-033533e04c65d79f9",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-49-192.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.49.192",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-49-192.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.192"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-226.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.226"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-166.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.166"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-198.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.198"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-137.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.137"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-171.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.171"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-141.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.141"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-142.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.142"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-209.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.209"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-152.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.152"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-216.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.216"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-251.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.251"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-221.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.221"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-253.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.253"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-220.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.220"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-03394eb2212d62ed4",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-28T11:50:12+00:00",
+                                "AttachmentId": "eni-attach-064478db4b83c7345",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 1,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-037f6e01ed617517b",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "02:7a:d2:d1:8b:cb",
+                            "NetworkInterfaceId": "eni-068f2a919bc31df97",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-49-197.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.49.197",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-49-197.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.197"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-199.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.199"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-232.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.232"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-168.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.168"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-237.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.237"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-173.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.173"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-236.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.236"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-239.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.239"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-238.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.238"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-177.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.177"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-211.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.211"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-149.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.149"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-212.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.212"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-248.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.248"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-157.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.157"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-03394eb2212d62ed4",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-28T18:18:58+00:00",
+                                "AttachmentId": "eni-attach-0687800e18cc50f60",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 3,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-037f6e01ed617517b",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "02:a9:d7:9e:c5:55",
+                            "NetworkInterfaceId": "eni-0f0c49fbb558a72e3",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-49-160.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.49.160",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-49-160.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.160"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-195.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.195"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-163.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.163"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-162.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.162"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-228.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.228"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-134.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.134"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-203.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.203"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-138.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.138"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-172.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.172"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-241.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.241"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-242.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.242"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-185.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.185"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-154.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.154"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-189.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.189"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-49-158.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.49.158"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-03394eb2212d62ed4",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        }
+                    ],
+                    "RootDeviceName": "/dev/xvda",
+                    "RootDeviceType": "ebs",
+                    "SecurityGroups": [
+                        {
+                            "GroupId": "sg-03abea22efa32a501",
+                            "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Tags": [
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-type",
+                            "Value": "managed"
+                        },
+                        {
+                            "Key": "aws:autoscaling:groupName",
+                            "Value": "eks-prod-viver-app-fccd1fcc-92d3-7f31-e77f-70dcf612414e"
+                        },
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/enabled",
+                            "Value": "true"
+                        },
+                        {
+                            "Key": "kubernetes.io/cluster/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "nodegroup-role",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:id",
+                            "Value": "lt-07e29c88209cc289d"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:version",
+                            "Value": "1"
+                        },
+                        {
+                            "Key": "aws:eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "eks:nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "Name",
+                            "Value": "prod-viver-prod-viver-app-Node"
+                        },
+                        {
+                            "Key": "aws:ec2:fleet-id",
+                            "Value": "fleet-8d061525-fa1c-cbb4-049a-a4081f290a16"
+                        }
+                    ],
+                    "VirtualizationType": "hvm",
+                    "CpuOptions": {
+                        "CoreCount": 4,
+                        "ThreadsPerCore": 2
+                    },
+                    "CapacityReservationSpecification": {
+                        "CapacityReservationPreference": "open"
+                    },
+                    "HibernationOptions": {
+                        "Configured": false
+                    },
+                    "MetadataOptions": {
+                        "State": "applied",
+                        "HttpTokens": "required",
+                        "HttpPutResponseHopLimit": 2,
+                        "HttpEndpoint": "enabled",
+                        "HttpProtocolIpv6": "disabled",
+                        "InstanceMetadataTags": "disabled"
+                    },
+                    "EnclaveOptions": {
+                        "Enabled": false
+                    },
+                    "BootMode": "uefi-preferred",
+                    "PlatformDetails": "Linux/UNIX",
+                    "UsageOperation": "RunInstances",
+                    "UsageOperationUpdateTime": "2025-11-03T20:51:30+00:00",
+                    "PrivateDnsNameOptions": {
+                        "HostnameType": "ip-name",
+                        "EnableResourceNameDnsARecord": false,
+                        "EnableResourceNameDnsAAAARecord": false
+                    },
+                    "MaintenanceOptions": {
+                        "AutoRecovery": "default",
+                        "RebootMigration": "default"
+                    },
+                    "CurrentInstanceBootMode": "uefi",
+                    "NetworkPerformanceOptions": {
+                        "BandwidthWeighting": "default"
+                    },
+                    "Operator": {
+                        "Managed": false
+                    },
+                    "InstanceId": "i-037f6e01ed617517b",
+                    "ImageId": "ami-0f8a86c7410797f4b",
+                    "State": {
+                        "Code": 16,
+                        "Name": "running"
+                    },
+                    "PrivateDnsName": "ip-10-161-49-219.sa-east-1.compute.internal",
+                    "PublicDnsName": "",
+                    "StateTransitionReason": "",
+                    "AmiLaunchIndex": 0,
+                    "ProductCodes": [],
+                    "InstanceType": "m6i.2xlarge",
+                    "LaunchTime": "2025-11-03T20:51:30+00:00",
+                    "Placement": {
+                        "AvailabilityZoneId": "sae1-az1",
+                        "GroupName": "",
+                        "Tenancy": "default",
+                        "AvailabilityZone": "sa-east-1a"
+                    },
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "SubnetId": "subnet-03394eb2212d62ed4",
+                    "VpcId": "vpc-06d9881426945100d",
+                    "PrivateIpAddress": "10.161.49.219"
+                }
+            ]
+        },
+        {
+            "ReservationId": "r-0085e16754c8d0a5d",
+            "OwnerId": "961341521437",
+            "RequesterId": "396704183725",
+            "Groups": [],
+            "Instances": [
+                {
+                    "Architecture": "x86_64",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/xvda",
+                            "Ebs": {
+                                "AttachTime": "2025-11-01T13:27:16+00:00",
+                                "DeleteOnTermination": true,
+                                "Status": "attached",
+                                "VolumeId": "vol-03524b24d42db5364"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdaa",
+                            "Ebs": {
+                                "AttachTime": "2025-11-28T18:02:49.966000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-0b07d36522ed6cb00"
+                            }
+                        },
+                        {
+                            "DeviceName": "/dev/xvdab",
+                            "Ebs": {
+                                "AttachTime": "2025-11-28T18:02:55.906000+00:00",
+                                "DeleteOnTermination": false,
+                                "Status": "attached",
+                                "VolumeId": "vol-077a4bb9f5ca069f1"
+                            }
+                        }
+                    ],
+                    "ClientToken": "fleet-ad1d9c87-a00f-e69e-a618-ad2ace8fae14-0",
+                    "EbsOptimized": false,
+                    "EnaSupport": true,
+                    "Hypervisor": "xen",
+                    "IamInstanceProfile": {
+                        "Arn": "arn:aws:iam::961341521437:instance-profile/eks-fccd1fcc-92d3-7f31-e77f-70dcf612414e",
+                        "Id": "AIPA57VDLPYORSDUBWKH5"
+                    },
+                    "NetworkInterfaces": [
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-01T13:27:15+00:00",
+                                "AttachmentId": "eni-attach-0000f24f5f8423f8c",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 0,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "06:9d:9a:d2:1e:d9",
+                            "NetworkInterfaceId": "eni-036d90631170cb4ed",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-87.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.87",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-87.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.87"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-99.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.99"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-67.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.67"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-37.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.37"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-36.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.36"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-103.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.103"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-102.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.102"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-12.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.12"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-19.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.19"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-53.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.53"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-22.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.22"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-86.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.86"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-27.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.27"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-61.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.61"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-94.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.94"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-0694ea9d19cb6a5f0",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-01T13:27:55+00:00",
+                                "AttachmentId": "eni-attach-0cb8ac2c7e54c3473",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 1,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-07b7ae8aff9ade849",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "06:39:e0:b6:e9:2d",
+                            "NetworkInterfaceId": "eni-07dae39ee45f51a82",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-65.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.65",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-65.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.65"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-96.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.96"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-34.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.34"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-5.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.5"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-105.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.105"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-40.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.40"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-11.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.11"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-45.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.45"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-83.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.83"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-114.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.114"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-18.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.18"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-25.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.25"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-56.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.56"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-24.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.24"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-29.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.29"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-0694ea9d19cb6a5f0",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-27T23:23:46+00:00",
+                                "AttachmentId": "eni-attach-09a2f219475a1bb9e",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 2,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-07b7ae8aff9ade849",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "06:8e:42:ac:6d:21",
+                            "NetworkInterfaceId": "eni-07da5bec69ef5c51a",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-39.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.39",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-39.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.39"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-6.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.6"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-38.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.38"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-41.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.41"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-104.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.104"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-43.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.43"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-117.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.117"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-84.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.84"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-116.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.116"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-89.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.89"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-123.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.123"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-125.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.125"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-92.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.92"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-28.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.28"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-95.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.95"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-0694ea9d19cb6a5f0",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        },
+                        {
+                            "Attachment": {
+                                "AttachTime": "2025-11-28T18:07:39+00:00",
+                                "AttachmentId": "eni-attach-0bbd70dfb5d92e945",
+                                "DeleteOnTermination": true,
+                                "DeviceIndex": 3,
+                                "Status": "attached",
+                                "NetworkCardIndex": 0
+                            },
+                            "Description": "aws-K8S-i-07b7ae8aff9ade849",
+                            "Groups": [
+                                {
+                                    "GroupId": "sg-03abea22efa32a501",
+                                    "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "MacAddress": "06:a6:d8:1b:4f:a9",
+                            "NetworkInterfaceId": "eni-097b4b08e82fed11b",
+                            "OwnerId": "961341521437",
+                            "PrivateDnsName": "ip-10-161-50-33.sa-east-1.compute.internal",
+                            "PrivateIpAddress": "10.161.50.33",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Primary": true,
+                                    "PrivateDnsName": "ip-10-161-50-33.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.33"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-69.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.69"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-7.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.7"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-10.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.10"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-15.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.15"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-47.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.47"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-14.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.14"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-78.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.78"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-46.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.46"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-17.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.17"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-49.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.49"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-112.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.112"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-118.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.118"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-93.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.93"
+                                },
+                                {
+                                    "Primary": false,
+                                    "PrivateDnsName": "ip-10-161-50-124.sa-east-1.compute.internal",
+                                    "PrivateIpAddress": "10.161.50.124"
+                                }
+                            ],
+                            "SourceDestCheck": true,
+                            "Status": "in-use",
+                            "SubnetId": "subnet-0694ea9d19cb6a5f0",
+                            "VpcId": "vpc-06d9881426945100d",
+                            "InterfaceType": "interface",
+                            "Operator": {
+                                "Managed": false
+                            }
+                        }
+                    ],
+                    "RootDeviceName": "/dev/xvda",
+                    "RootDeviceType": "ebs",
+                    "SecurityGroups": [
+                        {
+                            "GroupId": "sg-03abea22efa32a501",
+                            "GroupName": "eks-cluster-sg-prod-viver-291048934"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Tags": [
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/enabled",
+                            "Value": "true"
+                        },
+                        {
+                            "Key": "aws:ec2:fleet-id",
+                            "Value": "fleet-ad1d9c87-a00f-e69e-a618-ad2ace8fae14"
+                        },
+                        {
+                            "Key": "k8s.io/cluster-autoscaler/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "aws:eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "kubernetes.io/cluster/prod-viver",
+                            "Value": "owned"
+                        },
+                        {
+                            "Key": "eks:nodegroup-name",
+                            "Value": "prod-viver-app"
+                        },
+                        {
+                            "Key": "Name",
+                            "Value": "prod-viver-prod-viver-app-Node"
+                        },
+                        {
+                            "Key": "aws:autoscaling:groupName",
+                            "Value": "eks-prod-viver-app-fccd1fcc-92d3-7f31-e77f-70dcf612414e"
+                        },
+                        {
+                            "Key": "eks:cluster-name",
+                            "Value": "prod-viver"
+                        },
+                        {
+                            "Key": "alpha.eksctl.io/nodegroup-type",
+                            "Value": "managed"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:version",
+                            "Value": "1"
+                        },
+                        {
+                            "Key": "aws:ec2launchtemplate:id",
+                            "Value": "lt-07e29c88209cc289d"
+                        },
+                        {
+                            "Key": "nodegroup-role",
+                            "Value": "prod-viver"
+                        }
+                    ],
+                    "VirtualizationType": "hvm",
+                    "CpuOptions": {
+                        "CoreCount": 4,
+                        "ThreadsPerCore": 2
+                    },
+                    "CapacityReservationSpecification": {
+                        "CapacityReservationPreference": "open"
+                    },
+                    "HibernationOptions": {
+                        "Configured": false
+                    },
+                    "MetadataOptions": {
+                        "State": "applied",
+                        "HttpTokens": "required",
+                        "HttpPutResponseHopLimit": 2,
+                        "HttpEndpoint": "enabled",
+                        "HttpProtocolIpv6": "disabled",
+                        "InstanceMetadataTags": "disabled"
+                    },
+                    "EnclaveOptions": {
+                        "Enabled": false
+                    },
+                    "BootMode": "uefi-preferred",
+                    "PlatformDetails": "Linux/UNIX",
+                    "UsageOperation": "RunInstances",
+                    "UsageOperationUpdateTime": "2025-11-01T13:27:15+00:00",
+                    "PrivateDnsNameOptions": {
+                        "HostnameType": "ip-name",
+                        "EnableResourceNameDnsARecord": false,
+                        "EnableResourceNameDnsAAAARecord": false
+                    },
+                    "MaintenanceOptions": {
+                        "AutoRecovery": "default",
+                        "RebootMigration": "default"
+                    },
+                    "CurrentInstanceBootMode": "uefi",
+                    "NetworkPerformanceOptions": {
+                        "BandwidthWeighting": "default"
+                    },
+                    "Operator": {
+                        "Managed": false
+                    },
+                    "InstanceId": "i-07b7ae8aff9ade849",
+                    "ImageId": "ami-0f8a86c7410797f4b",
+                    "State": {
+                        "Code": 16,
+                        "Name": "running"
+                    },
+                    "PrivateDnsName": "ip-10-161-50-87.sa-east-1.compute.internal",
+                    "PublicDnsName": "",
+                    "StateTransitionReason": "",
+                    "AmiLaunchIndex": 0,
+                    "ProductCodes": [],
+                    "InstanceType": "m6i.2xlarge",
+                    "LaunchTime": "2025-11-01T13:27:15+00:00",
+                    "Placement": {
+                        "AvailabilityZoneId": "sae1-az2",
+                        "GroupName": "",
+                        "Tenancy": "default",
+                        "AvailabilityZone": "sa-east-1b"
+                    },
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "SubnetId": "subnet-0694ea9d19cb6a5f0",
+                    "VpcId": "vpc-06d9881426945100d",
+                    "PrivateIpAddress": "10.161.50.87"
+                }
+            ]
+        }
+    ]
+}

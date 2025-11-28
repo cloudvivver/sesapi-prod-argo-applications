@@ -61,8 +61,6 @@ spec:
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: azurefile
-              mountPath: /mnt/compartilhado
             - name: public-assets
               mountPath: /app/public
           envFrom:
@@ -96,9 +94,6 @@ spec:
               memory: "512Mi"
 
       volumes:
-        - name: azurefile
-          persistentVolumeClaim:
-            claimName: azurefile-pvc
         - name: nginx-config
           configMap:
             name: nginx-sidecar-config
@@ -120,7 +115,7 @@ spec:
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
+          whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
               app: campomaior
