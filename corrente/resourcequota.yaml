@@ -5,8 +5,8 @@ metadata:
   namespace: corrente
 spec:
   hard:
-    requests.cpu: "6"
+    requests.cpu: "8"
     requests.memory: "8Gi"
-    limits.cpu: "10"
-    limits.memory: "14Gi"
-    pods: "30"
+    limits.cpu: "15"
+    limits.memory: "16Gi"
+    pods: "15"

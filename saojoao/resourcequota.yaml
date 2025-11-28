@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute
+  namespace: saojoao
+spec:
+  hard:
+    requests.cpu: "8"
+    requests.memory: "6Gi"
+    limits.cpu: "12"
+    limits.memory: "12Gi"
+    pods: "12"

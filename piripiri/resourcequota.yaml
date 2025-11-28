@@ -5,8 +5,8 @@ metadata:
   namespace: piripiri
 spec:
   hard:
-    requests.cpu: "6"
-    requests.memory: "8Gi"
-    limits.cpu: "10"
-    limits.memory: "14Gi"
-    pods: "30"
+    requests.cpu: "10"
+    requests.memory: "15Gi"
+    limits.cpu: "20"
+    limits.memory: "40Gi"
+    pods: "20"
