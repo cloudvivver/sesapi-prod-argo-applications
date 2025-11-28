@@ -32,8 +32,6 @@ data:
   DATABASE_PORT: "5432"
   DATABASE_NAME: cuidar_piripiri_pi
   DATABASE_PROD: cuidar_piripiri_pi
-  DATABASE_DEV: cuidar_piripiri_pi
-  DATABASE_TEST: cuidar_piripiri_pi
   DATABASE_BI_SESAPI: ""
 
   # Database Connection Pool (optimized for RDS Proxy)
