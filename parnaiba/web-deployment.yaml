@@ -76,7 +76,7 @@ spec:
               memory: "768Mi"
             limits:
               cpu: "1000m"
-              memory: "2048Mi"
+              memory: "3072Mi"
         - name: nginx-sidecar
           image: nginx:1.25
           ports:
