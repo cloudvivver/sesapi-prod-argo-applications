@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute
+  namespace: treinamento
+spec:
+  hard:
+    requests.cpu: "6"
+    requests.memory: "8Gi"
+    limits.cpu: "10"
+    limits.memory: "14Gi"
+    pods: "30"
