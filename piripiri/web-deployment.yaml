@@ -21,6 +21,25 @@ spec:
       labels:
         app: piripiri
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - piripiri
+                topologyKey: kubernetes.io/hostname
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: piripiri
       initContainers:
         - name: migrate
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-9
@@ -83,10 +102,10 @@ spec:
           resources:
             requests:
               cpu: "300m"
-              memory: "1536Mi"
+              memory: "1024Mi"
             limits:
               cpu: "2000m"
-              memory: "4096Mi"
+              memory: "3072Mi"
         - name: nginx-sidecar
           image: nginx:1.25
           ports:

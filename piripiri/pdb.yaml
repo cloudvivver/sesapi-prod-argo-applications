@@ -9,4 +9,4 @@ spec:
   minAvailable: 70%
   selector:
     matchLabels:
-      io.kompose.service: piripiri
+      app: piripiri
