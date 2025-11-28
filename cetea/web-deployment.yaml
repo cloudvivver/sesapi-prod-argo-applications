@@ -72,11 +72,11 @@ spec:
                 name: app-secrets
           resources:
             requests:
-              cpu: "400m"
-              memory: "1.5Gi"
+              cpu: "100m"
+              memory: "768Mi"
             limits:
-              cpu: "1"
-              memory: "3Gi"
+              cpu: "1000m"
+              memory: "2048Mi"
         - name: nginx-sidecar
           image: nginx:1.25
           ports:
