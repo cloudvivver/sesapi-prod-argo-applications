@@ -35,12 +35,18 @@ data:
   # Database SSL/TLS (required by RDS Proxy)
   DATABASE_SSLMODE: "require"
 
-  # Rails Application Settings
-  RAILS_MAX_THREADS: "8"
+  # Rails Application Settings (Fase 1: Conservador)
+  RAILS_MAX_THREADS: "4"
   WEB_CONCURRENCY: "2"
-  SIDEKIQ_CONCURRENCY: "2"
+  SIDEKIQ_CONCURRENCY: "5"
   RAILS_SERVE_STATIC_FILES: "true"
   RAILS_STATIC_CACHE_CONTROL: "public, max-age=31536000, immutable"
+
+  # Ruby Garbage Collection Optimization
+  RUBY_GC_HEAP_GROWTH_FACTOR: "1.1"
+  RUBY_GC_HEAP_INIT_SLOTS: "400000"
+  RUBY_GC_HEAP_FREE_SLOTS: "40000"
+  MALLOC_ARENA_MAX: "2"
 
   # Rails Cache Optimizations
   RAILS_ACTION_CACHE: "true"
