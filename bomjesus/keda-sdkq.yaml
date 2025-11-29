@@ -9,12 +9,11 @@ spec:
     name: sidekiq
   minReplicaCount: 1
   maxReplicaCount: 3
+  pollingInterval: 30
+  cooldownPeriod: 300
   triggers:
-    - type: cpu
-      metricType: Utilization
+    - type: redis
       metadata:
-        value: "60"
-    - type: memory
-      metricType: Utilization
-      metadata:
-        value: "90"
+        address: redis.bomjesus.svc.cluster.local:6379
+        listName: queue:default
+        listLength: "10"
