@@ -61,8 +61,6 @@ spec:
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: azurefile
-              mountPath: /mnt/compartilhado
             - name: public-assets
               mountPath: /app/public
           envFrom:
@@ -72,11 +70,11 @@ spec:
                 name: app-secrets
           resources:
             requests:
-              cpu: "100m"
-              memory: "768Mi"
+              cpu: "300m"
+              memory: "1024Mi"
             limits:
-              cpu: "1000m"
-              memory: "3072Mi"
+              cpu: "2000m"
+              memory: "4096Mi"
         - name: nginx-sidecar
           image: nginx:1.25
           ports:
@@ -96,9 +94,6 @@ spec:
               memory: "512Mi"
 
       volumes:
-        - name: azurefile
-          persistentVolumeClaim:
-            claimName: azurefile-pvc
         - name: nginx-config
           configMap:
             name: nginx-sidecar-config
