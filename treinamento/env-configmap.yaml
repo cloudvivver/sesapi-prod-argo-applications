@@ -45,7 +45,7 @@ data:
   DATABASE_SSLMODE: "require"
 
   # Rails Application Settings
-  RAILS_MAX_THREADS: "8"
+  RAILS_MAX_THREADS: "6"
   WEB_CONCURRENCY: "2"
   SIDEKIQ_CONCURRENCY: "2"
   RAILS_SERVE_STATIC_FILES: "true"
