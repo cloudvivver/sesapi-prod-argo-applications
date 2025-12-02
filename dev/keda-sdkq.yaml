@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sidekiq-dev-scaledobject
+  namespace: dev
+
+spec:
+  scaleTargetRef:
+    name: sidekiq
+  minReplicaCount: 1
+  maxReplicaCount: 2
+  pollingInterval: 30
+  cooldownPeriod: 300
+  triggers:
+    - type: redis
+      metadata:
+        address: redis.dev.svc.cluster.local:6379
+        listName: queue:default
+        listLength: "10"

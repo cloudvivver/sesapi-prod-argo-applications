@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: dev-scaledobject
+  namespace: dev
+spec:
+  scaleTargetRef:
+    name: dev
+  minReplicaCount: 1
+  maxReplicaCount: 2
+  triggers:
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        value: "60"
+    - type: memory
+      metricType: Utilization
+      metadata:
+        value: "80"
