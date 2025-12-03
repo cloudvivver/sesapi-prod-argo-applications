@@ -9,6 +9,7 @@ metadata:
 data:
   # Application URLs
   RAILS_ENV: production
+  TZ: "America/Sao_Paulo"
   APP_BASE_URL: https://cuidarpi.floriano.saude.pi.gov.br
   APP_HOST: cuidarpi.floriano.saude.pi.gov.br
   REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
