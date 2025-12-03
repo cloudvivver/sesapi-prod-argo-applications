@@ -69,12 +69,15 @@ spec:
             - secretRef:
                 name: app-secrets
           resources:
+            # Otimizado para Rails 6.1 + Ruby 3.0.6 + Sidekiq 6 + Bootsnap + GC tuning
+            # Redução esperada: ~50% memória, ~35% CPU (com Puma workers + CoW)
+            # Fase 1 (Conservador): Monitorar 1 semana antes de reduzir mais
             requests:
-              cpu: "300m"
-              memory: "1024Mi"
+              cpu: "200m"        # -33% (era 300m) - Bootsnap + Zeitwerk reduzem CPU
+              memory: "512Mi"    # -50% (era 1024Mi) - Puma workers + CoW + GC
             limits:
-              cpu: "2000m"
-              memory: "4096Mi"
+              cpu: "1000m"       # -50% (era 2000m)
+              memory: "2048Mi"   # -50% (era 4096Mi)
         - name: nginx-sidecar
           image: nginx:1.25
           ports:
