@@ -5,8 +5,8 @@ metadata:
   namespace: campomaior
 spec:
   hard:
-    requests.cpu: "4.5"
+    requests.cpu: "5"
     requests.memory: "10Gi"
-    limits.cpu: "20"
-    limits.memory: "36Gi"
+    limits.cpu: "22"
+    limits.memory: "40Gi"
     pods: "10"
