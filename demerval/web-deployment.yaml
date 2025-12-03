@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
         - name: migrate
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-14
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-19
           command: ["/bin/bash", "-c"]
           args:
             - |
@@ -37,7 +37,7 @@ spec:
             - secretRef:
                 name: redis-credentials
         - name: sync-public-assets
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-14
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-19
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -49,7 +49,7 @@ spec:
               mountPath: /shared-public
       containers:
         - name: demervallobao
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-14
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-19
           command: ["/bin/bash", "-c"]
           args:
             - |
