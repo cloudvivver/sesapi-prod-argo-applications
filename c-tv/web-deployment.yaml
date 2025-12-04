@@ -25,12 +25,12 @@ spec:
         app.kubernetes.io/name: c-tv
         app.kubernetes.io/component: web
     spec:
-      # Service Account com IRSA para acesso ao S3
-      serviceAccountName: c-tv-s3-cache
+      # Service Account com IRSA para acesso ao AWS Polly
+      serviceAccountName: c-tv-polly
 
       containers:
       - name: c-tv
-        image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/c-tv:latest
+        image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/c-tv:polly-1
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -66,9 +66,14 @@ spec:
         - name: certificates
           mountPath: /app/certs
           readOnly: true
+        - name: audio-cache
+          mountPath: /app/audio_cache
       volumes:
       - name: certificates
         configMap:
           name: certificates-config
           optional: true
+      - name: audio-cache
+        persistentVolumeClaim:
+          claimName: c-tv-efs-cache
       restartPolicy: Always

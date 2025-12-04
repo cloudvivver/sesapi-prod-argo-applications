@@ -1,15 +1,17 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: efs-sc
+  name: efs-prod-viver
 provisioner: efs.csi.aws.com
 parameters:
   provisioningMode: efs-ap
-  fileSystemId: fs-XXXXXXXX  # SUBSTITUIR pelo FileSystemId do EFS
+  fileSystemId: fs-0c3ad7a40f10ce3f8
   directoryPerms: "700"
-  gidRangeStart: "1000"
-  gidRangeEnd: "2000"
-  basePath: "/c-tv"
-mountOptions:
-  - tls
-  - iam  # Usar IAM para autenticação (recomendado)
+  gid: "0"
+  uid: "0"
+  basePath: "/dynamic_provisioning"
+  subPathPattern: "${.PVC.namespace}/${.PVC.name}"
+  ensureUniqueDirectory: "true"
+  reuseAccessPoint: "false"
+reclaimPolicy: Retain
+volumeBindingMode: Immediate

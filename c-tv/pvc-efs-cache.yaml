@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: c-tv-efs-cache
+  namespace: c-tv
+  labels:
+    app.kubernetes.io/name: c-tv
+    app.kubernetes.io/component: cache
+spec:
+  accessModes:
+    - ReadWriteMany  # Múltiplos pods podem ler e escrever simultaneamente
+  storageClassName: efs-prod-viver
+  resources:
+    requests:
+      storage: 10Gi  # Tamanho mínimo (EFS é elástico, cobra pelo uso real)
