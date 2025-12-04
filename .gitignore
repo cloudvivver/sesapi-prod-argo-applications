@@ -6,3 +6,8 @@ saude-homolog/*.md
 */.claude
 */*.md
 */*.sh
+
+# Secrets não criptografados (usar sealed-secrets.yaml)
+**/secrets.yaml
+**/secrets.yaml.backup
+**/app-secrets.yaml
