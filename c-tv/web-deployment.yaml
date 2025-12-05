@@ -25,7 +25,7 @@ spec:
         app.kubernetes.io/name: c-tv
         app.kubernetes.io/component: web
     spec:
-      # Service Account com IRSA para acesso ao AWS Polly
+      # Service Account com IRSA para acesso ao AWS Polly (sem expor credenciais!)
       serviceAccountName: c-tv-polly
 
       containers:
