@@ -6,7 +6,7 @@ metadata:
   name: webhomolog
   namespace: saude-homolog
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       io.kompose.service: webhomolog
