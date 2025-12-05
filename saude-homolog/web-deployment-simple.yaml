@@ -6,7 +6,7 @@ metadata:
   name: webhomolog
   namespace: saude-homolog
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       io.kompose.service: webhomolog
@@ -21,6 +21,22 @@ spec:
       labels:
         io.kompose.service: webhomolog
     spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              io.kompose.service: webhomolog
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    io.kompose.service: webhomolog
       initContainers:
         - name: sync-public-assets
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-25
