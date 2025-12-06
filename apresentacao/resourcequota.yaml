@@ -5,8 +5,8 @@ metadata:
   namespace: apresentacao
 spec:
   hard:
-    requests.cpu: "6"
-    requests.memory: "12Gi"
-    limits.cpu: "10"
-    limits.memory: "18Gi"
+    requests.cpu: "12"
+    requests.memory: "24Gi"
+    limits.cpu: "20"
+    limits.memory: "36Gi"
     pods: "30"
