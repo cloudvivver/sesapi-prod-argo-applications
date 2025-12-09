@@ -88,6 +88,20 @@ spec:
               bundle exec puma -C config/puma/production.rb
           ports:
             - containerPort: 3000
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 230
+            timeoutSeconds: 10
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 230
+            timeoutSeconds: 10
+            periodSeconds: 20
+            failureThreshold: 5
           volumeMounts:
             - name: azurefile
               mountPath: /mnt/compartilhado
