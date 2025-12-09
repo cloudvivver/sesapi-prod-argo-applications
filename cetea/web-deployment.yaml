@@ -93,6 +93,12 @@ spec:
           image: nginx:1.25
           ports:
             - containerPort: 80
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
           volumeMounts:
             - name: nginx-config
               mountPath: /etc/nginx/nginx.conf
