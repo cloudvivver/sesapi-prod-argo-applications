@@ -64,7 +64,7 @@ spec:
           ports:
             - containerPort: 3000
           volumeMounts:
-            - name: azurefile
+            - name: shared-storage
               mountPath: /mnt/compartilhado
             - name: public-assets
               mountPath: /app/public
@@ -91,9 +91,9 @@ spec:
             - name: public-assets
               mountPath: /app/public
       volumes:
-        - name: azurefile
+        - name: shared-storage
           persistentVolumeClaim:
-            claimName: azurefile-pvc
+            claimName: shared-storage-pvc
         - name: nginx-config
           configMap:
             name: nginx-sidecar-config
