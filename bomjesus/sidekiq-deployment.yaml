@@ -17,13 +17,16 @@ spec:
     spec:
       containers:
         - name: sidekiq
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-29
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-32
           command: ["/bin/bash", "-c"]
           args:
             - |
               # Configurar PATH para rbenv
               export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec sidekiq -C config/sidekiq.yml
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /mnt/compartilhado
           envFrom:
             - configMapRef:
                 name: env
@@ -36,5 +39,10 @@ spec:
             limits:
               cpu: "500m"
               memory: "1024Mi"
+
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: azurefile-pvc
 
       restartPolicy: Always

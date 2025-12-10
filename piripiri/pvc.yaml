@@ -7,8 +7,8 @@ metadata:
     app: piripiri
 spec:
   accessModes:
-    - ReadWriteOnce  # EBS RWO + podAffinity para escalar no mesmo node
-  storageClassName: gp3  # AWS EBS gp3
+    - ReadWriteMany  # EFS suporta RWX para múltiplos pods
+  storageClassName: efs-prod-viver  # EFS compartilhado
   resources:
     requests:
       storage: 100Gi

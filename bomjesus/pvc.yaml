@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: azurefile-pvc
+  namespace: bomjesus
+  labels:
+    app: bomjesus
+spec:
+  accessModes:
+    - ReadWriteMany  # EFS suporta RWX para múltiplos pods
+  storageClassName: efs-prod-viver  # EFS compartilhado
+  resources:
+    requests:
+      storage: 100Gi

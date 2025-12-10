@@ -24,7 +24,7 @@ spec:
     spec:
       initContainers:
         - name: sync-public-assets
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-29
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-32
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -36,7 +36,7 @@ spec:
               mountPath: /shared-public
       containers:
         - name: picos
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-29
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-32
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
@@ -77,6 +77,8 @@ spec:
           volumeMounts:
             - name: public-assets
               mountPath: /app/public
+            - name: shared-storage
+              mountPath: /mnt/compartilhado
           envFrom:
             - configMapRef:
                 name: env
@@ -99,6 +101,8 @@ spec:
               subPath: nginx.conf
             - name: public-assets
               mountPath: /app/public
+            - name: shared-storage
+              mountPath: /mnt/compartilhado
           resources:
             requests:
               cpu: "100m"
@@ -113,6 +117,9 @@ spec:
             name: nginx-sidecar-config
         - name: public-assets
           emptyDir: {}
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: azurefile-pvc
 
       affinity:
         podAntiAffinity:
