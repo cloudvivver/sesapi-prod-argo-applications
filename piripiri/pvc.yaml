@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: azurefile-pvc
+  name: shared-storage-pvc
   namespace: piripiri
   labels:
     app: piripiri

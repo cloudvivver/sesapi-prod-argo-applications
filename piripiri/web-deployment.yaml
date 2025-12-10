@@ -155,6 +155,6 @@ spec:
           emptyDir: {}
         - name: shared-storage
           persistentVolumeClaim:
-            claimName: azurefile-pvc
+            claimName: shared-storage-pvc
 
       restartPolicy: Always
