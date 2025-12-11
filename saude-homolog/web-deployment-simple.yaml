@@ -114,7 +114,7 @@ spec:
                 name: app-secrets
           resources:
             requests:
-              cpu: "500m"
+              cpu: "1000m"
               memory: "2Gi"
             limits:
               cpu: "2000m"
@@ -145,7 +145,7 @@ spec:
       volumes:
         - name: azurefile
           persistentVolumeClaim:
-            claimName: azurefile-pvc
+            claimName: shared-storage-pvc
         - name: nginx-config
           configMap:
             name: nginx-sidecar-config
