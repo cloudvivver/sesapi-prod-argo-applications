@@ -1,16 +1,4 @@
-# ArgoCD Ignore File
-# Ignora arquivos que não são manifestos Kubernetes
-
-# Documentação e scripts
-docs/
-*.md
-*.sh
-*.txt
-
-# Políticas IAM (JSON puro, não são manifestos K8s)
-*.json
-
-# Arquivos temporários
-*.tmp
-*.swp
-*~
+# Ignore non-Kubernetes helper files
+iam-policy-polly.json
+docs/iam-policy-s3-cache.json
+.claude/
