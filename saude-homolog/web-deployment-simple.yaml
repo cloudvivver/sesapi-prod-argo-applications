@@ -6,7 +6,7 @@ metadata:
   name: webhomolog
   namespace: saude-homolog
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       io.kompose.service: webhomolog
@@ -114,10 +114,10 @@ spec:
                 name: app-secrets
           resources:
             requests:
-              cpu: "1000m"
+              cpu: "100m"
               memory: "2Gi"
             limits:
-              cpu: "2000m"
+              cpu: "200m"
               memory: "4Gi"
         - name: nginx-sidecar
           image: nginx:1.25
