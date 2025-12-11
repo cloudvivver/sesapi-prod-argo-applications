@@ -1,4 +1,0 @@
-# Ignore non-Kubernetes helper files
-iam-policy-polly.json
-docs/iam-policy-s3-cache.json
-.claude/

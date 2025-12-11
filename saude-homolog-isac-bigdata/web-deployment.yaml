@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: isachomolog
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-32
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-34
           command: ["/bin/bash", "-c"]
           args:
             - |
@@ -43,14 +43,14 @@ spec:
                 name: env
           resources:
             requests:
-              cpu: "400m"
+              cpu: "500m"
               memory: "4Gi"
             limits:
-              cpu: "900m"
+              cpu: "1000m"
               memory: "5Gi"
       volumes:
         - name: azurefile
           persistentVolumeClaim:
-            claimName: azurefile-pvc
+            claimName: shared-storage-pvc
       restartPolicy: Always
 
