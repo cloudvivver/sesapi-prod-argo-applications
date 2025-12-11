@@ -5,8 +5,8 @@ metadata:
   namespace: cetea
 spec:
   hard:
-    requests.cpu: "5"
-    requests.memory: "8Gi"
-    limits.cpu: "15"
-    limits.memory: "28Gi"
+    requests.cpu: "6"
+    requests.memory: "10Gi"
+    limits.cpu: "18"
+    limits.memory: "32Gi"
     pods: "10"
