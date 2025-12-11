@@ -5,8 +5,8 @@ metadata:
   namespace: picos
 spec:
   hard:
-    requests.cpu: "5"
-    requests.memory: "12Gi"
-    limits.cpu: "22"
-    limits.memory: "40Gi"
-    pods: "10"
+    requests.cpu: "10"
+    requests.memory: "16Gi"
+    limits.cpu: "28"
+    limits.memory: "48Gi"
+    pods: "12"
