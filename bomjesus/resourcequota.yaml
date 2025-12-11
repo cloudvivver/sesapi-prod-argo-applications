@@ -5,8 +5,8 @@ metadata:
   namespace: bomjesus
 spec:
   hard:
-    requests.cpu: "8"
-    requests.memory: "12Gi"
-    limits.cpu: "22"
-    limits.memory: "40Gi"
+    requests.cpu: "10"
+    requests.memory: "16Gi"
+    limits.cpu: "28"
+    limits.memory: "48Gi"
     pods: "15"
