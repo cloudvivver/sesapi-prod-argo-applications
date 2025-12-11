@@ -7,7 +7,7 @@ spec:
   scaleTargetRef:
     name: piripiri
   minReplicaCount: 2
-  maxReplicaCount: 8
+  maxReplicaCount: 7
   triggers:
     - type: cpu
       metricType: Utilization
