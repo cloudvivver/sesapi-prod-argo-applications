@@ -36,7 +36,7 @@ data:
   DATABASE_BI_SESAPI: ""
 
   # Database Connection Pool (optimized for RDS Proxy)
-  DATABASE_POOL: "20"
+  DATABASE_POOL: "35"
   DATABASE_TIMEOUT: "5000"
   DATABASE_CHECKOUT_TIMEOUT: "120000"
   DATABASE_REAPING_FREQUENCY: "60"
@@ -46,10 +46,10 @@ data:
   # Database SSL/TLS (required by RDS Proxy)
   DATABASE_SSLMODE: "require"
 
-  # Rails Application Settings (PIRIPIRI - Ambiente Principal - Configuração Conservadora)
-  RAILS_MAX_THREADS: "6"
-  WEB_CONCURRENCY: "2"
-  SIDEKIQ_CONCURRENCY: "10"
+  # Rails Application Settings (PIRIPIRI - Ambiente Principal - Otimizado)
+  RAILS_MAX_THREADS: "8"
+  WEB_CONCURRENCY: "3"
+  SIDEKIQ_CONCURRENCY: "15"
   RAILS_SERVE_STATIC_FILES: "true"
   RAILS_STATIC_CACHE_CONTROL: "public, max-age=31536000, immutable"
 
