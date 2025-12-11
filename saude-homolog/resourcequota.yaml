@@ -5,8 +5,8 @@ metadata:
   namespace: saude-homolog
 spec:
   hard:
-    requests.cpu: "6"
+    requests.cpu: "6.5"
     requests.memory: "12Gi"
-    limits.cpu: "10"
-    limits.memory: "18Gi"
+    limits.cpu: "12"
+    limits.memory: "20Gi"
     pods: "30"
