@@ -7,7 +7,7 @@ spec:
   scaleTargetRef:
     name: corrente
   minReplicaCount: 2
-  maxReplicaCount: 6
+  maxReplicaCount: 3
   triggers:
     - type: cpu
       metricType: Utilization
