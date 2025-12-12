@@ -13,9 +13,14 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
 
-    # WebSocket Support
+    # WebSocket Support + Sticky Sessions
     nginx.ingress.kubernetes.io/websocket-services: "web-service"
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "c-tv-route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
 
     # CORS Configuration
     nginx.ingress.kubernetes.io/enable-cors: "true"

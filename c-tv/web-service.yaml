@@ -20,3 +20,8 @@ spec:
     targetPort: 8080
     protocol: TCP
   type: ClusterIP
+  # Session affinity para manter WebSocket no mesmo pod
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800  # 3 horas
