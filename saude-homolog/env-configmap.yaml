@@ -55,6 +55,9 @@ data:
   # External Services
   HYDRA_HOST: "https://regulahm.saude.pi.gov.br"
 
+  # Report Processing (based on sidekiq CPU limit: 800m = 0.8 cores)
+  REPORT_PARALLEL_WORKERS: "2"
+
 kind: ConfigMap
 metadata:
   labels:
