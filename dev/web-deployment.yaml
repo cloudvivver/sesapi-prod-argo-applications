@@ -22,7 +22,7 @@ spec:
       labels:
         app: dev
       annotations:
-        kubectl.kubernetes.io/restartedAt: "2025-12-17T11:54:51Z"
+        kubectl.kubernetes.io/restartedAt: "2025-12-17T14:54:51Z"
     spec:
       initContainers:
         - name: sync-public-assets
@@ -31,8 +31,28 @@ spec:
           args:
             - |
               set -e
+              echo "=========================================="
               echo "Sincronizando /app/public para volume compartilhado..."
-              cp -R /app/public/. /shared-public
+              echo "=========================================="
+
+              # Copiar TUDO de /app/public para o volume compartilhado
+              cp -Rv /app/public/. /shared-public
+
+              echo ""
+              echo "Estrutura copiada (primeiros 30 itens):"
+              ls -lah /shared-public/ | head -30
+
+              echo ""
+              echo "Verificando assets compilados:"
+              ls -lah /shared-public/assets/ 2>/dev/null | head -20 || echo "⚠ Diretório assets/ não encontrado!"
+
+              echo ""
+              echo "Verificando assets FWK:"
+              ls -lah /shared-public/fwk/ 2>/dev/null | head -10 || echo "⚠ Diretório fwk/ não encontrado!"
+
+              echo ""
+              echo "✓ Sincronização completa!"
+              echo "=========================================="
           volumeMounts:
             - name: public-assets
               mountPath: /shared-public
