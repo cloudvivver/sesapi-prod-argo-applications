@@ -16,11 +16,11 @@ spec:
       labels:
         app: sidekiq
       annotations:
-        kubectl.kubernetes.io/restartedAt: "2025-12-17T17:15:43Z"
+        kubectl.kubernetes.io/restartedAt: "2025-12-17T18:08:43Z"
     spec:
       containers:
         - name: sidekiq
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-dev:base
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-dev:latest
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
