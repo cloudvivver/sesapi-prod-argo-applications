@@ -6,7 +6,7 @@ metadata:
 spec:
   hard:
     requests.cpu: "6"
-    requests.memory: "15Gi"  # Temporário para rollout jemalloc (era 10Gi)
+    requests.memory: "10Gi"
     limits.cpu: "18"
-    limits.memory: "48Gi"  # Temporário para rollout jemalloc (era 32Gi)
+    limits.memory: "32Gi"
     pods: "10"
