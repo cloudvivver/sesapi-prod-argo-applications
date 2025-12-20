@@ -22,7 +22,7 @@ spec:
       labels:
         app: dev
       annotations:
-        kubectl.kubernetes.io/restartedAt: "2025-12-20T23:15:51Z"
+        kubectl.kubernetes.io/restartedAt: "2025-12-20T23:20:51Z"
     spec:
       initContainers:
         - name: sync-public-assets
