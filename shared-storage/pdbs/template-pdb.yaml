@@ -1,0 +1,148 @@
+# Template de PodDisruptionBudget para aplicações de produção
+# Garante que pelo menos 70% dos pods estejam disponíveis durante:
+# - Drenagem de nodes
+# - Atualizações
+# - Falhas de infraestrutura
+
+---
+# bomjesus
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: bomjesus-pdb
+  namespace: bomjesus
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: bomjesus
+
+---
+# campomaior
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: campomaior-pdb
+  namespace: campomaior
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: campomaior
+
+---
+# cetea
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cetea-pdb
+  namespace: cetea
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: cetea
+
+---
+# corrente
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: corrente-pdb
+  namespace: corrente
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: corrente
+
+---
+# floriano
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: floriano-pdb
+  namespace: floriano
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: floriano
+
+---
+# parnaiba
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: parnaiba-pdb
+  namespace: parnaiba
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: parnaiba
+
+---
+# picos
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: picos-pdb
+  namespace: picos
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: picos
+
+---
+# saojoao
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: saojoao-pdb
+  namespace: saojoao
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: saojoao
+
+---
+# saoraimundononato
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: raimundononato-pdb
+  namespace: saoraimundononato
+spec:
+  minAvailable: 70%
+  selector:
+    matchLabels:
+      app: raimundononato
+
+---
+# apresentacao
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: apresentacao-pdb
+  namespace: apresentacao
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: apresentacao
+
+---
+# treinamento
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: treinamento-pdb
+  namespace: treinamento
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      io.kompose.service: treinamento

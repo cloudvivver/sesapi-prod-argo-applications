@@ -1,0 +1,45 @@
+# Configuração de Prevenção de Overcommit e Auto-scaling
+# Aplica-se a todos os namespaces de produção
+
+---
+# 1. CONFIGURAÇÃO DE CLUSTER AUTOSCALER (se não existir)
+# Isso garante que novos nodes sejam adicionados quando necessário
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-autoscaler-priority-expander
+  namespace: kube-system
+data:
+  priorities: |-
+    10:
+      - .*-spot-.*
+    50:
+      - .*-on-demand-.*
+
+---
+# 2. PRIORITY CLASSES - Define prioridade de pods
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-high-priority
+value: 1000000
+globalDefault: false
+description: "Alta prioridade para aplicações de produção críticas"
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: production-normal-priority
+value: 500000
+globalDefault: true
+description: "Prioridade normal para aplicações de produção"
+
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: monitoring-priority
+value: 100000
+globalDefault: false
+description: "Prioridade para sistemas de monitoramento"

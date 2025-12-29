@@ -1,0 +1,122 @@
+---
+# Namespace dedicado para infraestrutura compartilhada
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: shared-storage
+  labels:
+    name: shared-storage
+    purpose: nfs-server
+
+---
+# PVC usando Longhorn (ReadWriteOnce)
+# Este volume será montado pelo NFS server
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-server-pvc
+  namespace: shared-storage
+  labels:
+    app: nfs-server
+spec:
+  accessModes:
+    - ReadWriteOnce  # Longhorn suporta apenas RWO
+  storageClassName: longhorn  # IMPORTANTE: Ajustar se o nome for diferente
+  resources:
+    requests:
+      storage: 200Gi  # Ajustar conforme necessidade
+
+---
+# Deployment do NFS Server
+# Exporta o volume Longhorn via NFS para fornecer RWX
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+  namespace: shared-storage
+  labels:
+    app: nfs-server
+    role: storage
+spec:
+  replicas: 1  # IMPORTANTE: Sempre 1 para NFS server
+  selector:
+    matchLabels:
+      app: nfs-server
+  strategy:
+    type: Recreate  # Garante que o volume seja desmontado antes de recriar
+  template:
+    metadata:
+      labels:
+        app: nfs-server
+    spec:
+      # Garante que o NFS server rode em nodes específicos se necessário
+      # Remova ou ajuste conforme necessidade
+      # nodeSelector:
+      #   node-role.kubernetes.io/worker: "true"
+
+      containers:
+        - name: nfs-server
+          image: gcr.io/google_containers/volume-nfs:0.8
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - name: nfs
+              containerPort: 2049
+              protocol: TCP
+            - name: mountd
+              containerPort: 20048
+              protocol: TCP
+            - name: rpcbind
+              containerPort: 111
+              protocol: TCP
+
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - SYS_ADMIN
+                - SETPCAP
+
+          volumeMounts:
+            - name: nfs-storage
+              mountPath: /exports
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+      volumes:
+        - name: nfs-storage
+          persistentVolumeClaim:
+            claimName: nfs-server-pvc
+
+      # Anti-affinity para evitar que recrie no mesmo node com problema
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - nfs-server
+                topologyKey: kubernetes.io/hostname
+
+---
+# PodDisruptionBudget para garantir disponibilidade
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: nfs-server-pdb
+  namespace: shared-storage
+spec:
+  maxUnavailable: 0  # Evita disrupção durante drains/updates
+  selector:
+    matchLabels:
+      app: nfs-server

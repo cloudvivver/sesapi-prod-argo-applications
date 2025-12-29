@@ -34,7 +34,7 @@ spec:
                       - sa-east-1c
       initContainers:
         - name: migrate
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-47
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-48
           command: ["/bin/bash", "-c"]
           args:
             - |
@@ -49,7 +49,7 @@ spec:
             - secretRef:
                 name: app-secrets
         - name: sync-public-assets
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-47
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-48
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -61,7 +61,7 @@ spec:
               mountPath: /shared-public
       containers:
         - name: floriano
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-47
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-48
           command: ["/bin/bash", "-c"]
           args:
             - |

@@ -1,0 +1,88 @@
+---
+# PVC de teste para validar o NFS client provisioner
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-nfs-pvc
+  namespace: default
+  labels:
+    app: test-nfs
+spec:
+  accessModes:
+    - ReadWriteMany  # RWX - múltiplos pods podem ler/escrever
+  storageClassName: nfs-client  # Nome da StorageClass criada pelo provisioner
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+# Pod de teste para validar montagem
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-nfs-pod
+  namespace: default
+  labels:
+    app: test-nfs
+spec:
+  containers:
+    - name: test
+      image: busybox
+      command:
+        - sh
+        - -c
+        - |
+          echo "Testando escrita no NFS..."
+          echo "Hello from pod $(hostname) at $(date)" > /mnt/compartilhado/test-$(hostname).txt
+          cat /mnt/compartilhado/test-$(hostname).txt
+          echo "Teste concluído! Verificando conteúdo..."
+          ls -la /mnt/compartilhado/
+          echo "Dormindo por 3600s para você inspecionar..."
+          sleep 3600
+      volumeMounts:
+        - name: nfs-storage
+          mountPath: /mnt/compartilhado
+  volumes:
+    - name: nfs-storage
+      persistentVolumeClaim:
+        claimName: test-nfs-pvc
+
+---
+# Deployment de teste com 3 réplicas para validar RWX
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-nfs-deployment
+  namespace: default
+  labels:
+    app: test-nfs-multi
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: test-nfs-multi
+  template:
+    metadata:
+      labels:
+        app: test-nfs-multi
+    spec:
+      containers:
+        - name: test
+          image: nginx:alpine
+          volumeMounts:
+            - name: nfs-storage
+              mountPath: /usr/share/nginx/html
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    echo "<h1>Pod: $(hostname)</h1>" > /usr/share/nginx/html/$(hostname).html
+                    echo "<p>Timestamp: $(date)</p>" >> /usr/share/nginx/html/$(hostname).html
+                    ls -la /usr/share/nginx/html/ > /usr/share/nginx/html/files.txt
+      volumes:
+        - name: nfs-storage
+          persistentVolumeClaim:
+            claimName: test-nfs-pvc
