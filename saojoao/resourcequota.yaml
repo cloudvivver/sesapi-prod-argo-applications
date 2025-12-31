@@ -6,7 +6,7 @@ metadata:
 spec:
   hard:
     requests.cpu: "8"
-    requests.memory: "18Gi"  # Temporário para rollout master-52
+    requests.memory: "18Gi"  # Temporário para rollout master-53
     limits.cpu: "20"
-    limits.memory: "60Gi"  # Temporário para rollout master-52
+    limits.memory: "60Gi"  # Temporário para rollout master-53
     pods: "12"
