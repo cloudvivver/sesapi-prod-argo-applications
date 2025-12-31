@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: sidekiq        
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-53
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-54
           command: ["/bin/bash", "-c"]
           args:
             - |
