@@ -6,6 +6,8 @@ saude-homolog/*.md
 */.claude
 */*.md
 */*.sh
+# Exceções para scripts importantes
+!saude-auditoria/create-secrets.sh
 
 # Secrets não criptografados (usar sealed-secrets.yaml)
 **/secrets.yaml
@@ -15,3 +17,5 @@ PLANO_ROLLOUT_JEMALLOC.md
 SOLUCAO_LENTIDAO_19DEC2025.md
 saude-publica-airflow/secrets.yaml.template
 saude-auditoria-gateway/secret.yaml
+saude-auditoria/secret.yaml
+saude-auditoria/s3-credentials.yaml

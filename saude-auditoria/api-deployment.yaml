@@ -24,7 +24,7 @@ spec:
               containerPort: 8000
           env:
             - name: CLICKHOUSE_HOST
-              value: "clickhouse.saude-homolog.svc.cluster.local"
+              value: "clickhouse.saude-auditoria-gateway.svc.cluster.local"
             - name: CLICKHOUSE_PORT
               value: "9000"
             - name: CLICKHOUSE_DATABASE

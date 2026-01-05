@@ -24,7 +24,7 @@ spec:
               containerPort: 8080
           env:
             - name: KAFKA_BROKERS
-              value: "kafka-0.kafka.saude-homolog.svc.cluster.local:9092"
+              value: "kafka.saude-auditoria-gateway.svc.cluster.local:9092"
             - name: KAFKA_TOPIC
               value: "saude.auditoria.login"
             - name: HTTP_ADDR
