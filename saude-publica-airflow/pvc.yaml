@@ -10,10 +10,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: gp3  # AWS EBS para ReadWriteOnce
   resources:
     requests:
       storage: 50Gi
-  # storageClassName: default  # Ajuste conforme seu storage class
 ---
 # PVC para logs do Airflow (compartilhado entre pods)
 apiVersion: v1
@@ -26,10 +26,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany  # Precisa ser ReadWriteMany para ser compartilhado
+  storageClassName: efs-prod-viver  # AWS EFS para ReadWriteMany
   resources:
     requests:
       storage: 20Gi
-  # storageClassName: nfs  # Use um storage class que suporte ReadWriteMany
 ---
 # PVC para DAGs (compartilhado entre pods)
 apiVersion: v1
@@ -42,10 +42,10 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany  # Precisa ser ReadWriteMany para ser compartilhado
+  storageClassName: efs-prod-viver  # AWS EFS para ReadWriteMany
   resources:
     requests:
       storage: 5Gi
-  # storageClassName: nfs  # Use um storage class que suporte ReadWriteMany
 ---
 # PVC para dados do SIGTAP
 apiVersion: v1
@@ -58,7 +58,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: gp3  # AWS EBS para ReadWriteOnce
   resources:
     requests:
       storage: 100Gi
-  # storageClassName: default
