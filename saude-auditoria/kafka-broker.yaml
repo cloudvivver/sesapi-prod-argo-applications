@@ -168,6 +168,7 @@ spec:
             - bash
             - -c
             - |
+              set -x  # Verbose mode
               # Extrai o broker ID do hostname (kafka-0, kafka-1, kafka-2)
               export KAFKA_BROKER_ID=${HOSTNAME##*-}
               echo "Starting Kafka Broker ID: $KAFKA_BROKER_ID"
@@ -182,8 +183,14 @@ spec:
               # Configura ADVERTISED_LISTENERS com o nome do pod
               export KAFKA_ADVERTISED_LISTENERS="INTERNAL://${POD_NAME}.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
 
-              # Inicia Kafka
-              exec /etc/confluent/docker/run
+              # Debug: mostra variáveis importantes
+              echo "KAFKA_BROKER_ID=$KAFKA_BROKER_ID"
+              echo "KAFKA_ADVERTISED_LISTENERS=$KAFKA_ADVERTISED_LISTENERS"
+              echo "POD_NAME=$POD_NAME"
+
+              # Inicia Kafka com output redirecionado
+              echo "Starting Kafka process..."
+              exec /etc/confluent/docker/run 2>&1
 
           volumeMounts:
             - name: data
