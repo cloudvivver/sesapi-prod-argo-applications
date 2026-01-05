@@ -177,7 +177,7 @@ spec:
 
               # Aguarda Zookeeper estar pronto
               echo "Waiting for Zookeeper..."
-              until echo ruok | nc zookeeper-0.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local 2181 | grep imok; do
+              until echo srvr | nc zookeeper-0.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local 2181 | grep -q Mode; do
                 sleep 2
               done
               echo "Zookeeper is ready!"
