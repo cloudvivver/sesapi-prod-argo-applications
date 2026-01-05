@@ -69,6 +69,9 @@ spec:
                       - kafka
               topologyKey: kubernetes.io/hostname
 
+      securityContext:
+        fsGroup: 1000
+
       containers:
         - name: kafka
           image: confluentinc/cp-kafka:7.6.0
@@ -81,12 +84,6 @@ spec:
               containerPort: 9093
 
           env:
-            # Broker ID
-            - name: KAFKA_BROKER_ID
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-
             # Zookeeper
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: "zookeeper-0.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181,zookeeper-1.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181,zookeeper-2.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181"
