@@ -89,10 +89,10 @@ spec:
               value: "zookeeper-0.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181,zookeeper-1.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181,zookeeper-2.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181"
 
             # Listeners
+            - name: KAFKA_LISTENERS
+              value: "INTERNAL://0.0.0.0:9092"
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-              value: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT"
-            - name: KAFKA_ADVERTISED_LISTENERS
-              value: "INTERNAL://$(POD_NAME).kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
+              value: "INTERNAL:PLAINTEXT"
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: "INTERNAL"
 
