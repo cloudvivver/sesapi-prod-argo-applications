@@ -5,6 +5,13 @@ kind: ServiceAccount
 metadata:
   name: airflow
   namespace: saude-airflow
+  annotations:
+    # IRSA: IAM Role ARN para acesso ao S3
+    # Este ARN será preenchido automaticamente pelo script setup-airflow-irsa.sh
+    # Ou preencha manualmente após criar a role: arn:aws:iam::961341521437:role/AirflowS3AccessRole
+    eks.amazonaws.com/role-arn: ""  # Será preenchido após executar setup-airflow-irsa.sh
+    contact: "equipe-saude@gov.br"
+    description: "Apache Airflow para processamento de dados de saúde pública"
 ---
 # Role com permissões necessárias para o KubernetesExecutor
 apiVersion: rbac.authorization.k8s.io/v1
