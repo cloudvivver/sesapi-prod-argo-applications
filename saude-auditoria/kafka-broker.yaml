@@ -186,8 +186,14 @@ spec:
               export KAFKA_BROKER_ID=${HOSTNAME##*-}
               # Substitui POD_NAME no ADVERTISED_LISTENERS
               export KAFKA_ADVERTISED_LISTENERS="PLAINTEXT://${POD_NAME}.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
-              # Inicia Kafka
-              exec /etc/confluent/docker/run
+              # Debug: captura todo output
+              echo "KAFKA_BROKER_ID=$KAFKA_BROKER_ID"
+              echo "KAFKA_ADVERTISED_LISTENERS=$KAFKA_ADVERTISED_LISTENERS"
+              # Inicia Kafka e captura logs
+              /etc/confluent/docker/run 2>&1 | tee /var/lib/kafka/data/startup.log
+              EXIT_CODE=${PIPESTATUS[0]}
+              echo "Kafka exited with code: $EXIT_CODE" | tee -a /var/lib/kafka/data/startup.log
+              sleep 3600  # Keep container alive for debugging
 
           volumeMounts:
             - name: data
