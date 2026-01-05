@@ -78,7 +78,7 @@ spec:
 
       containers:
         - name: zookeeper
-          image: confluentinc/cp-zookeeper:7.6.0
+          image: confluentinc/cp-zookeeper:7.4.0
           imagePullPolicy: IfNotPresent
 
           ports:
