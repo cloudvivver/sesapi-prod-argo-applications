@@ -1,0 +1,116 @@
+---
+# Deployment do GitSync para sincronizar DAGs do Gitea
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-gitsync
+  namespace: saude-airflow
+  labels:
+    app: airflow
+    component: gitsync
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airflow
+      component: gitsync
+  template:
+    metadata:
+      labels:
+        app: airflow
+        component: gitsync
+    spec:
+      serviceAccountName: airflow
+
+      containers:
+        - name: git-sync
+          image: registry.k8s.io/git-sync/git-sync:v4.3.0
+          imagePullPolicy: IfNotPresent
+
+          env:
+            # Configuração do repositório Git
+            - name: GITSYNC_REPO
+              value: "https://gitea.saude.pi.gov.br/seu-usuario/airflow-dags.git"  # Alterar para seu repo
+
+            - name: GITSYNC_BRANCH
+              value: "main"
+
+            # Diretório de destino
+            - name: GITSYNC_ROOT
+              value: "/git"
+
+            - name: GITSYNC_DEST
+              value: "dags"
+
+            # Intervalo de sincronização (60 segundos)
+            - name: GITSYNC_PERIOD
+              value: "60s"
+
+            # Profundidade do clone (shallow clone)
+            - name: GITSYNC_DEPTH
+              value: "1"
+
+            # Timeout
+            - name: GITSYNC_TIMEOUT
+              value: "120"
+
+            # Autenticação (opcional, se o repo for privado)
+            # - name: GITSYNC_USERNAME
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: git-credentials
+            #       key: username
+            # - name: GITSYNC_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: git-credentials
+            #       key: password
+
+            # Logs
+            - name: GITSYNC_VERBOSE
+              value: "1"
+
+            # One-time sync (false para sync contínuo)
+            - name: GITSYNC_ONE_TIME
+              value: "false"
+
+          volumeMounts:
+            - name: dags
+              mountPath: /git
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  test -d /git/dags
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+      volumes:
+        - name: dags
+          persistentVolumeClaim:
+            claimName: airflow-dags-pvc
+---
+# Secret para credenciais do Git (se o repositório for privado)
+# Descomente e preencha se necessário
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: git-credentials
+#   namespace: saude-airflow
+# type: Opaque
+# stringData:
+#   username: "seu-usuario"
+#   password: "seu-token-ou-senha"

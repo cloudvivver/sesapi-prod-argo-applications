@@ -22,19 +22,19 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
 
-    # cert-manager para SSL (se configurado)
-    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # cert-manager para SSL
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  ingressClassName: nginx  # Ajuste conforme seu Ingress Controller
+  ingressClassName: nginx
 
-  # TLS Configuration (opcional)
-  # tls:
-  #   - hosts:
-  #       - airflow.saude.local
-  #     secretName: airflow-tls
+  # TLS Configuration
+  tls:
+    - hosts:
+        - airflow.saude.pi.gov.br
+      secretName: airflow-tls
 
   rules:
-    - host: airflow.saude.local  # Altere para seu domínio
+    - host: airflow.saude.pi.gov.br
       http:
         paths:
           - path: /

@@ -100,12 +100,12 @@ spec:
                 secretKeyRef:
                   name: airflow-secrets
                   key: fernet-key
-            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
               valueFrom:
                 secretKeyRef:
                   name: airflow-secrets
                   key: sql-alchemy-conn
-            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+            - name: AIRFLOW__API__SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: airflow-secrets
@@ -138,8 +138,8 @@ spec:
                 --role Admin \
                 --password ${ADMIN_PASSWORD:-admin} || true
 
-              # Iniciar webserver
-              exec airflow webserver
+              # Iniciar api-server (novo comando no Airflow 3.x)
+              exec airflow api-server
 
           ports:
             - containerPort: 8080
@@ -155,12 +155,12 @@ spec:
                 secretKeyRef:
                   name: airflow-secrets
                   key: fernet-key
-            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
               valueFrom:
                 secretKeyRef:
                   name: airflow-secrets
                   key: sql-alchemy-conn
-            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+            - name: AIRFLOW__API__SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: airflow-secrets
@@ -186,7 +186,7 @@ spec:
 
           livenessProbe:
             httpGet:
-              path: /health
+              path: /public/api/v1/health
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 30
@@ -195,7 +195,7 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /health
+              path: /public/api/v1/health
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10

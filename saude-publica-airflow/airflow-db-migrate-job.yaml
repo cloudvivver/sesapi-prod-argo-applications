@@ -1,0 +1,55 @@
+---
+# Job para migração do banco de dados do Airflow
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: airflow-db-migrate
+  namespace: saude-airflow
+spec:
+  template:
+    metadata:
+      name: airflow-db-migrate
+    spec:
+      serviceAccountName: airflow
+      restartPolicy: OnFailure
+      containers:
+        - name: db-migrate
+          image: apache/airflow:3.0.6
+          command:
+            - bash
+            - -c
+            - |
+              echo "Verificando conexão com banco de dados..."
+              echo "SQL_ALCHEMY_CONN: ${AIRFLOW__CORE__SQL_ALCHEMY_CONN:0:50}..."
+              echo "Executando migração do banco de dados..."
+              airflow db migrate
+              echo "Migração concluída com sucesso!"
+
+          envFrom:
+            - configMapRef:
+                name: airflow-config
+
+          env:
+            - name: AIRFLOW__CORE__FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: fernet-key
+            - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: sql-alchemy-conn
+            - name: AIRFLOW__API__SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: webserver-secret-key
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
