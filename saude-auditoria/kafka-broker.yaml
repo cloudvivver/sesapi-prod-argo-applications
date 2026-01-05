@@ -55,6 +55,8 @@ spec:
       labels:
         app: kafka
     spec:
+      enableServiceLinks: false  # Disable auto-injection of SERVICE_* env vars
+
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
