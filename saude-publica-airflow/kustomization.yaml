@@ -36,12 +36,6 @@ resources:
   # Autoscaling (opcional - requer KEDA ou use HPA padrão)
   # - keda-scaledobjects.yaml  # Descomentar após instalar KEDA (./setup-keda.sh install)
 
-# Labels comuns para todos os recursos
-commonLabels:
-  project: saude-publica
-  managed-by: kustomize
-  environment: production
-
 # Annotations comuns
 commonAnnotations:
   description: "Apache Airflow para processamento de dados de saúde pública"
