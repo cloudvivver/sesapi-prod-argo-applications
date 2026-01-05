@@ -98,10 +98,6 @@ spec:
               containerPort: 9093
 
           env:
-            # Broker ID (extraído do hostname)
-            - name: KAFKA_BROKER_ID
-              value: "-1"  # Auto-generate from zookeeper
-
             # Zookeeper
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: "zookeeper-0.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181,zookeeper-1.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181,zookeeper-2.zookeeper-headless.saude-auditoria-gateway.svc.cluster.local:2181"
@@ -186,6 +182,8 @@ spec:
             - bash
             - -c
             - |
+              # Extrai broker ID do hostname (kafka-0 -> 0, kafka-1 -> 1, etc)
+              export KAFKA_BROKER_ID=${HOSTNAME##*-}
               # Substitui POD_NAME no ADVERTISED_LISTENERS
               export KAFKA_ADVERTISED_LISTENERS="PLAINTEXT://${POD_NAME}.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
               # Inicia Kafka
