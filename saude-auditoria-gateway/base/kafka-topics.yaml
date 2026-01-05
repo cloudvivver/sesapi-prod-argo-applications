@@ -1,0 +1,166 @@
+---
+# Job para criar topics iniciais
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kafka-create-topics
+  namespace: kafka
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      labels:
+        app: kafka-create-topics
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: create-topics
+          image: confluentinc/cp-kafka:7.6.0
+          command:
+            - bash
+            - -c
+            - |
+              echo "==============================================="
+              echo "Criando topics do Kafka"
+              echo "==============================================="
+
+              # Aguarda Kafka estar pronto
+              echo "Aguardando Kafka estar pronto..."
+              until kafka-broker-api-versions --bootstrap-server kafka-0.kafka-headless.kafka.svc.cluster.local:9092 > /dev/null 2>&1; do
+                echo "Kafka não está pronto. Aguardando..."
+                sleep 5
+              done
+              echo "✅ Kafka está pronto!"
+
+              # Função para criar topic
+              create_topic() {
+                local TOPIC=$1
+                local PARTITIONS=$2
+                local REPLICATION=$3
+                local RETENTION_MS=$4
+                local CONFIG=$5
+
+                echo ""
+                echo "📝 Criando topic: $TOPIC"
+                echo "   Partitions: $PARTITIONS"
+                echo "   Replication: $REPLICATION"
+                echo "   Retention: $RETENTION_MS ms"
+
+                kafka-topics --create \
+                  --bootstrap-server kafka-0.kafka-headless.kafka.svc.cluster.local:9092 \
+                  --topic "$TOPIC" \
+                  --partitions "$PARTITIONS" \
+                  --replication-factor "$REPLICATION" \
+                  --config retention.ms="$RETENTION_MS" \
+                  --config compression.type=snappy \
+                  --config min.insync.replicas=1 \
+                  $CONFIG \
+                  --if-not-exists
+
+                if [ $? -eq 0 ]; then
+                  echo "✅ Topic $TOPIC criado com sucesso!"
+                else
+                  echo "⚠️  Erro ao criar topic $TOPIC (pode já existir)"
+                fi
+              }
+
+              # Topics principais de auditoria
+              echo ""
+              echo "=========================================="
+              echo "TOPICS DE AUDITORIA"
+              echo "=========================================="
+
+              # saude.auditoria.login
+              # - 3 partitions (paralelismo)
+              # - replication 2 (tolerância a falhas)
+              # - retention 7 dias (604800000 ms)
+              create_topic \
+                "saude.auditoria.login" \
+                3 \
+                2 \
+                604800000 \
+                ""
+
+              # saude.auditoria.acesso
+              create_topic \
+                "saude.auditoria.acesso" \
+                3 \
+                2 \
+                604800000 \
+                ""
+
+              # saude.auditoria.alteracao
+              create_topic \
+                "saude.auditoria.alteracao" \
+                3 \
+                2 \
+                604800000 \
+                ""
+
+              # saude.auditoria.operacao
+              create_topic \
+                "saude.auditoria.operacao" \
+                3 \
+                2 \
+                604800000 \
+                ""
+
+              # Topics de Dead Letter Queue (DLQ)
+              echo ""
+              echo "=========================================="
+              echo "DEAD LETTER QUEUE TOPICS"
+              echo "=========================================="
+
+              create_topic \
+                "saude.auditoria.login.dlq" \
+                3 \
+                2 \
+                2592000000 \
+                ""  # 30 dias
+
+              create_topic \
+                "saude.auditoria.acesso.dlq" \
+                3 \
+                2 \
+                2592000000 \
+                ""
+
+              # Topics de segurança/alertas
+              echo ""
+              echo "=========================================="
+              echo "SECURITY & ALERTS TOPICS"
+              echo "=========================================="
+
+              create_topic \
+                "saude.security.alerts" \
+                3 \
+                2 \
+                604800000 \
+                "--config cleanup.policy=delete"
+
+              create_topic \
+                "saude.security.anomalies" \
+                3 \
+                2 \
+                604800000 \
+                ""
+
+              # Listar todos os topics criados
+              echo ""
+              echo "=========================================="
+              echo "TOPICS CRIADOS"
+              echo "=========================================="
+              kafka-topics --list \
+                --bootstrap-server kafka-0.kafka-headless.kafka.svc.cluster.local:9092
+
+              # Detalhar configuração dos topics principais
+              echo ""
+              echo "=========================================="
+              echo "DETALHES DOS TOPICS"
+              echo "=========================================="
+              kafka-topics --describe \
+                --bootstrap-server kafka-0.kafka-headless.kafka.svc.cluster.local:9092 \
+                --topic "saude.auditoria.login"
+
+              echo ""
+              echo "✅ Topics criados com sucesso!"

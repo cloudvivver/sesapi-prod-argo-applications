@@ -30,7 +30,7 @@ spec:
           env:
             # Configuração do repositório Git
             - name: GITSYNC_REPO
-              value: "https://gitea.saude.pi.gov.br/seu-usuario/airflow-dags.git"  # Alterar para seu repo
+              value: "https://github.com/cloudvivver/saude-publica-airflow-dags.git"
 
             - name: GITSYNC_BRANCH
               value: "main"
@@ -39,8 +39,9 @@ spec:
             - name: GITSYNC_ROOT
               value: "/git"
 
-            - name: GITSYNC_DEST
-              value: "dags"
+            # Link para facilitar acesso (cria /git/current apontando para o worktree)
+            - name: GITSYNC_LINK
+              value: "current"
 
             # Intervalo de sincronização (60 segundos)
             - name: GITSYNC_PERIOD

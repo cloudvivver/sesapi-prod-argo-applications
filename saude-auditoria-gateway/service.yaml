@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: saude-auditoria-gateway
+  namespace: saude-auditoria-gateway
+  labels:
+    app: saude-auditoria-gateway
+spec:
+  type: ClusterIP
+  selector:
+    app: saude-auditoria-gateway
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080

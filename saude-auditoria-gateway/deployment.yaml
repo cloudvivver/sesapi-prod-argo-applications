@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saude-auditoria-gateway
+  namespace: saude-auditoria-gateway
+  labels:
+    app: saude-auditoria-gateway
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: saude-auditoria-gateway
+  template:
+    metadata:
+      labels:
+        app: saude-auditoria-gateway
+    spec:
+      containers:
+        - name: gateway
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-auditoria-gateway:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: KAFKA_BROKERS
+              value: "kafka-0.kafka.saude-homolog.svc.cluster.local:9092"
+            - name: KAFKA_TOPIC
+              value: "saude.auditoria.login"
+            - name: HTTP_ADDR
+              value: ":8080"
+            - name: RATE_LIMIT_RPS
+              value: "200"
+            - name: RATE_LIMIT_BURST
+              value: "50"
+            - name: REQUEST_MAX_BYTES
+              value: "1048576"
+            - name: AUDITORIA_GATEWAY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: saude-auditoria-gateway-secret
+                  key: shared-secret
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi

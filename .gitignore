@@ -14,3 +14,4 @@ saude-homolog/*.md
 PLANO_ROLLOUT_JEMALLOC.md
 SOLUCAO_LENTIDAO_19DEC2025.md
 saude-publica-airflow/secrets.yaml.template
+saude-auditoria-gateway/secret.yaml
