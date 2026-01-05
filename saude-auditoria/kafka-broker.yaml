@@ -181,6 +181,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/kafka/data
+              subPath: kafka-logs  # Usa subdirectory para evitar conflito com lost+found
 
           resources:
             requests:
