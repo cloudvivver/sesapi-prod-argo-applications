@@ -11,3 +11,6 @@ saude-homolog/*.md
 **/secrets.yaml
 **/secrets.yaml.backup
 **/app-secrets.yaml
+PLANO_ROLLOUT_JEMALLOC.md
+SOLUCAO_LENTIDAO_19DEC2025.md
+saude-publica-airflow/secrets.yaml.template
