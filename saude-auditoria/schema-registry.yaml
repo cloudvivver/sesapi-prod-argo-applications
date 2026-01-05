@@ -46,7 +46,7 @@ spec:
           env:
             # Kafka
             - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
-              value: "kafka-0.kafka-headless.kafka.svc.cluster.local:9092,kafka-1.kafka-headless.kafka.svc.cluster.local:9092,kafka-2.kafka-headless.kafka.svc.cluster.local:9092"
+              value: "kafka-0.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-1.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-2.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
 
             # Host
             - name: SCHEMA_REGISTRY_HOST_NAME
