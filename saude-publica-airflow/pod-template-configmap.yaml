@@ -1,0 +1,79 @@
+---
+# ConfigMap contendo o Pod Template para KubernetesExecutor
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: airflow-pod-template
+  namespace: saude-airflow
+data:
+  pod_template.yaml: |
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: airflow-worker
+      labels:
+        app: airflow
+        component: worker
+    spec:
+      serviceAccountName: airflow
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: acr-secret
+      containers:
+        - name: base
+          image: apache/airflow:3.0.6
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: airflow-config
+          env:
+            - name: AIRFLOW__CORE__FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: fernet-key
+            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: sql-alchemy-conn
+            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: webserver-secret-key
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgres-user
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgres-password
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgres-db
+          volumeMounts:
+            - name: dags
+              mountPath: /opt/airflow/dags
+              readOnly: true
+            - name: logs
+              mountPath: /opt/airflow/logs
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+      volumes:
+        - name: dags
+          persistentVolumeClaim:
+            claimName: airflow-dags-pvc
+        - name: logs
+          persistentVolumeClaim:
+            claimName: airflow-logs-pvc

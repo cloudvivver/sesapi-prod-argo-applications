@@ -1,0 +1,48 @@
+---
+# Kustomization para deploy do Airflow
+# Deploy com: kubectl apply -k .
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: saude-airflow
+
+resources:
+  # Namespace
+  - namespace.yaml
+
+  # RBAC
+  - rbac.yaml
+
+  # Storage
+  - pvc.yaml
+
+  # Configuration
+  - configmap.yaml
+  - pod-template-configmap.yaml
+  # - secrets.yaml  # Descomentar após criar secrets.yaml a partir do template
+
+  # Database
+  - postgres.yaml
+
+  # Airflow Components
+  - airflow-webserver.yaml
+  - airflow-scheduler.yaml
+  - airflow-triggerer.yaml
+
+  # Ingress (opcional)
+  # - ingress.yaml  # Descomentar se precisar expor externamente
+
+  # Autoscaling (opcional - requer KEDA ou use HPA padrão)
+  # - keda-scaledobjects.yaml  # Descomentar após instalar KEDA (./setup-keda.sh install)
+
+# Labels comuns para todos os recursos
+commonLabels:
+  project: saude-publica
+  managed-by: kustomize
+  environment: production
+
+# Annotations comuns
+commonAnnotations:
+  description: "Apache Airflow para processamento de dados de saúde pública"
+  contact: "equipe-saude@gov.br"

@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: saude-airflow
+  labels:
+    name: saude-airflow
+    environment: production
+    project: saude-publica

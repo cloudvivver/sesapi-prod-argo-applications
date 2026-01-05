@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: airflow-config
+  namespace: saude-airflow
+data:
+  # Airflow Core Configuration
+  AIRFLOW__CORE__EXECUTOR: "KubernetesExecutor"
+  AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+  AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+  AIRFLOW__CORE__LOAD_DEFAULT_CONNECTIONS: "false"
+  AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG: "3"
+  AIRFLOW__CORE__PARALLELISM: "32"
+  AIRFLOW__CORE__DAG_CONCURRENCY: "16"
+  AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "16"
+  AIRFLOW__CORE__AUTH_MANAGER: "airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager"
+
+  # Kubernetes Executor Configuration
+  AIRFLOW__KUBERNETES__NAMESPACE: "saude-airflow"
+  AIRFLOW__KUBERNETES__WORKER_CONTAINER_REPOSITORY: "apache/airflow"
+  AIRFLOW__KUBERNETES__WORKER_CONTAINER_TAG: "3.0.6"
+  AIRFLOW__KUBERNETES__DELETE_WORKER_PODS: "True"
+  AIRFLOW__KUBERNETES__DELETE_WORKER_PODS_ON_FAILURE: "False"
+  AIRFLOW__KUBERNETES__POD_TEMPLATE_FILE: "/opt/airflow/pod_templates/pod_template.yaml"
+
+  # Webserver Configuration
+  AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "false"
+  AIRFLOW__WEBSERVER__RBAC: "true"
+  AIRFLOW__WEBSERVER__AUTHENTICATE: "true"
+  AIRFLOW__WEBSERVER__SESSION_LIFETIME_MINUTES: "30"
+  AIRFLOW__WEBSERVER__WORKERS: "4"
+  AIRFLOW__WEBSERVER__WORKER_REFRESH_INTERVAL: "30"
+  AIRFLOW__WEBSERVER__BASE_URL: "http://airflow.saude.local"
+
+  # Scheduler Configuration
+  AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+  AIRFLOW__SCHEDULER__CATCHUP_BY_DEFAULT: "false"
+  AIRFLOW__SCHEDULER__MAX_DAGRUNS_TO_CREATE_PER_LOOP: "10"
+  AIRFLOW__SCHEDULER__MAX_DAGRUNS_PER_LOOP_TO_SCHEDULE: "20"
+
+  # API Configuration
+  AIRFLOW__API__AUTH_BACKENDS: "airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session"
+  AIRFLOW__API__ENABLE_EXPERIMENTAL_API: "false"
+
+  # Logging Configuration
+  AIRFLOW__LOGGING__LOGGING_LEVEL: "INFO"
+  AIRFLOW__LOGGING__FAB_LOGGING_LEVEL: "WARNING"
+  AIRFLOW__LOGGING__COLORED_CONSOLE_LOG: "false"
+
+  # Database Configuration (non-sensitive parts)
+  POSTGRES_HOST: "postgres-service"
+  POSTGRES_PORT: "5432"
+
+  # SIGTAP Configuration
+  SIGTAP_ENVIRONMENT: "production"
+  DATABASE_HOST: "postgres-service"
+  DATABASE_PORT: "5432"
+
+  # Python Path
+  PYTHONPATH: "/opt/airflow/dags:/opt/airflow/plugins"

@@ -1,0 +1,299 @@
+---
+# KEDA ScaledObjects para Airflow
+# Requisitos:
+# 1. KEDA instalado no cluster: https://keda.sh/docs/2.12/deploy/
+# 2. Metrics server instalado (para CPU/Memory scaling)
+
+# ==============================================================================
+# ScaledObject para Airflow Webserver
+# Escala baseado em CPU e requisições HTTP
+# ==============================================================================
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: airflow-webserver-scaledobject
+  namespace: saude-airflow
+spec:
+  scaleTargetRef:
+    name: airflow-webserver
+    kind: Deployment
+
+  # Configurações de escala
+  minReplicaCount: 2    # Mínimo para alta disponibilidade
+  maxReplicaCount: 6    # Máximo para evitar sobrecarga
+
+  pollingInterval: 30   # Verificar métricas a cada 30 segundos
+  cooldownPeriod: 300   # Aguardar 5 minutos antes de scale down
+
+  # Triggers - múltiplos triggers usam OR logic
+  triggers:
+    # Trigger 1: CPU
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        value: "70"  # Scale up quando CPU > 70%
+
+    # Trigger 2: Memory
+    - type: memory
+      metricType: Utilization
+      metadata:
+        value: "80"  # Scale up quando Memory > 80%
+
+---
+# ==============================================================================
+# ScaledObject para Tasks Pendentes (usando PostgreSQL)
+# Escala workers baseado em número de tasks na fila
+# ==============================================================================
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: airflow-tasks-scaledobject
+  namespace: saude-airflow
+spec:
+  scaleTargetRef:
+    # NOTA: Como usamos KubernetesExecutor, os workers são criados dinamicamente
+    # Este ScaledObject é mais útil se você usar CeleryExecutor
+    # Para KubernetesExecutor, considere escalar o Scheduler baseado em carga
+    name: airflow-scheduler  # ou airflow-worker se usar CeleryExecutor
+    kind: Deployment
+
+  minReplicaCount: 1
+  maxReplicaCount: 1  # Scheduler deve ter apenas 1 replica
+
+  pollingInterval: 60
+  cooldownPeriod: 300
+
+  triggers:
+    # Consulta PostgreSQL para contar tasks pendentes
+    - type: postgresql
+      metadata:
+        # Query que retorna número de tasks em estado 'queued' ou 'running'
+        query: >-
+          SELECT COUNT(*)
+          FROM task_instance
+          WHERE state IN ('queued', 'scheduled', 'running')
+        targetQueryValue: "10"  # Scale quando > 10 tasks pendentes
+
+        # Conexão com PostgreSQL
+        connectionFromEnv: POSTGRESQL_CONNECTION_STRING
+
+      authenticationRef:
+        name: keda-postgresql-secret
+
+---
+# ==============================================================================
+# TriggerAuthentication para PostgreSQL
+# Credenciais para KEDA acessar o banco
+# ==============================================================================
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: keda-postgresql-secret
+  namespace: saude-airflow
+spec:
+  secretTargetRef:
+    - parameter: connectionString
+      name: airflow-secrets
+      key: sql-alchemy-conn
+
+---
+# ==============================================================================
+# ScaledObject Alternativo: Baseado em Métricas Customizadas
+# Escala baseado em métricas do Prometheus (se disponível)
+# ==============================================================================
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: airflow-webserver-prometheus-scaledobject
+  namespace: saude-airflow
+  annotations:
+    description: "Scale webserver baseado em requisições HTTP (Prometheus)"
+spec:
+  scaleTargetRef:
+    name: airflow-webserver
+    kind: Deployment
+
+  minReplicaCount: 2
+  maxReplicaCount: 10
+
+  pollingInterval: 30
+  cooldownPeriod: 300
+
+  triggers:
+    # Requisições HTTP por segundo
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-server.monitoring.svc.cluster.local:9090
+        # Query: taxa de requisições por segundo
+        query: |
+          sum(rate(airflow_dagbag_size[1m]))
+        threshold: "100"  # Scale quando > 100 req/s
+
+      authenticationRef:
+        name: keda-prometheus-secret
+
+---
+# ==============================================================================
+# TriggerAuthentication para Prometheus (se necessário)
+# ==============================================================================
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: keda-prometheus-secret
+  namespace: saude-airflow
+spec:
+  # Se Prometheus não requer autenticação, este pode ser vazio
+  # Caso contrário, adicione bearer token ou basic auth
+  secretTargetRef:
+    - parameter: bearerToken
+      name: prometheus-token-secret
+      key: token
+
+---
+# ==============================================================================
+# ScaledObject para Celery Workers (se usar CeleryExecutor)
+# Escala workers baseado em tamanho da fila do Celery
+# ==============================================================================
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: airflow-celery-worker-scaledobject
+  namespace: saude-airflow
+  annotations:
+    description: "Apenas use se configurar CeleryExecutor ao invés de KubernetesExecutor"
+spec:
+  scaleTargetRef:
+    name: airflow-worker  # Este deployment precisa existir
+    kind: Deployment
+
+  minReplicaCount: 0    # Pode escalar para zero quando não há trabalho
+  maxReplicaCount: 20   # Máximo de workers simultâneos
+
+  pollingInterval: 15
+  cooldownPeriod: 300
+
+  triggers:
+    # Trigger baseado em Redis (fila do Celery)
+    - type: redis
+      metadata:
+        # Nome da lista do Redis onde o Celery põe as tasks
+        listName: "celery"
+        listLength: "5"  # Scale up quando > 5 tasks na fila
+
+        # Conexão com Redis
+        addressFromEnv: REDIS_HOST
+        passwordFromEnv: REDIS_PASSWORD
+        databaseIndex: "0"
+
+      authenticationRef:
+        name: keda-redis-secret
+
+---
+# ==============================================================================
+# TriggerAuthentication para Redis
+# ==============================================================================
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: keda-redis-secret
+  namespace: saude-airflow
+spec:
+  secretTargetRef:
+    - parameter: password
+      name: redis-secrets
+      key: redis-password
+
+---
+# ==============================================================================
+# ScaledObject para DAG Processing
+# Escala baseado em número de DAGs a processar
+# ==============================================================================
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: airflow-dag-processor-scaledobject
+  namespace: saude-airflow
+spec:
+  scaleTargetRef:
+    name: airflow-scheduler
+    kind: Deployment
+
+  minReplicaCount: 1
+  maxReplicaCount: 1  # Scheduler normalmente deve ser único
+
+  pollingInterval: 60
+  cooldownPeriod: 600
+
+  triggers:
+    # Baseado em número de arquivos DAG modificados
+    - type: postgresql
+      metadata:
+        query: >-
+          SELECT COUNT(*)
+          FROM dag
+          WHERE is_paused = false
+          AND is_active = true
+        targetQueryValue: "50"  # Threshold de DAGs ativas
+
+        connectionFromEnv: POSTGRESQL_CONNECTION_STRING
+
+      authenticationRef:
+        name: keda-postgresql-secret
+
+---
+# ==============================================================================
+# HorizontalPodAutoscaler Fallback
+# Se KEDA não estiver disponível, use HPA padrão do Kubernetes
+# ==============================================================================
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: airflow-webserver-hpa
+  namespace: saude-airflow
+  labels:
+    app: airflow
+    component: webserver
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: airflow-webserver
+
+  minReplicas: 2
+  maxReplicas: 6
+
+  metrics:
+    # CPU
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+
+    # Memory
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300  # 5 minutos antes de scale down
+      policies:
+        - type: Percent
+          value: 50  # Scale down no máximo 50% das replicas por vez
+          periodSeconds: 60
+
+    scaleUp:
+      stabilizationWindowSeconds: 0  # Scale up imediatamente
+      policies:
+        - type: Percent
+          value: 100  # Scale up até 100% (dobrar) por vez
+          periodSeconds: 60
+        - type: Pods
+          value: 2  # Ou adicionar 2 pods por vez
+          periodSeconds: 60
+      selectPolicy: Max  # Usar a política que escala mais

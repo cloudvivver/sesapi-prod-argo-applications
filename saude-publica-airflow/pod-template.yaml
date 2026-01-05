@@ -1,0 +1,84 @@
+---
+# Pod Template para Workers do KubernetesExecutor
+# Este template será usado pelo Airflow para criar pods workers dinamicamente
+apiVersion: v1
+kind: Pod
+metadata:
+  name: airflow-worker
+  namespace: saude-airflow
+  labels:
+    app: airflow
+    component: worker
+spec:
+  serviceAccountName: airflow
+  restartPolicy: Never
+  imagePullSecrets:
+    - name: acr-secret
+  containers:
+    - name: base
+      image: apache/airflow:3.0.6
+      imagePullPolicy: IfNotPresent
+
+      # Environment variables from ConfigMap
+      envFrom:
+        - configMapRef:
+            name: airflow-config
+
+      # Environment variables from Secrets
+      env:
+        - name: AIRFLOW__CORE__FERNET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: airflow-secrets
+              key: fernet-key
+        - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+          valueFrom:
+            secretKeyRef:
+              name: airflow-secrets
+              key: sql-alchemy-conn
+        - name: AIRFLOW__WEBSERVER__SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: airflow-secrets
+              key: webserver-secret-key
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secrets
+              key: postgres-user
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secrets
+              key: postgres-password
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secrets
+              key: postgres-db
+
+      # Volume mounts
+      volumeMounts:
+        - name: dags
+          mountPath: /opt/airflow/dags
+          readOnly: true
+        - name: logs
+          mountPath: /opt/airflow/logs
+
+      # Resources
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: "250m"
+        limits:
+          memory: "2Gi"
+          cpu: "1000m"
+
+  # Volumes
+  volumes:
+    - name: dags
+      persistentVolumeClaim:
+        claimName: airflow-dags-pvc
+    - name: logs
+      persistentVolumeClaim:
+        claimName: airflow-logs-pvc

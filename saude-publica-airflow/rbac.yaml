@@ -1,0 +1,69 @@
+---
+# ServiceAccount para o Airflow
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: airflow
+  namespace: saude-airflow
+---
+# Role com permissões necessárias para o KubernetesExecutor
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: airflow-role
+  namespace: saude-airflow
+rules:
+  # Permissões para pods (workers)
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+  # Permissões para logs dos pods
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get", "list"]
+
+  # Permissões para pods/exec (caso necessário debug)
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["get", "create"]
+
+  # Permissões para persistentvolumeclaims
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+  # Permissões para events
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["get", "list", "watch"]
+
+  # Permissões para configmaps
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch"]
+
+  # Permissões para secrets
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+
+  # Permissões para services
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "watch"]
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: airflow-rolebinding
+  namespace: saude-airflow
+subjects:
+  - kind: ServiceAccount
+    name: airflow
+    namespace: saude-airflow
+roleRef:
+  kind: Role
+  name: airflow-role
+  apiGroup: rbac.authorization.k8s.io

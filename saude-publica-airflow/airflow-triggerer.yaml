@@ -1,0 +1,123 @@
+---
+# Airflow Triggerer Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-triggerer
+  namespace: saude-airflow
+  labels:
+    app: airflow
+    component: triggerer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airflow
+      component: triggerer
+  template:
+    metadata:
+      labels:
+        app: airflow
+        component: triggerer
+    spec:
+      serviceAccountName: airflow
+      imagePullSecrets:
+        - name: acr-secret
+
+      initContainers:
+        # Init container para esperar o banco estar pronto
+        - name: wait-for-db
+          image: postgres:13
+          command:
+            - sh
+            - -c
+            - |
+              until pg_isready -h $DATABASE_HOST -p $DATABASE_PORT -U $DATABASE_USER; do
+                echo "Waiting for database..."
+                sleep 2
+              done
+          envFrom:
+            - configMapRef:
+                name: airflow-config
+          env:
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgres-user
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: airflow-config
+                  key: POSTGRES_HOST
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: airflow-config
+                  key: POSTGRES_PORT
+
+      containers:
+        - name: triggerer
+          image: apache/airflow:3.0.6
+          imagePullPolicy: IfNotPresent
+          command:
+            - bash
+            - -c
+            - |
+              exec airflow triggerer
+
+          envFrom:
+            - configMapRef:
+                name: airflow-config
+
+          env:
+            - name: AIRFLOW__CORE__FERNET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: fernet-key
+            - name: AIRFLOW__CORE__SQL_ALCHEMY_CONN
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: sql-alchemy-conn
+            - name: AIRFLOW__WEBSERVER__SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secrets
+                  key: webserver-secret-key
+
+          volumeMounts:
+            - name: dags
+              mountPath: /opt/airflow/dags
+              readOnly: true
+            - name: logs
+              mountPath: /opt/airflow/logs
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  airflow jobs check --job-type TriggererJob --hostname $(hostname)
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 5
+
+      volumes:
+        - name: dags
+          persistentVolumeClaim:
+            claimName: airflow-dags-pvc
+        - name: logs
+          persistentVolumeClaim:
+            claimName: airflow-logs-pvc

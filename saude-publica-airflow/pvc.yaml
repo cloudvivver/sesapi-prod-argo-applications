@@ -1,0 +1,64 @@
+---
+# PVC para dados do PostgreSQL
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: saude-airflow
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  # storageClassName: default  # Ajuste conforme seu storage class
+---
+# PVC para logs do Airflow (compartilhado entre pods)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: airflow-logs-pvc
+  namespace: saude-airflow
+  labels:
+    app: airflow
+spec:
+  accessModes:
+    - ReadWriteMany  # Precisa ser ReadWriteMany para ser compartilhado
+  resources:
+    requests:
+      storage: 20Gi
+  # storageClassName: nfs  # Use um storage class que suporte ReadWriteMany
+---
+# PVC para DAGs (compartilhado entre pods)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: airflow-dags-pvc
+  namespace: saude-airflow
+  labels:
+    app: airflow
+spec:
+  accessModes:
+    - ReadWriteMany  # Precisa ser ReadWriteMany para ser compartilhado
+  resources:
+    requests:
+      storage: 5Gi
+  # storageClassName: nfs  # Use um storage class que suporte ReadWriteMany
+---
+# PVC para dados do SIGTAP
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sigtap-data-pvc
+  namespace: saude-airflow
+  labels:
+    app: sigtap
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  # storageClassName: default

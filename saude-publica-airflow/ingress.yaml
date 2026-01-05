@@ -1,0 +1,58 @@
+---
+# Ingress para Airflow Webserver (Opcional)
+# Ajuste conforme seu Ingress Controller (nginx, traefik, etc)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: airflow-ingress
+  namespace: saude-airflow
+  annotations:
+    # Nginx Ingress Controller annotations
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/auth-type: basic
+    # nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    # nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+
+    # Tamanho máximo do body (para uploads grandes)
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+
+    # Timeouts
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+
+    # cert-manager para SSL (se configurado)
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx  # Ajuste conforme seu Ingress Controller
+
+  # TLS Configuration (opcional)
+  # tls:
+  #   - hosts:
+  #       - airflow.saude.local
+  #     secretName: airflow-tls
+
+  rules:
+    - host: airflow.saude.local  # Altere para seu domínio
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: airflow-webserver
+                port:
+                  number: 8080
+---
+# Exemplo de Secret para Basic Auth (opcional)
+# Criar com: htpasswd -c auth admin
+# kubectl create secret generic basic-auth --from-file=auth -n saude-airflow
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: basic-auth
+#   namespace: saude-airflow
+# type: Opaque
+# data:
+#   auth: <base64-encoded-htpasswd>
