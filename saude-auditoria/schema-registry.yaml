@@ -34,6 +34,8 @@ spec:
       labels:
         app: schema-registry
     spec:
+      enableServiceLinks: false  # Disable auto-injection of SERVICE_* env vars
+
       containers:
         - name: schema-registry
           image: confluentinc/cp-schema-registry:7.6.0
