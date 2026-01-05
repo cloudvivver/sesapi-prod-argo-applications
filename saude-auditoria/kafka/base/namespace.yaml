@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: kafka
+  name: saude-auditoria-gateway
   labels:
-    name: kafka
+    name: saude-auditoria-gateway
     app: kafka
     environment: production
