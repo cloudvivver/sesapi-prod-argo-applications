@@ -93,7 +93,7 @@ spec:
                 - sh
                 - -c
                 - |
-                  test -d /git/dags
+                  test -d /git/current/dags
             initialDelaySeconds: 30
             periodSeconds: 30
             timeoutSeconds: 5
