@@ -55,6 +55,10 @@ data:
   # External Services
   HYDRA_HOST: "https://regulahm.saude.pi.gov.br"
 
+  # Auditoria Gateway (Sistema Cloud-Native de Auditoria)
+  AUDITORIA_GATEWAY_URL: "http://saude-auditoria-gateway.saude-auditoria-gateway.svc.cluster.local:3001/api/v1/events"
+  AUDITORIA_GATEWAY_SECRET: "WmkeGRWoHQLxUm2iTsd0wkN43kqnmGGfeGGHbsEPYgg="
+
   # Report Processing (based on sidekiq CPU limit: 800m = 0.8 cores)
   REPORT_PARALLEL_WORKERS: "2"
 

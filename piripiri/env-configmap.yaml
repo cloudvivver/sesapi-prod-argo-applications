@@ -72,3 +72,6 @@ data:
 
   # External Services
   HYDRA_HOST: "https://regulapiaui.sesapi.pi.gov.br"
+  # Auditoria Gateway (Sistema Cloud-Native de Auditoria)
+  AUDITORIA_GATEWAY_URL: "http://saude-auditoria-gateway.saude-auditoria-gateway.svc.cluster.local:3001/api/v1/events"
+  AUDITORIA_GATEWAY_SECRET: "WmkeGRWoHQLxUm2iTsd0wkN43kqnmGGfeGGHbsEPYgg="

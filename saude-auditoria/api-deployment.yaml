@@ -30,7 +30,7 @@ spec:
             - name: CLICKHOUSE_DATABASE
               value: "auditoria"
             - name: LOGIN_EVENTS_TABLE
-              value: "auditoria.login_events_completo"
+              value: "auditoria.login_events"
             - name: MAX_DAYS_RANGE
               value: "30"
           livenessProbe:
