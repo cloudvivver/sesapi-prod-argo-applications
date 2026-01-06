@@ -19,3 +19,7 @@ saude-publica-airflow/secrets.yaml.template
 saude-auditoria-gateway/secret.yaml
 saude-auditoria/secret.yaml
 saude-auditoria/s3-credentials.yaml
+kafka/scripts/kafka-helper.sh
+saude-auditoria/kafka-broker.yaml.backup
+saude-publica-airflow/scripts/airflow-helper.sh
+saude-publica-airflow/templates/exemplo_dag_inicial.py
