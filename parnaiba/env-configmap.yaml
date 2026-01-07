@@ -65,3 +65,4 @@ data:
   # Auditoria Gateway (Sistema Cloud-Native de Auditoria)
   AUDITORIA_GATEWAY_URL: "http://saude-auditoria-gateway.saude-auditoria-gateway.svc.cluster.local/api/v1/events"
   AUDITORIA_GATEWAY_SECRET: "WmkeGRWoHQLxUm2iTsd0wkN43kqnmGGfeGGHbsEPYgg="
+  AUDITORIA_API_URL: "http://saude-auditoria-api.saude-auditoria-gateway.svc.cluster.local/api/v1"
