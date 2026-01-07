@@ -66,6 +66,10 @@ spec:
       labels:
         app: grafana
     spec:
+      securityContext:
+        fsGroup: 472  # grafana user
+        runAsNonRoot: true
+        runAsUser: 472
       containers:
         - name: grafana
           image: grafana/grafana:10.2.2
