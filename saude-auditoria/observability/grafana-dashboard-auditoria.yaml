@@ -1,0 +1,133 @@
+---
+# Dashboard Grafana - Visão Geral do Sistema de Auditoria
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-auditoria-overview
+  namespace: saude-auditoria-gateway
+  labels:
+    grafana_dashboard: "1"
+data:
+  auditoria-overview.json: |
+    {
+      "dashboard": {
+        "title": "Auditoria - Visão Geral",
+        "tags": ["auditoria", "overview"],
+        "timezone": "America/Sao_Paulo",
+        "refresh": "30s",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Eventos Recebidos (Gateway)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(auditoria_gateway_events_total[5m])",
+                "legendFormat": "{{event_type}}"
+              }
+            ],
+            "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8}
+          },
+          {
+            "id": 2,
+            "title": "Eventos Processados (Consumer)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(auditoria_eventos_processados_total[5m])",
+                "legendFormat": "{{event_type}}"
+              }
+            ],
+            "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8}
+          },
+          {
+            "id": 3,
+            "title": "Kafka Lag (Consumer Group)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "kafka_consumergroup_lag{group='auditoria-consumers'}",
+                "legendFormat": "Partition {{partition}}"
+              }
+            ],
+            "gridPos": {"x": 0, "y": 8, "w": 12, "h": 8}
+          },
+          {
+            "id": 4,
+            "title": "Latência de Processamento (Consumer)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, rate(auditoria_latencia_segundos_bucket[5m]))",
+                "legendFormat": "p95"
+              },
+              {
+                "expr": "histogram_quantile(0.99, rate(auditoria_latencia_segundos_bucket[5m]))",
+                "legendFormat": "p99"
+              }
+            ],
+            "gridPos": {"x": 12, "y": 8, "w": 12, "h": 8}
+          },
+          {
+            "id": 5,
+            "title": "Erros (Consumer)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(auditoria_eventos_erro_total[5m])",
+                "legendFormat": "Erros/segundo"
+              }
+            ],
+            "gridPos": {"x": 0, "y": 16, "w": 12, "h": 8}
+          },
+          {
+            "id": 6,
+            "title": "Usuários Online (Redis)",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "auditoria_usuarios_online",
+                "legendFormat": "Online"
+              }
+            ],
+            "gridPos": {"x": 12, "y": 16, "w": 6, "h": 4}
+          },
+          {
+            "id": 7,
+            "title": "Total de Eventos (ClickHouse)",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "auditoria_clickhouse_total_eventos",
+                "legendFormat": "Total"
+              }
+            ],
+            "gridPos": {"x": 18, "y": 16, "w": 6, "h": 4}
+          },
+          {
+            "id": 8,
+            "title": "Uso de CPU (Pods)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(container_cpu_usage_seconds_total{namespace='saude-auditoria-gateway'}[5m])",
+                "legendFormat": "{{pod}}"
+              }
+            ],
+            "gridPos": {"x": 0, "y": 24, "w": 12, "h": 8}
+          },
+          {
+            "id": 9,
+            "title": "Uso de Memória (Pods)",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "container_memory_usage_bytes{namespace='saude-auditoria-gateway'} / 1024 / 1024",
+                "legendFormat": "{{pod}}"
+              }
+            ],
+            "gridPos": {"x": 12, "y": 24, "w": 12, "h": 8}
+          }
+        ]
+      }
+    }

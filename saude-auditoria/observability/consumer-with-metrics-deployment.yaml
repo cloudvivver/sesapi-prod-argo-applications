@@ -1,0 +1,104 @@
+---
+# Consumer com métricas Prometheus expostas na porta 8000
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auditoria-consumer
+  namespace: saude-auditoria-gateway
+  labels:
+    app: auditoria-consumer
+    component: consumer
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auditoria-consumer
+  template:
+    metadata:
+      labels:
+        app: auditoria-consumer
+        component: consumer
+        tier: backend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+        - name: consumer
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-auditoria-consumer:latest
+          imagePullPolicy: Always
+          ports:
+            - name: metrics
+              containerPort: 8000
+              protocol: TCP
+          env:
+            - name: KAFKA_BROKERS
+              value: "kafka-0.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-1.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-2.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
+            - name: KAFKA_TOPIC
+              value: "saude.auditoria.login"
+            - name: KAFKA_GROUP
+              value: "auditoria-consumers"
+            - name: CLICKHOUSE_HOST
+              value: "clickhouse.saude-auditoria-gateway.svc.cluster.local"
+            - name: CLICKHOUSE_PORT
+              value: "9000"
+            - name: CLICKHOUSE_DATABASE
+              value: "auditoria"
+            - name: REDIS_HOST
+              value: "redis.saude-auditoria-gateway.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_TTL
+              value: "300"
+            # Configuração de métricas
+            - name: METRICS_PORT
+              value: "8000"
+            - name: METRICS_ENABLED
+              value: "true"
+            # Log level
+            - name: LOG_LEVEL
+              value: "INFO"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: metrics
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: metrics
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auditoria-consumer-metrics
+  namespace: saude-auditoria-gateway
+  labels:
+    app: auditoria-consumer
+spec:
+  type: ClusterIP
+  clusterIP: None  # Headless service para Prometheus descobrir todos os pods
+  ports:
+    - port: 8000
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+  selector:
+    app: auditoria-consumer
