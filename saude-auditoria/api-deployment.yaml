@@ -14,13 +14,11 @@ spec:
     metadata:
       labels:
         app: saude-auditoria-api
-      annotations:
-        argocd-image-version: "2026-01-07T20:51:00Z"
     spec:
       containers:
         - name: api
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-auditoria-api:latest
-          imagePullPolicy: Always
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-auditoria-api:v1.0.20260107175508
+          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8000
