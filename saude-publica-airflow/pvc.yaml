@@ -46,19 +46,3 @@ spec:
   resources:
     requests:
       storage: 5Gi
----
-# PVC para dados do SIGTAP
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sigtap-data-pvc
-  namespace: saude-airflow
-  labels:
-    app: sigtap
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: gp3  # AWS EBS para ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Gi
