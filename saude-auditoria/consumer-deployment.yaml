@@ -18,6 +18,8 @@ spec:
         app: auditoria-consumer
         component: consumer
         tier: backend
+      annotations:
+        argocd-image-version: "2026-01-07T00:19:21Z"
     spec:
       containers:
         - name: consumer
