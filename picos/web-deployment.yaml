@@ -24,7 +24,7 @@ spec:
     spec:
       initContainers:
         - name: sync-public-assets
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-67
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-68
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -36,7 +36,7 @@ spec:
               mountPath: /shared-public
       containers:
         - name: picos
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-67
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-68
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
