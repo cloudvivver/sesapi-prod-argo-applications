@@ -43,3 +43,4 @@ saude-auditoria/scripts/check-events-flow.sh
 saude-auditoria/scripts/check-rails-envs.sh
 saude-auditoria/scripts/configure-rails-envs.sh
 saude-auditoria/scripts/test-cluster-isolation.sh
+saude-auditoria/db/page_views_schema.sql

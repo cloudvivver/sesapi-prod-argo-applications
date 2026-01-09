@@ -1,0 +1,441 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-pageviews
+  namespace: saude-auditoria-gateway
+  labels:
+    grafana_dashboard: "1"
+data:
+  pageviews-dashboard.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 0,
+      "id": null,
+      "links": [],
+      "liveNow": false,
+      "panels": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "clickhouse"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "quantidade"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 120
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 1,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": ["sum"],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "quantidade"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
+              },
+              "format": 1,
+              "meta": {
+                "builderOptions": {
+                  "fields": [],
+                  "limit": 100,
+                  "mode": "list"
+                }
+              },
+              "queryType": "sql",
+              "rawSql": "SELECT \n    cluster,\n    caminho,\n    sum(total_acessos) as quantidade\nFROM auditoria.page_views_daily\nWHERE date >= today() - $__interval_days\nGROUP BY cluster, caminho\nORDER BY quantidade DESC\nLIMIT 50",
+              "refId": "A"
+            }
+          ],
+          "title": "Top 50 Telas Mais Acessadas por Cluster",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "clickhouse"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 10,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "tooltip": false,
+                  "viz": false,
+                  "legend": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 12
+          },
+          "id": 2,
+          "options": {
+            "legend": {
+              "calcs": ["lastNotNull", "max"],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
+              },
+              "format": 1,
+              "meta": {
+                "builderOptions": {
+                  "fields": [],
+                  "limit": 100,
+                  "mode": "list"
+                }
+              },
+              "queryType": "sql",
+              "rawSql": "SELECT \n    date as time,\n    cluster,\n    sum(total_acessos) as acessos\nFROM auditoria.page_views_daily\nWHERE date >= today() - $__interval_days\nGROUP BY time, cluster\nORDER BY time, cluster",
+              "refId": "A"
+            }
+          ],
+          "title": "Acessos ao Longo do Tempo por Cluster",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "clickhouse"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "total_acessos"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 150
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 0,
+            "y": 22
+          },
+          "id": 3,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": ["sum"],
+              "show": true
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "total_acessos"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
+              },
+              "format": 1,
+              "meta": {
+                "builderOptions": {
+                  "fields": [],
+                  "limit": 100,
+                  "mode": "list"
+                }
+              },
+              "queryType": "sql",
+              "rawSql": "SELECT \n    caminho,\n    sum(total_acessos) as total_acessos\nFROM auditoria.page_views_daily\nWHERE date >= today() - $__interval_days\nGROUP BY caminho\nORDER BY total_acessos DESC\nLIMIT 20",
+              "refId": "A"
+            }
+          ],
+          "title": "Top 20 Telas Globais (Todos os Clusters)",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "clickhouse"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "total_acessos"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 150
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 12,
+            "x": 12,
+            "y": 22
+          },
+          "id": 4,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": ["sum"],
+              "show": true
+            },
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "total_acessos"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "grafana-clickhouse-datasource",
+                "uid": "clickhouse"
+              },
+              "format": 1,
+              "meta": {
+                "builderOptions": {
+                  "fields": [],
+                  "limit": 100,
+                  "mode": "list"
+                }
+              },
+              "queryType": "sql",
+              "rawSql": "SELECT \n    cluster,\n    sum(total_acessos) as total_acessos\nFROM auditoria.page_views_daily\nWHERE date >= today() - $__interval_days\nGROUP BY cluster\nORDER BY total_acessos DESC",
+              "refId": "A"
+            }
+          ],
+          "title": "Total de Acessos por Cluster",
+          "type": "table"
+        }
+      ],
+      "refresh": "30s",
+      "schemaVersion": 38,
+      "style": "dark",
+      "tags": ["auditoria", "pageviews"],
+      "templating": {
+        "list": [
+          {
+            "current": {
+              "selected": false,
+              "text": "7",
+              "value": "7"
+            },
+            "hide": 0,
+            "includeAll": false,
+            "label": "Período (dias)",
+            "multi": false,
+            "name": "__interval_days",
+            "options": [
+              {
+                "selected": false,
+                "text": "1",
+                "value": "1"
+              },
+              {
+                "selected": true,
+                "text": "7",
+                "value": "7"
+              },
+              {
+                "selected": false,
+                "text": "30",
+                "value": "30"
+              },
+              {
+                "selected": false,
+                "text": "90",
+                "value": "90"
+              }
+            ],
+            "query": "1,7,30,90",
+            "queryValue": "",
+            "skipUrlSync": false,
+            "type": "custom"
+          }
+        ]
+      },
+      "time": {
+        "from": "now-7d",
+        "to": "now"
+      },
+      "timepicker": {},
+      "timezone": "",
+      "title": "Page Views - Auditoria",
+      "uid": "pageviews-auditoria",
+      "version": 1,
+      "weekStart": ""
+    }
