@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-auditoria-gateway:latest
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-auditoria-gateway:20260109163647
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
