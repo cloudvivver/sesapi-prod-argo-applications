@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: consumer
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-auditoria-consumer:20260109142425
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-auditoria-consumer:20260109164305
           imagePullPolicy: Always
           ports:
             - name: metrics
