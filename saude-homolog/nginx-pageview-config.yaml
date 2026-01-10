@@ -1,0 +1,162 @@
+---
+# ConfigMap: Nginx configuration with JSON access logs
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-sidecar-pageview-config
+  namespace: saude-homolog
+data:
+  nginx.conf: |
+    worker_processes  1;
+
+    events {
+      worker_connections  1024;
+    }
+
+    http {
+      include       mime.types;
+      default_type  application/octet-stream;
+
+      # Simple access log format for PAGE_VIEW tracking
+      # Format: METHOD|URI|STATUS
+      log_format pageview '$request_method|$request_uri|$status';
+
+      access_log /var/log/nginx/access.log pageview;
+
+      sendfile        on;
+      keepalive_timeout  65;
+
+      # Compression
+      gzip              on;
+      gzip_comp_level   5;
+      gzip_types        text/plain text/css application/json application/javascript application/x-javascript image/svg+xml;
+      gzip_min_length   1024;
+
+      server {
+        listen 80;
+
+        # Serve static assets directly (sem logar PAGE_VIEW)
+        location ~ ^/(assets|stylesheets|javascripts)/ {
+          root /app/public;
+          try_files $uri $uri/ =404;
+          add_header Cache-Control "public, max-age=31536000, immutable";
+          access_log off;  # Não logar assets estáticos
+        }
+
+        # Proxy everything else to Puma
+        location / {
+          proxy_pass         http://127.0.0.1:3000;
+          proxy_http_version 1.1;
+          proxy_set_header   Host $host;
+          proxy_set_header   X-Real-IP $remote_addr;
+          proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header   X-Forwarded-Proto $scheme;
+          proxy_connect_timeout 300s;
+          proxy_send_timeout    300s;
+          proxy_read_timeout    300s;
+        }
+      }
+    }
+
+---
+# ConfigMap: Fluent Bit configuration to process nginx logs
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-pageview-config
+  namespace: saude-homolog
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         5
+        Daemon        off
+        Log_Level     info
+
+    [INPUT]
+        Name              tail
+        Path              /var/log/nginx/access.log
+        Tag               nginx.access
+        Refresh_Interval  5
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Read_from_Head    true
+
+    [FILTER]
+        Name    lua
+        Match   nginx.access
+        script  /fluent-bit/scripts/pageview_filter.lua
+        call    filter_pageview
+
+    [OUTPUT]
+        Name   http
+        Match  nginx.pageview
+        Host   saude-auditoria-gateway.saude-auditoria-gateway.svc.cluster.local
+        Port   80
+        URI    /events
+        Format json
+        retry_limit 3
+        Header Content-Type application/json
+
+  pageview_filter.lua: |
+    function filter_pageview(tag, timestamp, record)
+        -- O record tem um campo 'log' com a linha: METHOD|URI|STATUS
+        local log_line = record.log
+        if not log_line or type(log_line) ~= "string" then
+            return -1, 0, 0  -- Drop se não tiver log
+        end
+
+        -- Parsear a linha: METHOD|URI|STATUS
+        local method, uri, status_str = log_line:match("^([^|]+)|([^|]+)|([^|]+)$")
+        if not method or not uri or not status_str then
+            return -1, 0, 0  -- Drop se não conseguir parsear
+        end
+
+        -- Filtrar apenas GETs com status 200-399
+        if method ~= "GET" then
+            return -1, 0, 0  -- Drop non-GET
+        end
+
+        local status = tonumber(status_str) or 0
+        if status < 200 or status >= 400 then
+            return -1, 0, 0  -- Drop non-success responses
+        end
+
+        -- Remover query string
+        local path = uri:match("^([^?]*)")
+        if not path then
+            path = uri
+        end
+
+        -- Filtrar assets, health checks, etc
+        if path:match("^/assets") or
+           path:match("^/packs") or
+           path:match("^/health") or
+           path:match("^/cable") or
+           path:match("^/rails") or
+           path:match("^/api/") or
+           path:match("%.js$") or
+           path:match("%.css$") or
+           path:match("%.png$") or
+           path:match("%.jpg$") or
+           path:match("%.jpeg$") or
+           path:match("%.gif$") or
+           path:match("%.svg$") or
+           path:match("%.woff") or
+           path:match("%.ttf$") or
+           path:match("%.eot$") or
+           path:match("%.ico$") then
+            return -1, 0, 0  -- Drop assets/excluded paths
+        end
+
+        -- Construir evento PAGE_VIEW
+        local cluster = os.getenv("APP_HOST") or "homolog.saude.pi.gov.br"
+        local new_record = {
+            event_type = "PAGE_VIEW",
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ"),
+            caminho = path,
+            cluster = cluster
+        }
+
+        -- Mudar tag para nginx.pageview
+        return 2, timestamp, new_record
+    end

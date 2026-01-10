@@ -135,6 +135,8 @@ spec:
               subPath: nginx.conf
             - name: public-assets
               mountPath: /app/public
+            - name: nginx-logs
+              mountPath: /var/log/nginx
           resources:
             requests:
               cpu: "50m"
@@ -142,14 +144,45 @@ spec:
             limits:
               cpu: "250m"
               memory: "256Mi"
+        # Fluent Bit sidecar para processar logs do nginx e enviar PAGE_VIEW
+        - name: fluent-bit-pageview
+          image: fluent/fluent-bit:2.2
+          env:
+            - name: APP_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: APP_HOST
+          volumeMounts:
+            - name: fluent-bit-config
+              mountPath: /fluent-bit/etc/fluent-bit.conf
+              subPath: fluent-bit.conf
+            - name: fluent-bit-config
+              mountPath: /fluent-bit/scripts/pageview_filter.lua
+              subPath: pageview_filter.lua
+            - name: nginx-logs
+              mountPath: /var/log/nginx
+              readOnly: true
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
       volumes:
         - name: azurefile
           persistentVolumeClaim:
             claimName: shared-storage-pvc
         - name: nginx-config
           configMap:
-            name: nginx-sidecar-config
+            name: nginx-sidecar-pageview-config
+        - name: fluent-bit-config
+          configMap:
+            name: fluent-bit-pageview-config
         - name: public-assets
+          emptyDir: {}
+        - name: nginx-logs
           emptyDir: {}
 
       restartPolicy: Always
