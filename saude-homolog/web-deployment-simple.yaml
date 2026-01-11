@@ -150,11 +150,12 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              apk add --no-cache curl jq
+              apk add --no-cache curl jq coreutils
 
               GATEWAY_URL="http://saude-auditoria-gateway.saude-auditoria-gateway.svc.cluster.local/events"
               APP_HOST="${APP_HOST:-homolog.saude.pi.gov.br}"
               LOG_FILE="/var/log/nginx/access.log"
+              SECRET="${GATEWAY_SECRET:-}"
 
               echo "Aguardando arquivo de log..."
               while [ ! -f "$LOG_FILE" ]; do sleep 1; done
@@ -186,9 +187,19 @@ spec:
                     '{event_type: $type, timestamp: $ts, caminho: $path, cluster: $cluster}')
 
                   echo "[DEBUG] Enviando PAGE_VIEW: $path"
-                  curl -s -X POST "$GATEWAY_URL" \
-                    -H "Content-Type: application/json" \
-                    -d "$json" && echo "[DEBUG] Enviado com sucesso" || echo "[DEBUG] Erro ao enviar"
+
+                  # Calcular HMAC SHA256 signature se o secret estiver definido
+                  if [ -n "$SECRET" ]; then
+                    signature=$(echo -n "$json" | openssl dgst -sha256 -hmac "$SECRET" | cut -d' ' -f2)
+                    curl -s -X POST "$GATEWAY_URL" \
+                      -H "Content-Type: application/json" \
+                      -H "X-Audit-Signature: $signature" \
+                      -d "$json" && echo "[DEBUG] Enviado com sucesso" || echo "[DEBUG] Erro ao enviar"
+                  else
+                    curl -s -X POST "$GATEWAY_URL" \
+                      -H "Content-Type: application/json" \
+                      -d "$json" && echo "[DEBUG] Enviado com sucesso" || echo "[DEBUG] Erro ao enviar"
+                  fi
                 fi
               done
           env:
@@ -197,6 +208,11 @@ spec:
                 configMapKeyRef:
                   name: env
                   key: APP_HOST
+            - name: GATEWAY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: auditoria-gateway-secret
+                  key: token
           volumeMounts:
             - name: nginx-logs
               mountPath: /var/log/nginx
