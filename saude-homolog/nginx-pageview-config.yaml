@@ -72,14 +72,13 @@ data:
         Daemon        off
         Log_Level     info
 
+    # Usar exec para rodar tail -F que é mais confiável que inotify
     [INPUT]
-        Name              tail
-        Path              /var/log/nginx/access.log
-        Tag               nginx.access
-        Refresh_Interval  5
-        Mem_Buf_Limit     5MB
-        Skip_Long_Lines   On
-        Read_from_Head    true
+        Name          exec
+        Tag           nginx.access
+        Command       tail -F -n +1 /var/log/nginx/access.log 2>/dev/null
+        Interval_Sec  0
+        Interval_NSec 500000000
 
     [FILTER]
         Name    lua
@@ -87,6 +86,13 @@ data:
         script  /fluent-bit/scripts/pageview_filter.lua
         call    filter_pageview
 
+    # Debug output para ver eventos antes do filtro
+    [OUTPUT]
+        Name   stdout
+        Match  nginx.access
+        Format json_lines
+
+    # Output HTTP para enviar PAGE_VIEW ao gateway
     [OUTPUT]
         Name   http
         Match  nginx.pageview
@@ -97,12 +103,30 @@ data:
         retry_limit 3
         Header Content-Type application/json
 
+    # Debug output para ver PAGE_VIEW processados
+    [OUTPUT]
+        Name   stdout
+        Match  nginx.pageview
+        Format json_lines
+
   pageview_filter.lua: |
     function filter_pageview(tag, timestamp, record)
-        -- O record tem um campo 'log' com a linha: METHOD|URI|STATUS
-        local log_line = record.log
+        -- O input exec coloca a linha no campo 'exec'
+        -- mas também pode vir como string direta
+        local log_line = record.exec or record.log or record
+
+        if type(log_line) == "table" then
+            -- Se for uma tabela, procurar pela linha
+            for k, v in pairs(log_line) do
+                if type(v) == "string" and v:match("|") then
+                    log_line = v
+                    break
+                end
+            end
+        end
+
         if not log_line or type(log_line) ~= "string" then
-            return -1, 0, 0  -- Drop se não tiver log
+            return -1, 0, 0  -- Drop se não tiver log válido
         end
 
         -- Parsear a linha: METHOD|URI|STATUS

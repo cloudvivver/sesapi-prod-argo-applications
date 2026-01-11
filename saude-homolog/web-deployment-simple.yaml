@@ -211,8 +211,8 @@ spec:
             - name: GATEWAY_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: auditoria-gateway-secret
-                  key: token
+                  name: auditoria-gateway-secret-correct
+                  key: shared-secret
           volumeMounts:
             - name: nginx-logs
               mountPath: /var/log/nginx
