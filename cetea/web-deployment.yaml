@@ -107,10 +107,10 @@ spec:
               subPath: nginx.conf
             - name: public-assets
               mountPath: /app/public
-                        - name: nginx-logs
-              mountPath: /var/log/nginx
-          - name: shared-storage
+            - name: shared-storage
               mountPath: /mnt/compartilhado
+            - name: nginx-logs
+              mountPath: /var/log/nginx
           resources:
             requests:
               cpu: "300m"
@@ -193,19 +193,18 @@ spec:
               cpu: "200m"
               memory: "256Mi"
 
+
       volumes:
         - name: nginx-config
           configMap:
             name: nginx-sidecar-pageview-config
         - name: public-assets
           emptyDir: {}
+        - name: nginx-logs
+          emptyDir: {}
         - name: shared-storage
           persistentVolumeClaim:
             claimName: shared-storage-pvc
-
-      
-        - name: nginx-logs
-          emptyDir: {}
 
       affinity:
         podAntiAffinity:

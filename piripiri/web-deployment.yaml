@@ -234,5 +234,7 @@ spec:
         - name: shared-storage
           persistentVolumeClaim:
             claimName: shared-storage-pvc
+        - name: nginx-logs
+          emptyDir: {}
 
       restartPolicy: Always

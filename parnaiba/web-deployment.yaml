@@ -189,6 +189,8 @@ spec:
         - name: shared-storage
           persistentVolumeClaim:
             claimName: azurefile-pvc
+        - name: nginx-logs
+          emptyDir: {}
 
       affinity:
         podAntiAffinity:

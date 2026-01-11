@@ -84,12 +84,6 @@ spec:
           image: nginx:1.25
           ports:
             - containerPort: 80
-          readinessProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            failureThreshold: 3
           volumeMounts:
             - name: nginx-config
               mountPath: /etc/nginx/nginx.conf
@@ -171,16 +165,17 @@ spec:
               cpu: "200m"
               memory: "256Mi"
 
+
       volumes:
-                    - name: nginx-logs
-              mountPath: /var/log/nginx
-          - name: shared-storage
+        - name: shared-storage
           persistentVolumeClaim:
             claimName: shared-storage-pvc
         - name: nginx-config
           configMap:
             name: nginx-sidecar-pageview-config
         - name: public-assets
+          emptyDir: {}
+        - name: nginx-logs
           emptyDir: {}
 
       restartPolicy: Always
