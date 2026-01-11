@@ -144,9 +144,48 @@ spec:
             limits:
               cpu: "250m"
               memory: "256Mi"
-        # Fluent Bit sidecar para processar logs do nginx e enviar PAGE_VIEW
-        - name: fluent-bit-pageview
-          image: fluent/fluent-bit:2.2
+        # Log processor sidecar: lê nginx access.log e envia PAGE_VIEW
+        - name: nginx-log-processor
+          image: alpine:3.19
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              apk add --no-cache curl jq
+
+              GATEWAY_URL="http://saude-auditoria-gateway.saude-auditoria-gateway.svc.cluster.local/events"
+              APP_HOST="${APP_HOST:-homolog.saude.pi.gov.br}"
+              LOG_FILE="/var/log/nginx/access.log"
+
+              echo "Aguardando arquivo de log..."
+              while [ ! -f "$LOG_FILE" ]; do sleep 1; done
+              echo "Arquivo encontrado, iniciando processamento..."
+
+              tail -F -n 0 "$LOG_FILE" 2>/dev/null | while IFS='|' read -r method uri status; do
+                # Filtrar apenas GETs com status 2xx ou 3xx
+                if [ "$method" = "GET" ] && [ "$status" -ge 200 ] && [ "$status" -lt 400 ]; then
+                  # Remover query string
+                  path="${uri%%\?*}"
+
+                  # Filtrar assets e paths especiais
+                  case "$path" in
+                    /assets*|/packs*|/health*|/cable*|/rails*|/api/*|*.js|*.css|*.png|*.jpg|*.jpeg|*.gif|*.svg|*.ico)
+                      continue
+                      ;;
+                  esac
+
+                  # Enviar PAGE_VIEW ao gateway
+                  json=$(jq -n \
+                    --arg type "PAGE_VIEW" \
+                    --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+                    --arg path "$path" \
+                    --arg cluster "$APP_HOST" \
+                    '{event_type: $type, timestamp: $ts, caminho: $path, cluster: $cluster}')
+
+                  curl -s -X POST "$GATEWAY_URL" \
+                    -H "Content-Type: application/json" \
+                    -d "$json" >/dev/null 2>&1 || true
+                fi
+              done
           env:
             - name: APP_HOST
               valueFrom:
@@ -154,12 +193,6 @@ spec:
                   name: env
                   key: APP_HOST
           volumeMounts:
-            - name: fluent-bit-config
-              mountPath: /fluent-bit/etc/fluent-bit.conf
-              subPath: fluent-bit.conf
-            - name: fluent-bit-config
-              mountPath: /fluent-bit/scripts/pageview_filter.lua
-              subPath: pageview_filter.lua
             - name: nginx-logs
               mountPath: /var/log/nginx
               readOnly: true
@@ -177,9 +210,6 @@ spec:
         - name: nginx-config
           configMap:
             name: nginx-sidecar-pageview-config
-        - name: fluent-bit-config
-          configMap:
-            name: fluent-bit-pageview-config
         - name: public-assets
           emptyDir: {}
         - name: nginx-logs
