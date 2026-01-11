@@ -1,0 +1,59 @@
+---
+# ConfigMap: Nginx configuration with pipe-delimited access logs
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-sidecar-pageview-config
+  namespace: saojoao
+data:
+  nginx.conf: |
+    worker_processes  1;
+
+    events {
+      worker_connections  1024;
+    }
+
+    http {
+      include       mime.types;
+      default_type  application/octet-stream;
+
+      # Simple access log format for PAGE_VIEW tracking
+      # Format: METHOD|URI|STATUS
+      log_format pageview '$request_method|$request_uri|$status';
+
+      access_log /var/log/nginx/access.log pageview;
+
+      sendfile        on;
+      keepalive_timeout  65;
+
+      # Compression
+      gzip              on;
+      gzip_comp_level   5;
+      gzip_types        text/plain text/css application/json application/javascript application/x-javascript image/svg+xml;
+      gzip_min_length   1024;
+
+      server {
+        listen 80;
+
+        # Serve static assets directly (sem logar PAGE_VIEW)
+        location ~ ^/(assets|stylesheets|javascripts)/ {
+          root /app/public;
+          try_files $uri $uri/ =404;
+          add_header Cache-Control "public, max-age=31536000, immutable";
+          access_log off;  # Não logar assets estáticos
+        }
+
+        # Proxy everything else to Puma
+        location / {
+          proxy_pass         http://127.0.0.1:3000;
+          proxy_http_version 1.1;
+          proxy_set_header   Host $host;
+          proxy_set_header   X-Real-IP $remote_addr;
+          proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header   X-Forwarded-Proto $scheme;
+          proxy_connect_timeout 300s;
+          proxy_send_timeout    300s;
+          proxy_read_timeout    300s;
+        }
+      }
+    }

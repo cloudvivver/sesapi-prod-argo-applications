@@ -28,6 +28,17 @@ data:
         url: http://prometheus.saude-auditoria-gateway.svc.cluster.local:9090
         isDefault: true
         editable: true
+      - name: ClickHouse
+        type: grafana-clickhouse-datasource
+        uid: clickhouse
+        access: proxy
+        url: http://clickhouse.saude-auditoria-gateway.svc.cluster.local:8123
+        editable: true
+        jsonData:
+          server: clickhouse.saude-auditoria-gateway.svc.cluster.local
+          port: 8123
+          protocol: http
+          defaultDatabase: auditoria
 
 ---
 apiVersion: v1
@@ -46,7 +57,7 @@ data:
         disableDeletion: false
         editable: true
         options:
-          path: /etc/grafana/provisioning/dashboards
+          path: /var/lib/grafana/dashboards
 
 ---
 apiVersion: apps/v1
@@ -94,6 +105,8 @@ spec:
               mountPath: /etc/grafana/provisioning/datasources
             - name: dashboards-config
               mountPath: /etc/grafana/provisioning/dashboards
+            - name: dashboard-pageviews
+              mountPath: /var/lib/grafana/dashboards
           resources:
             requests:
               cpu: 100m
@@ -123,6 +136,9 @@ spec:
         - name: dashboards-config
           configMap:
             name: grafana-dashboards-config
+        - name: dashboard-pageviews
+          configMap:
+            name: grafana-dashboard-pageviews
 
 ---
 apiVersion: v1
