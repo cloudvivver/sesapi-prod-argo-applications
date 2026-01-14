@@ -13,5 +13,5 @@ spec:
               image: curlimages/curl:latest
               args:
                 - -s
-                - https://cuidar-connect.bigdatasys.net/v0/api/tasks/research-results
+                - http://connect-service.cuidar-connect.svc.cluster.local/v0/api/tasks/research-results
           restartPolicy: OnFailure
