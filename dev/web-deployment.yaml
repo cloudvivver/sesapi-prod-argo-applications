@@ -90,6 +90,9 @@ spec:
                 name: env
             - secretRef:
                 name: app-secrets
+            - secretRef:
+                name: c-tv-api-key
+                optional: true
           resources:
             # Otimizado para Rails 6.1 + Ruby 3.0.6 + Sidekiq 6 + Bootsnap + GC tuning
             # Redução esperada: ~50% memória, ~35% CPU (com Puma workers + CoW)

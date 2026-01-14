@@ -96,6 +96,9 @@ spec:
                 name: env
             - secretRef:
                 name: app-secrets
+            - secretRef:
+                name: c-tv-api-key
+                optional: true
           resources:
             requests:
               cpu: "250m"

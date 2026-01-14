@@ -38,7 +38,7 @@ data:
             },
             "overrides": []
           },
-          "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
           "id": 4,
           "options": {
             "cellHeight": "sm",
@@ -50,12 +50,52 @@ data:
             {
               "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse"},
               "queryType": "sql",
-              "rawSql": "SELECT cluster, count(DISTINCT operador_id) as total FROM auditoria.login_events WHERE event_type = 'LOGIN' AND toDate(timestamp) = today() GROUP BY cluster ORDER BY total DESC",
+              "rawSql": "SELECT cluster, count(DISTINCT operador_id) as total FROM auditoria.login_events WHERE event_type = 'LOGIN' AND timestamp >= now() - INTERVAL 7 DAY GROUP BY cluster ORDER BY total DESC",
               "refId": "A",
               "format": 1
             }
           ],
-          "title": "Usuários Ativos (agora)",
+          "title": "Usuários Ativos (Últimos 7 dias)",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "clickhouse"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {"type": "auto"},
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [{"color": "green", "value": null}]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+          "id": 5,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {"countRows": false, "fields": "", "reducer": ["sum"], "show": true},
+            "showHeader": true
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {"type": "grafana-clickhouse-datasource", "uid": "clickhouse"},
+              "queryType": "sql",
+              "rawSql": "SELECT cluster, perfil_nome, count(DISTINCT operador_id) as total FROM auditoria.login_events WHERE event_type = 'LOGIN' AND timestamp >= now() - INTERVAL 7 DAY AND perfil_nome != '' GROUP BY cluster, perfil_nome ORDER BY total DESC LIMIT 50",
+              "refId": "A",
+              "format": 1
+            }
+          ],
+          "title": "Perfis Ativos (Últimos 7 dias)",
           "type": "table"
         },
         {
@@ -189,6 +229,6 @@ data:
       "timezone": "",
       "title": "Page Views - Auditoria",
       "uid": "pageviews-auditoria",
-      "version": 3,
+      "version": 2,
       "weekStart": ""
     }

@@ -39,6 +39,9 @@ spec:
         envFrom:
         - configMapRef:
             name: env
+        - secretRef:
+            name: c-tv-api-key
+            optional: true  # Permite iniciar sem o secret (autenticação desabilitada)
         resources:
           requests:
             cpu: "500m"

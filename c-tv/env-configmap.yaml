@@ -66,6 +66,16 @@ data:
   FIXED_HOST: "c-tv.saude.pi.gov.br"
 
   # ============================================================
+  # API CHAMADA HTTP (Autenticação)
+  # ============================================================
+  # CTV_API_KEY deve ser configurada via Secret (não ConfigMap)
+  # Crie um secret: kubectl create secret generic c-tv-api-key --from-literal=CTV_API_KEY='sua-chave-segura' -n c-tv
+  # E adicione ao deployment:
+  # envFrom:
+  #   - secretRef:
+  #       name: c-tv-api-key
+
+  # ============================================================
   # SENTRY ERROR TRACKING
   # ============================================================
   SENTRY_DSN: "https://fdeb263e6ac5905a26c7bddebe432a4e@sentry.bigdatasys.net/27"
