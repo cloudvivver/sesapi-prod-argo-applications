@@ -30,7 +30,7 @@ spec:
 
       containers:
       - name: c-tv
-        image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/c-tv:polly-20260114111121
+        image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/c-tv:polly-20260114131118
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
