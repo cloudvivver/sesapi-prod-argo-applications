@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: connect
-        image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/cuidar-connect:20260114150048
+        image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/cuidar-connect:20260114154108
         command: ["./main.sh"]
         envFrom:
           - secretRef:
