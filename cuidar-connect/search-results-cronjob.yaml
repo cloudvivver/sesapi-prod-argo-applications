@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: search-results-job
+spec:
+  schedule: "*/15 * * * *"  # a cada 15 minutos
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: curl
+              image: curlimages/curl:latest
+              args:
+                - -s
+                - https://cuidarpi.connect.saude.pi.gov.br/v0/api/tasks/search-results
+          restartPolicy: OnFailure

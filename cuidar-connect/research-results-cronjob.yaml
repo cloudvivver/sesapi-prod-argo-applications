@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: research-results-job
+spec:
+  schedule: "*/30 * * * *"  # a cada 30 minutos
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: curl
+              image: curlimages/curl:latest
+              args:
+                - -s
+                - https://cuidar-connect.bigdatasys.net/v0/api/tasks/research-results
+          restartPolicy: OnFailure

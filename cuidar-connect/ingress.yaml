@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: connect-ingress
+  namespace: cuidar-connect
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: letsencrypt-http
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - cuidarpi.connect.saude.pi.gov.br          
+      secretName: connect-tls
+  rules:
+    - host: cuidarpi.connect.saude.pi.gov.br
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: connect-service
+                port:
+                  number: 80
