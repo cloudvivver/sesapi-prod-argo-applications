@@ -2,18 +2,25 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: airflow-ingress
+  namespace: saude-airflow
   annotations:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "airflow-sticky"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
-        - airflow.bigdatasys.net
+        - airflow.saude.pi.gov.br
       secretName: airflow-tls
   rules:
-    - host: airflow.bigdatasys.net
+    - host: airflow.saude.pi.gov.br
       http:
         paths:
           - path: /
