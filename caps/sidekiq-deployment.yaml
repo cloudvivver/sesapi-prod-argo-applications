@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidekiq
+  namespace: caps
+  labels:
+    app: sidekiq
+    environment: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidekiq
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+    spec:
+      containers:
+        - name: sidekiq
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-75
+          imagePullPolicy: Always
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              echo "Aguardando banco de dados..."
+              sleep 15
+
+              # Configurar PATH para rbenv
+              export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
+
+              echo "Iniciando Sidekiq..."
+              bundle exec sidekiq -C config/sidekiq.yml
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /mnt/compartilhado
+          envFrom:
+            - configMapRef:
+                name: env
+            - secretRef:
+                name: app-secrets
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1024Mi"
+
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: azurefile-pvc
+
+      restartPolicy: Always

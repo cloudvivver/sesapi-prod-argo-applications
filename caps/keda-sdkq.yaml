@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sidekiq-caps-scaledobject
+  namespace: caps
+
+spec:
+  scaleTargetRef:
+    name: sidekiq
+  minReplicaCount: 1
+  maxReplicaCount: 3
+  pollingInterval: 30
+  cooldownPeriod: 300
+  triggers:
+    - type: redis
+      metadata:
+        address: redis.caps.svc.cluster.local:6379
+        listName: queue:default
+        listLength: "10"
