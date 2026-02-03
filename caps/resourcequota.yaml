@@ -5,8 +5,8 @@ metadata:
   namespace: caps
 spec:
   hard:
-    requests.cpu: "5"
-    requests.memory: "12Gi"
-    limits.cpu: "22"
-    limits.memory: "40Gi"
+    requests.cpu: "2"
+    requests.memory: "8Gi"
+    limits.cpu: "10"
+    limits.memory: "32Gi"
     pods: "10"

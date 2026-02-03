@@ -7,7 +7,7 @@ metadata:
     app: caps
     environment: production
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: caps
@@ -75,8 +75,8 @@ spec:
                 optional: true
           resources:
             requests:
-              cpu: "250m"
-              memory: "2Gi"
+              cpu: "100m"
+              memory: "1Gi"
             limits:
               cpu: "500m"
               memory: "4Gi"
@@ -102,11 +102,11 @@ spec:
               mountPath: /var/log/nginx
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: "50m"
+              memory: "64Mi"
             limits:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: "200m"
+              memory: "256Mi"
         - name: nginx-log-processor
           image: alpine:3.19
           command: ["/bin/sh", "-c"]
@@ -176,11 +176,11 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: "50m"
-              memory: "64Mi"
+              cpu: "10m"
+              memory: "32Mi"
             limits:
-              cpu: "200m"
-              memory: "256Mi"
+              cpu: "100m"
+              memory: "128Mi"
 
 
       volumes:

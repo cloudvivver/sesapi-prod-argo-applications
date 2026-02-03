@@ -41,11 +41,11 @@ spec:
                 name: app-secrets
           resources:
             requests:
-              cpu: "50m"
-              memory: "512Mi"
+              cpu: "20m"
+              memory: "256Mi"
             limits:
               cpu: "500m"
-              memory: "1024Mi"
+              memory: "1536Mi"
 
       volumes:
         - name: shared-storage

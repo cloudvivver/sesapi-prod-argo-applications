@@ -6,8 +6,8 @@ metadata:
 spec:
   scaleTargetRef:
     name: caps
-  minReplicaCount: 2
-  maxReplicaCount: 6
+  minReplicaCount: 1
+  maxReplicaCount: 4
   triggers:
     - type: cpu
       metricType: Utilization
