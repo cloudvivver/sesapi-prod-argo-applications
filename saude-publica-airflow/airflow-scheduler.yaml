@@ -9,7 +9,7 @@ metadata:
     app: airflow
     component: scheduler
 spec:
-  replicas: 1  # Apenas 1 scheduler para evitar conflitos
+  replicas: 0  # Apenas 1 scheduler para evitar conflitos
   selector:
     matchLabels:
       app: airflow
