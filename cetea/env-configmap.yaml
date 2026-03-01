@@ -40,6 +40,7 @@ data:
   # Rails Application Settings (Fase 1: Conservador)
   RAILS_MAX_THREADS: "6"
   WEB_CONCURRENCY: "2"  
+  PUMA_WORKER_MEMORY_LIMIT: "3221225472" # 3Gi - reinicia worker automaticamente se ultrapassar
   SIDEKIQ_CONCURRENCY: "5"
   RAILS_SERVE_STATIC_FILES: "true"
   RAILS_STATIC_CACHE_CONTROL: "public, max-age=31536000, immutable"
