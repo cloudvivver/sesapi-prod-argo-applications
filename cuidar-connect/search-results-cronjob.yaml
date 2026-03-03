@@ -4,8 +4,13 @@ metadata:
   name: search-results-job
 spec:
   schedule: "*/15 * * * *"  # a cada 15 minutos
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  suspend: true  # reativar após estabilização do CNI
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 300  # mata o job se travar por mais de 5 min
       template:
         spec:
           containers:
