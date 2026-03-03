@@ -6,7 +6,7 @@ metadata:
   name: corrente
   namespace: corrente
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: corrente
