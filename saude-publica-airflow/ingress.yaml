@@ -15,7 +15,7 @@ metadata:
     # nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
 
     # Tamanho máximo do body (para uploads grandes)
-    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "200m"
 
     # Timeouts
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"

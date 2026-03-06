@@ -44,7 +44,7 @@ data:
   SIDEKIQ_CONCURRENCY: "5"
   RAILS_SERVE_STATIC_FILES: "true"
   RAILS_STATIC_CACHE_CONTROL: "public, max-age=31536000, immutable"
-
+  #apt-get install libjemalloc2
   # Ruby Garbage Collection Optimization
   RUBY_GC_HEAP_GROWTH_FACTOR: "1.1"
   RUBY_GC_HEAP_INIT_SLOTS: "400000"

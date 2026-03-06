@@ -23,6 +23,9 @@ data:
       gzip_types        text/plain text/css application/json application/javascript application/x-javascript image/svg+xml;
       gzip_min_length   1024;
 
+      # Limite de upload (Importação SIA e outros arquivos grandes); evita 413
+      client_max_body_size 200M;
+
       server {
         listen 80;
 
