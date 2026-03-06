@@ -58,7 +58,7 @@ data:
   POSTGRES_PORT: "5432"
 
   # SIGTAP Configuration
-  SIGTAP_ENVIRONMENT: "production"
+  SIGTAP_ENVIRONMENT: "production"  
   DATABASE_HOST: "postgres-service"
   DATABASE_PORT: "5432"
 

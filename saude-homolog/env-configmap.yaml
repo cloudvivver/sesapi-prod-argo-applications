@@ -63,6 +63,7 @@ data:
 
   # Report Processing (based on sidekiq CPU limit: 800m = 0.8 cores)
   REPORT_PARALLEL_WORKERS: "2"
+  PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
 
 kind: ConfigMap
 metadata:

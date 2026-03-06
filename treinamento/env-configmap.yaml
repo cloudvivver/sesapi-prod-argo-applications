@@ -66,3 +66,4 @@ data:
 
   # External Services
   HYDRA_HOST: "https://regulapiaui.sesapi.pi.gov.br"
+  PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
