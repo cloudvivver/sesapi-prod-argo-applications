@@ -76,6 +76,12 @@ data:
   #       name: c-tv-api-key
 
   # ============================================================
+  # REDIS PUB/SUB (WebSocket multi-pod)
+  # ============================================================
+  REDIS_URL: "redis://redis.c-tv.svc:6379/0"
+  CTV_WS_USE_REDIS_PUBSUB: "true"
+
+  # ============================================================
   # SENTRY ERROR TRACKING
   # ============================================================
   SENTRY_DSN: "https://fdeb263e6ac5905a26c7bddebe432a4e@sentry.bigdatasys.net/27"
