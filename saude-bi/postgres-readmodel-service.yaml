@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-readmodel
+  namespace: saude-bi
+  labels:
+    app: postgres-readmodel
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-readmodel
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5432
+      targetPort: 5432

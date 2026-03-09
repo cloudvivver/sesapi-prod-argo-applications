@@ -1,0 +1,97 @@
+# Consumer de eventos de etapas do atendimento (Kafka → Read model).
+# Substituir a image pela imagem do consumer quando estiver disponível.
+# Ex.: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-bi-etapas-consumer:latest
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: etapas-consumer
+  namespace: saude-bi
+  labels:
+    app: etapas-consumer
+    component: consumer
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: etapas-consumer
+  template:
+    metadata:
+      labels:
+        app: etapas-consumer
+        component: consumer
+        tier: backend
+    spec:
+      containers:
+        - name: consumer
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -c
+            - "echo 'Etapas consumer placeholder - substituir por imagem real'; sleep 3600"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: KAFKA_BROKERS
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: KAFKA_BROKERS
+            - name: KAFKA_TOPIC
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: KAFKA_TOPIC_ETAPAS
+            - name: KAFKA_GROUP
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: KAFKA_GROUP_ETAPAS
+            - name: READ_MODEL_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: READ_MODEL_DB_HOST
+            - name: READ_MODEL_DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: READ_MODEL_DB_PORT
+            - name: READ_MODEL_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: READ_MODEL_DB_NAME
+            - name: READ_MODEL_DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: READ_MODEL_DB_USER
+            - name: READ_MODEL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-readmodel-secret
+                  key: password
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "exit 0"
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "exit 0"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      restartPolicy: Always

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env
+  namespace: saude-bi
+  labels:
+    app: saude-bi
+data:
+  # Kafka (gateway namespace - ajuste brokers conforme seu cluster)
+  KAFKA_BROKERS: "kafka-0.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-1.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-2.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
+  KAFKA_TOPIC_ETAPAS: "atendimento.etapas"
+  KAFKA_GROUP_ETAPAS: "saude-bi-etapas-consumers"
+  # Read model PostgreSQL (service interno deste namespace)
+  READ_MODEL_DB_HOST: "postgres-readmodel.saude-bi.svc.cluster.local"
+  READ_MODEL_DB_PORT: "5432"
+  READ_MODEL_DB_NAME: "readmodel"
+  READ_MODEL_DB_USER: "readmodel"
+  # Superset
+  SUPERSET_LOAD_EXAMPLES: "0"
