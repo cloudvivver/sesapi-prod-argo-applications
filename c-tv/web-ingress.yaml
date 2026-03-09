@@ -38,7 +38,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 
     # cert-manager: Let's Encrypt SSL
-    cert-manager.io/cluster-issuer: letsencrypt-http
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
   tls:
