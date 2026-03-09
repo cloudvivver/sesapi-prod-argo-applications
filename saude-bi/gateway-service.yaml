@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: saude-bi-gateway
+  namespace: saude-bi
+  labels:
+    app: saude-bi-gateway
+    component: gateway
+spec:
+  type: ClusterIP
+  selector:
+    app: saude-bi-gateway
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

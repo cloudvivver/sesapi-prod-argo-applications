@@ -48,3 +48,4 @@ PAGE_VIEW_ROLLOUT_GUIDE.md
 saude-auditoria/observability/NGINX_PAGEVIEW_SETUP.md
 cuidar-connect/connect-env.yaml
 saude-auditoria/scripts/check-sao-raimundo-data.sh
+saude-bi/CLICKHOUSE-SETUP.txt

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saude-bi-gateway
+  namespace: saude-bi
+  labels:
+    app: saude-bi-gateway
+    component: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saude-bi-gateway
+  template:
+    metadata:
+      labels:
+        app: saude-bi-gateway
+        component: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-bi-gateway:20260309194217
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+          envFrom:
+            - configMapRef:
+                name: env
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi

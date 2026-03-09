@@ -46,31 +46,21 @@ spec:
                 configMapKeyRef:
                   name: env
                   key: KAFKA_GROUP_ETAPAS
-            - name: READ_MODEL_DB_HOST
+            - name: CLICKHOUSE_HOST
               valueFrom:
                 configMapKeyRef:
                   name: env
-                  key: READ_MODEL_DB_HOST
-            - name: READ_MODEL_DB_PORT
+                  key: CLICKHOUSE_HOST
+            - name: CLICKHOUSE_PORT
               valueFrom:
                 configMapKeyRef:
                   name: env
-                  key: READ_MODEL_DB_PORT
-            - name: READ_MODEL_DB_NAME
+                  key: CLICKHOUSE_PORT_NATIVE
+            - name: CLICKHOUSE_DATABASE
               valueFrom:
                 configMapKeyRef:
                   name: env
-                  key: READ_MODEL_DB_NAME
-            - name: READ_MODEL_DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: env
-                  key: READ_MODEL_DB_USER
-            - name: READ_MODEL_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-readmodel-secret
-                  key: password
+                  key: CLICKHOUSE_DATABASE
           resources:
             requests:
               cpu: 100m

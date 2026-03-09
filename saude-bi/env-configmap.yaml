@@ -10,10 +10,14 @@ data:
   KAFKA_BROKERS: "kafka-0.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-1.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-2.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
   KAFKA_TOPIC_ETAPAS: "atendimento.etapas"
   KAFKA_GROUP_ETAPAS: "saude-bi-etapas-consumers"
-  # Read model PostgreSQL (service interno deste namespace)
-  READ_MODEL_DB_HOST: "postgres-readmodel.saude-bi.svc.cluster.local"
-  READ_MODEL_DB_PORT: "5432"
-  READ_MODEL_DB_NAME: "readmodel"
-  READ_MODEL_DB_USER: "readmodel"
+  # Read model: ClickHouse (não usa RDS de produção)
+  # Usar o ClickHouse existente em saude-auditoria-gateway ou outro instance.
+  CLICKHOUSE_HOST: "clickhouse.saude-auditoria-gateway.svc.cluster.local"
+  CLICKHOUSE_PORT_HTTP: "8123"
+  CLICKHOUSE_PORT_NATIVE: "9000"
+  CLICKHOUSE_DATABASE: "bi_etapas"
   # Superset
   SUPERSET_LOAD_EXAMPLES: "0"
+  # Conexão ClickHouse para o Superset adicionar como Database (referência)
+  # clickhouse://clickhouse.saude-auditoria-gateway.svc.cluster.local:8123/bi_etapas
+  SUPERSET_CLICKHOUSE_URI: "clickhouse://clickhouse.saude-auditoria-gateway.svc.cluster.local:8123/bi_etapas"
