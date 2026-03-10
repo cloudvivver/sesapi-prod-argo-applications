@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-bi-gateway:20260309194217
-          imagePullPolicy: IfNotPresent
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-bi-gateway:20260310103349
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080
@@ -32,13 +32,13 @@ spec:
                 name: env
           livenessProbe:
             httpGet:
-              path: /health
+              path: /healthz
               port: http
             initialDelaySeconds: 10
             periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: /health
+              path: /healthz
               port: http
             initialDelaySeconds: 5
             periodSeconds: 10
