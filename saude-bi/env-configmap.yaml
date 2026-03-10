@@ -6,8 +6,8 @@ metadata:
   labels:
     app: saude-bi
 data:
-  # Kafka (gateway namespace - ajuste brokers conforme seu cluster)
-  KAFKA_BROKERS: "kafka-0.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-1.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092,kafka-2.kafka-headless.saude-auditoria-gateway.svc.cluster.local:9092"
+  # Kafka (próprio cluster no namespace saude-bi)
+  KAFKA_BROKERS: "kafka-0.kafka-headless.saude-bi.svc.cluster.local:9092,kafka-1.kafka-headless.saude-bi.svc.cluster.local:9092,kafka-2.kafka-headless.saude-bi.svc.cluster.local:9092"
   KAFKA_TOPIC_ETAPAS: "atendimento.etapas"
   KAFKA_GROUP_ETAPAS: "saude-bi-etapas-consumers"
   # Read model: ClickHouse (não usa RDS de produção)
