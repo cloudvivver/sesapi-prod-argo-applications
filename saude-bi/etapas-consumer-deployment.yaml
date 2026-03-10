@@ -41,11 +41,6 @@ spec:
                 configMapKeyRef:
                   name: env
                   key: KAFKA_GROUP_ETAPAS
-            - name: KAFKA_TOPIC_ETAPAS
-              valueFrom:
-                configMapKeyRef:
-                  name: env
-                  key: KAFKA_TOPIC_ETAPAS
             - name: CLICKHOUSE_HOST
               valueFrom:
                 configMapKeyRef:
