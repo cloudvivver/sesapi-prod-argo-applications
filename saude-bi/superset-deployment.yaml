@@ -25,6 +25,9 @@ spec:
             - name: http
               containerPort: 8088
           env:
+            # Sobrescreve a variável injetada pelo Service (que vem como "tcp" e quebra o start).
+            - name: SUPERSET_PORT
+              value: "8088"
             - name: SUPERSET_SECRET_KEY
               valueFrom:
                 secretKeyRef:

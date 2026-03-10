@@ -31,16 +31,21 @@ spec:
                 configMapKeyRef:
                   name: env
                   key: KAFKA_BROKERS
-            - name: KAFKA_TOPIC
+            - name: KAFKA_TOPIC_ETAPAS
               valueFrom:
                 configMapKeyRef:
                   name: env
                   key: KAFKA_TOPIC_ETAPAS
-            - name: KAFKA_GROUP
+            - name: KAFKA_GROUP_ID
               valueFrom:
                 configMapKeyRef:
                   name: env
                   key: KAFKA_GROUP_ETAPAS
+            - name: KAFKA_TOPIC_ETAPAS
+              valueFrom:
+                configMapKeyRef:
+                  name: env
+                  key: KAFKA_TOPIC_ETAPAS
             - name: CLICKHOUSE_HOST
               valueFrom:
                 configMapKeyRef:
@@ -63,13 +68,22 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
+          startupProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "exit 0"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 30
           livenessProbe:
             exec:
               command:
                 - /bin/sh
                 - -c
                 - "exit 0"
-            initialDelaySeconds: 30
+            initialDelaySeconds: 10
             periodSeconds: 30
           readinessProbe:
             exec:
@@ -77,6 +91,6 @@ spec:
                 - /bin/sh
                 - -c
                 - "exit 0"
-            initialDelaySeconds: 10
+            initialDelaySeconds: 5
             periodSeconds: 10
       restartPolicy: Always
