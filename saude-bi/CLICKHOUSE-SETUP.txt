@@ -1,0 +1,48 @@
+# ClickHouse do saude-bi (namespace saude-bi)
+
+O saude-bi tem seu **próprio** ClickHouse — StatefulSet dedicado no namespace `saude-bi`,
+independente do ClickHouse de `saude-auditoria-gateway`.
+
+## Deploy
+
+```bash
+kubectl apply -f clickhouse.yaml
+```
+
+Aguardar o pod ficar Ready:
+```bash
+kubectl get pods -n saude-bi -l app=clickhouse -w
+```
+
+## Serviço interno
+
+- HTTP (Superset / consultas): `clickhouse.saude-bi.svc.cluster.local:8123`
+- Native (consumer / inserções): `clickhouse.saude-bi.svc.cluster.local:9000`
+
+O database `bi_etapas` é criado automaticamente pelo consumer ao iniciar
+(via `CREATE DATABASE IF NOT EXISTS bi_etapas`).
+
+## Acesso local (desenvolvimento)
+
+```bash
+kubectl port-forward svc/clickhouse 8123:8123 -n saude-bi
+# em outro terminal:
+curl "http://localhost:8123/?query=SHOW+DATABASES"
+```
+
+## Superset
+
+SQLAlchemy URI para adicionar como Database na UI:
+```
+clickhouse+http://clickhouse.saude-bi.svc.cluster.local:8123/bi_etapas
+```
+
+## ConfigMap (env)
+
+As variáveis CLICKHOUSE_HOST, CLICKHOUSE_PORT_NATIVE, CLICKHOUSE_DATABASE
+já apontam para este ClickHouse no env-configmap.yaml.
+
+Para o legado Rails (relatórios), usar:
+- CLICKHOUSE_ETAPAS_HOST: clickhouse.saude-bi.svc.cluster.local
+- CLICKHOUSE_ETAPAS_PORT: 8123
+- CLICKHOUSE_ETAPAS_DATABASE: bi_etapas
