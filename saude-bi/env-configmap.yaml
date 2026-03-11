@@ -15,7 +15,7 @@ data:
   CLICKHOUSE_PORT_HTTP: "8123"
   CLICKHOUSE_PORT_NATIVE: "9000"
   CLICKHOUSE_DATABASE: "bi_etapas"
-  # ClickHouse — variáveis para o legado Rails (relatórios)
-  CLICKHOUSE_ETAPAS_HOST: "clickhouse.saude-bi.svc.cluster.local"
-  CLICKHOUSE_ETAPAS_PORT: "8123"
-  CLICKHOUSE_ETAPAS_DATABASE: "bi_etapas"
+  # ClickHouse — URL HTTP para o gateway (porta 8123)
+  CLICKHOUSE_URL: "http://clickhouse.saude-bi.svc.cluster.local:8123"
+  # Gateway de leitura — URL para os Rails legado (relatórios)
+  SAUDE_BI_ETAPAS_API_URL: "http://saude-bi-gateway.saude-bi.svc.cluster.local:8080"
