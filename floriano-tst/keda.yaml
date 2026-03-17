@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: floriano-tst-scaledobject
+  namespace: floriano-tst
+spec:
+  scaleTargetRef:
+    name: floriano-tst
+  minReplicaCount: 2
+  maxReplicaCount: 6
+  triggers:
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        value: "60"
+    - type: memory
+      metricType: Utilization
+      metadata:
+        value: "80"
