@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sidekiq
-  namespace: saude-homolog
+  namespace: saoraimundo
   labels:
     app: sidekiq
 spec:
@@ -17,20 +17,16 @@ spec:
     spec:
       containers:
         - name: sidekiq
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-92
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-87
           command: ["/bin/bash", "-c"]
           args:
             - |
-              echo "Aguardando banco de dados..."
-              sleep 15
-
-              echo "Iniciando Sidekiq..."
-              # Configurar rbenv
-              export RBENV_ROOT=/usr/local/rbenv
-              export PATH="${RBENV_ROOT}/bin:${RBENV_ROOT}/shims:${PATH}"
-              eval "$(rbenv init - bash)"
-
+              # Configurar PATH para rbenv
+              export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec sidekiq -C config/sidekiq.yml
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /mnt/compartilhado
           envFrom:
             - configMapRef:
                 name: env
@@ -38,10 +34,15 @@ spec:
                 name: app-secrets
           resources:
             requests:
-              cpu: "400m"
-              memory: "1Gi"
+              cpu: "500m"
+              memory: "1024Mi"
             limits:
-              cpu: "800m"
-              memory: "2Gi"
+              cpu: "2000m"
+              memory: "2048Mi"
+
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: azurefile-pvc
 
       restartPolicy: Always

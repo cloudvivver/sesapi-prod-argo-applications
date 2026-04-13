@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute
+  namespace: saoraimundo
+spec:
+  hard:
+    requests.cpu: "8"
+    requests.memory: "20Gi"
+    limits.cpu: "20"
+    limits.memory: "36Gi"
+    pods: "15"
