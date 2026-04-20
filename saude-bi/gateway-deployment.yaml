@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-bi-gateway:20260310103349
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-bi-gateway:bb42326
           imagePullPolicy: Always
           ports:
             - name: http
