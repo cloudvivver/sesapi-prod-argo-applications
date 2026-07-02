@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: barras
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:cloudvivver/sesapi-prod-argo-applications.git
+    targetRevision: HEAD
+    path: barras
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: barras
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
