@@ -1,0 +1,36 @@
+# Application ArgoCD — aplicar no namespace argocd do cluster.
+#
+# Pré-requisitos:
+#   1. Secret app-secrets no namespace edne-endereco (CEP_API_KEY)
+#   2. Imagem edne-endereco publicada no ECR (tag em api-deployment.yaml)
+#   3. NÃO sincronizar etl-job.yaml automaticamente (carga destrutiva)
+#
+# Ordem de deploy:
+#   1. kubectl create secret generic app-secrets -n edne-endereco --from-literal=CEP_API_KEY='...'
+#   2. kubectl apply -f argocd-application.yaml
+#   3. Aguardar opensearch-0 e cep-api Running
+#   4. ETL via port-forward (ver etl-job.yaml) ou Job manual
+#
+# URL interna para apps Cuidar:
+#   http://cep-api-service.edne-endereco.svc.cluster.local
+#   Header: X-API-Key: <CEP_API_KEY>
+#
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: edne-endereco
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:sesapi-saude/sesapi-prod-argo-applications.git
+    targetRevision: main
+    path: edne-endereco
+    directory:
+      exclude: "etl-job.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: edne-endereco
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

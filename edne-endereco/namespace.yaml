@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: edne-endereco
+  labels:
+    name: edne-endereco
+    app: edne-endereco
+    environment: production

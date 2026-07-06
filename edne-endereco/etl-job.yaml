@@ -1,0 +1,67 @@
+# Job opcional — NÃO incluir no sync automático do ArgoCD.
+# Requer imagem ETL no ECR e PVC edne-data com base eDNE em /data/edne/Delimitado.
+#
+# Alternativa recomendada (carga inicial):
+#   kubectl port-forward -n edne-endereco svc/opensearch 9200:9200
+#   cd eDNE_Basico/cep-etl && OPENSEARCH_URL=http://localhost:9200 python3 -m etl.main
+#
+# kubectl apply -f etl-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: edne-etl-load
+  namespace: edne-endereco
+  labels:
+    app: edne-etl
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app: edne-etl
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: etl
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/edne-endereco-etl:main
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: OPENSEARCH_URL
+              value: "http://opensearch:9200"
+            - name: OPENSEARCH_INDEX
+              value: "enderecos"
+            - name: EDNE_PATH
+              value: "/data/edne/Delimitado"
+            - name: EDNE_VERSION
+              value: "26062"
+          volumeMounts:
+            - name: edne-data
+              mountPath: /data/edne
+              readOnly: true
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+      volumes:
+        - name: edne-data
+          persistentVolumeClaim:
+            claimName: edne-data
+
+---
+# PVC para dados eDNE (~1,2 GB). Popular manualmente antes do Job.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: edne-data
+  namespace: edne-endereco
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3
+  resources:
+    requests:
+      storage: 5Gi
