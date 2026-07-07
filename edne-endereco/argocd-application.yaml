@@ -23,7 +23,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:sesapi-saude/sesapi-prod-argo-applications.git
+    repoURL: git@github.com:cloudvivver/sesapi-prod-argo-applications.git
     targetRevision: main
     path: edne-endereco
     directory:
