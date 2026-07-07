@@ -69,6 +69,9 @@ data:
   REPORT_PARALLEL_WORKERS: "2"
   PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
 
+  # CEP API (edne-endereco) - CEP_API_KEY vem do Secret app-secrets
+  CEP_API_URL: "http://cep-api-service.edne-endereco.svc.cluster.local"
+
 kind: ConfigMap
 metadata:
   labels:
