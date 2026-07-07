@@ -16,6 +16,8 @@ spec:
       labels:
         app: opensearch
     spec:
+      securityContext:
+        fsGroup: 1000
       initContainers:
         - name: sysctl
           image: busybox:1.36
