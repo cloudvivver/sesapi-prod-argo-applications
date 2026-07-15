@@ -7,6 +7,8 @@ metadata:
     app: cetea
     environment: production
 data:
+  # CEP API (edne-endereco) - CEP_API_KEY vem do Secret app-secrets
+  EDNE_CEP_API_URL: "http://cep-api-service.edne-endereco.svc.cluster.local"
   # Application URLs
   RAILS_ENV: production
   TZ: "America/Sao_Paulo"
