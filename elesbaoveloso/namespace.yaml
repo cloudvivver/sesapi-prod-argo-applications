@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: elesbaoveloso
+  labels:
+    name: elesbaoveloso
+    environment: production
+    app: saude-publica
