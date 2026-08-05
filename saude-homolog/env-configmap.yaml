@@ -70,6 +70,7 @@ data:
   PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
 
   # SIGTAP/SIA storage (efs = mount atual; s3 = cuidar-storage via IRSA)
+  # Ativar "s3" só após a role IAM cuidar-sigtap-s3 existir (setup-sigtap-irsa.sh)
   SIGTAP_STORAGE: "efs"
   SIGTAP_S3_BUCKET: "cuidar-storage"
   SIGTAP_S3_PREFIX: "prd"

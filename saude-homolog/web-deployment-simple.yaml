@@ -21,6 +21,7 @@ spec:
       labels:
         io.kompose.service: webhomolog
     spec:
+      serviceAccountName: cuidar-sigtap-sa
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
