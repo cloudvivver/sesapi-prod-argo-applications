@@ -1,0 +1,29 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListBucketPrefix",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": "arn:aws:s3:::cuidar-storage",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["prd/sigtap/*", "prd/sia/*"]
+        }
+      }
+    },
+    {
+      "Sid": "ObjectRW",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::cuidar-storage/prd/sigtap/*",
+        "arn:aws:s3:::cuidar-storage/prd/sia/*"
+      ]
+    }
+  ]
+}

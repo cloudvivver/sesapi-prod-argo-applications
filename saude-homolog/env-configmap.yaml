@@ -69,6 +69,12 @@ data:
   REPORT_PARALLEL_WORKERS: "2"
   PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
 
+  # SIGTAP/SIA storage (efs = mount atual; s3 = cuidar-storage via IRSA)
+  SIGTAP_STORAGE: "efs"
+  SIGTAP_S3_BUCKET: "cuidar-storage"
+  SIGTAP_S3_PREFIX: "prd"
+  AWS_REGION: "sa-east-1"
+
   # CEP API (edne-endereco) - CEP_API_KEY vem do Secret app-secrets
   EDNE_CEP_API_URL: "http://cep-api-service.edne-endereco.svc.cluster.local"
 
