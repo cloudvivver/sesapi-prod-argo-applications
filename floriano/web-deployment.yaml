@@ -121,8 +121,6 @@ spec:
               subPath: nginx.conf
             - name: public-assets
               mountPath: /app/public
-            - name: shared-storage
-              mountPath: /mnt/compartilhado
             - name: nginx-logs
               mountPath: /var/log/nginx
           resources:
