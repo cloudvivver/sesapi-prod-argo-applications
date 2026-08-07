@@ -49,7 +49,7 @@ spec:
                     io.kompose.service: webhomolog
       initContainers:
         - name: sync-public-assets
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-153
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-154
           imagePullPolicy: Always
           command: ["/bin/sh", "-c"]
           args:
@@ -62,7 +62,7 @@ spec:
               mountPath: /shared-public
       containers:
         - name: webhomolog
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-153
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-154
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
