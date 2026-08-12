@@ -30,18 +30,43 @@ data:
       server {
         listen 80;
 
-        # Serve static assets directly with long cache (assets têm fingerprint)
+        # Atalho legado: /assets/desktop/* → /fwk/desktop/* (ANTES do bloco genérico /assets).
+        location ~ "^/assets/desktop/(?<dpath>.+)-[0-9a-f]{20,}(?<dext>\.[a-z0-9]+)$" {
+          root /app/public;
+          try_files /fwk/desktop/$dpath$dext /assets/desktop/$dpath$dext @puma;
+          add_header Cache-Control "public, max-age=3600";
+          access_log off;
+        }
+
+        location ~ "^/assets/desktop/(?<dpath>.+)$" {
+          root /app/public;
+          try_files /fwk/desktop/$dpath /assets/desktop/$dpath @puma;
+          add_header Cache-Control "public, max-age=3600";
+          access_log off;
+        }
+
+        # Serve static assets directly with long cache (assets têm fingerprint).
+        # Fallback @puma: digests órfãos / AssetsFallbackController.
         location ~ ^/(assets|stylesheets|javascripts)/ {
           root /app/public;
-          try_files $uri $uri/ =404;
+          try_files $uri $uri/ @puma;
           add_header Cache-Control "public, max-age=31536000, immutable";
           access_log off;
         }
 
-        # Serve FWK assets e outros assets estáticos (fwk, desktop, jcrop, etc)
-        location ~ ^/(fwk|desktop|jcrop|jstree|bootstrap-colorpicker|select2v3|por|logos|download|calendar_tmpls)/ {
+        # Digest órfão em /fwk/...-HASH.ext → arquivo sem digest
+        location ~ "^/fwk/(?<fpath>.+)-[0-9a-f]{20,}(?<fext>\.[a-z0-9]+)$" {
           root /app/public;
-          try_files $uri =404;
+          try_files /fwk/$fpath$fext $uri @puma;
+          add_header Cache-Control "public, max-age=3600";
+          access_log off;
+        }
+
+        # Serve FWK + ícones de módulos (menu) quando o arquivo existir.
+        # Fallback @puma: rotas Rails (/fwk/desktop/mensagem, lookup_edit_v3, etc).
+        location ~ ^/(fwk|desktop|jcrop|jstree|bootstrap-colorpicker|select2v3|por|logos|download|calendar_tmpls|amb|amx|cdf|vis|adm|seg|lab|inh|imu|dph|prd|ram|via|upa|bit|cda|cde|cdi|cct|cid|esu|hos|int|pec|rep|ser|edu|ouv|pds|tfd|geh|fro|zoo|vox|bot|drive|adh|end|fah|lah|nuh|pah|pat|pej|pes|poh|rams|reh|api|bch|cdi)/ {
+          root /app/public;
+          try_files $uri @puma;
           add_header Cache-Control "public, max-age=3600";
           access_log off;
         }
@@ -49,7 +74,7 @@ data:
         # Serve arquivos estáticos na raiz (favicon, robots.txt, etc)
         location ~* \.(png|jpg|jpeg|gif|ico|svg|css|js|pdf|txt|xml)$ {
           root /app/public;
-          try_files $uri =404;
+          try_files $uri @puma;
           add_header Cache-Control "public, max-age=3600";
           access_log off;
         }
@@ -67,6 +92,23 @@ data:
           proxy_read_timeout    300s;
 
           # Prevenir cache de HTML - garante que novas versões sejam carregadas
+          add_header Cache-Control "no-cache, no-store, must-revalidate";
+          add_header Pragma "no-cache";
+          add_header Expires "0";
+        }
+
+        # Named location usada pelos try_files acima quando o arquivo não existe
+        location @puma {
+          proxy_pass         http://127.0.0.1:3000;
+          proxy_http_version 1.1;
+          proxy_set_header   Host $host;
+          proxy_set_header   X-Real-IP $remote_addr;
+          proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header   X-Forwarded-Proto $scheme;
+          proxy_connect_timeout 300s;
+          proxy_send_timeout    300s;
+          proxy_read_timeout    300s;
+
           add_header Cache-Control "no-cache, no-store, must-revalidate";
           add_header Pragma "no-cache";
           add_header Expires "0";
