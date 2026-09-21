@@ -37,6 +37,9 @@ spec:
                 name: env
             - secretRef:
                 name: app-secrets
+            - secretRef:
+                name: minio-s3-credentials
+                optional: true
           resources:
             requests:
               cpu: "400m"
