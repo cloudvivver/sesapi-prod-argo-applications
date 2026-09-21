@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: object-storage
+  labels:
+    name: object-storage
+    app: minio
+    purpose: s3-compatible-plano-b
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute
+  namespace: object-storage
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: "4Gi"
+    limits.cpu: "4"
+    limits.memory: "8Gi"
+    pods: "10"
+    persistentvolumeclaims: "2"
+    requests.storage: "250Gi"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: defaults
+  namespace: object-storage
+spec:
+  limits:
+    - type: Container
+      default:
+        cpu: "500m"
+        memory: "1Gi"
+      defaultRequest:
+        cpu: "250m"
+        memory: "512Mi"
+      max:
+        cpu: "2"
+        memory: "4Gi"

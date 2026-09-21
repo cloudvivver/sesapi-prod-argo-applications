@@ -1,0 +1,64 @@
+# Cria o bucket cuidar-storage após o MinIO estar Ready.
+# Requer Secret minio-root no namespace object-storage.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-create-bucket
+  namespace: object-storage
+  labels:
+    app: minio
+spec:
+  backoffLimit: 6
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app: minio
+        job: create-bucket
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mc
+          image: quay.io/minio/mc:RELEASE.2024-11-17T19-35-56Z
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-root
+                  key: MINIO_ROOT_USER
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-root
+                  key: MINIO_ROOT_PASSWORD
+            - name: MINIO_ENDPOINT
+              value: http://minio.object-storage.svc.cluster.local:9000
+            - name: BUCKET
+              value: cuidar-storage
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              echo "Aguardando MinIO em ${MINIO_ENDPOINT}..."
+              for i in $(seq 1 60); do
+                if mc alias set local "${MINIO_ENDPOINT}" "${MINIO_ROOT_USER}" "${MINIO_ROOT_PASSWORD}" 2>/dev/null; then
+                  break
+                fi
+                sleep 5
+              done
+              mc alias set local "${MINIO_ENDPOINT}" "${MINIO_ROOT_USER}" "${MINIO_ROOT_PASSWORD}"
+              if mc ls "local/${BUCKET}" >/dev/null 2>&1; then
+                echo "Bucket ${BUCKET} já existe."
+              else
+                mc mb "local/${BUCKET}"
+                echo "Bucket ${BUCKET} criado."
+              fi
+              mc ls local/
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"

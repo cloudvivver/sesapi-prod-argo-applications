@@ -1,0 +1,11 @@
+# Aplique este arquivo no ArgoCD / lista de apps se o object-storage for syncado automaticamente.
+# Ordem recomendada: secret.yaml (manual) → kubectl apply -k .
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: object-storage
+resources:
+  - namespace.yaml
+  - statefulset.yaml
+  - service.yaml
+  - job-create-bucket.yaml
+# secret.yaml NÃO entra no kustomize — aplicar à mão a partir de secret.yaml.example
