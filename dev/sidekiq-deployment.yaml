@@ -18,6 +18,7 @@ spec:
       annotations:
         kubectl.kubernetes.io/restartedAt: "2025-12-17T18:08:43Z"
     spec:
+      serviceAccountName: cuidar-sigtap-sa
       containers:
         - name: sidekiq
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-dev:20260818-3

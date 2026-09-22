@@ -24,6 +24,7 @@ spec:
       annotations:
         kubectl.kubernetes.io/restartedAt: "2025-12-20T23:20:51Z"
     spec:
+      serviceAccountName: cuidar-sigtap-sa
       initContainers:
         - name: sync-public-assets
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-dev:20260818-3
