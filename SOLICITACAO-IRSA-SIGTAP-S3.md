@@ -194,13 +194,14 @@ spec:
 ### ConfigMap (após IAM pronto)
 
 ```yaml
-SIGTAP_STORAGE: "s3"          # hoje ainda "efs" até a role existir
+SIGTAP_STORAGE: "s3"
 SIGTAP_S3_BUCKET: "cuidar-storage"
 SIGTAP_S3_PREFIX: "prd"
 AWS_REGION: "sa-east-1"
+# sem AWS_ENDPOINT_URL e sem Access Keys (IRSA puro)
 ```
 
-A troca `efs` → `s3` será feita pela Vivver **depois** do retorno do ARN confirmado.
+Homolog já aponta `SIGTAP_STORAGE=s3` + SA IRSA (piloto). Validar após a role IAM existir; MinIO fica como plano B.
 
 ---
 
