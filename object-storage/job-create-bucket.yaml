@@ -19,8 +19,11 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: mc
-          image: quay.io/minio/mc:RELEASE.2024-11-17T19-35-56Z
+          # Variante -dev: a :latest do Chainguard não tem /bin/sh.
+          image: cgr.dev/chainguard/minio-client@sha256:19c80ef13b3bec25196b00c24345195f0d0e1305a339cebf6dc7d44b85782817
           env:
+            - name: HOME
+              value: /tmp
             - name: MINIO_ROOT_USER
               valueFrom:
                 secretKeyRef:

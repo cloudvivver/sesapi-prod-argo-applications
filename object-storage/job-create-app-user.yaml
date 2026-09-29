@@ -1,0 +1,111 @@
+# Cria o usuário do app (cuidar-sigtap) com acesso só a cuidar-storage/prd/*.
+# Requer os Secrets minio-root e minio-app-user (ver app-user-secret.yaml.example).
+# As mesmas credenciais vão para o Secret minio-s3-credentials de cada tenant.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-policy-cuidar-sigtap
+  namespace: object-storage
+  labels:
+    app: minio
+data:
+  policy.json: |
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": ["s3:ListBucket", "s3:GetBucketLocation", "s3:ListBucketMultipartUploads"],
+          "Resource": ["arn:aws:s3:::cuidar-storage"]
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject",
+            "s3:AbortMultipartUpload",
+            "s3:ListMultipartUploadParts"
+          ],
+          "Resource": ["arn:aws:s3:::cuidar-storage/prd/*"]
+        }
+      ]
+    }
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-create-app-user
+  namespace: object-storage
+  labels:
+    app: minio
+spec:
+  backoffLimit: 6
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app: minio
+        job: create-app-user
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mc
+          image: cgr.dev/chainguard/minio-client@sha256:19c80ef13b3bec25196b00c24345195f0d0e1305a339cebf6dc7d44b85782817
+          env:
+            - name: HOME
+              value: /tmp
+            - name: MINIO_ENDPOINT
+              value: http://minio.object-storage.svc.cluster.local:9000
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-root
+                  key: MINIO_ROOT_USER
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-root
+                  key: MINIO_ROOT_PASSWORD
+            - name: APP_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-app-user
+                  key: AWS_ACCESS_KEY_ID
+            - name: APP_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-app-user
+                  key: AWS_SECRET_ACCESS_KEY
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              for i in $(seq 1 60); do
+                if mc alias set local "${MINIO_ENDPOINT}" "${MINIO_ROOT_USER}" "${MINIO_ROOT_PASSWORD}" >/dev/null 2>&1; then
+                  break
+                fi
+                sleep 5
+              done
+              mc alias set local "${MINIO_ENDPOINT}" "${MINIO_ROOT_USER}" "${MINIO_ROOT_PASSWORD}"
+              mc admin policy create local cuidar-sigtap /policy/policy.json
+              mc admin user add local "${APP_ACCESS_KEY}" "${APP_SECRET_KEY}"
+              if ! mc admin user info local "${APP_ACCESS_KEY}" | grep -q "PolicyName: cuidar-sigtap"; then
+                mc admin policy attach local cuidar-sigtap --user "${APP_ACCESS_KEY}"
+              fi
+              mc admin user info local "${APP_ACCESS_KEY}" | tee /dev/stderr | grep -q "PolicyName: cuidar-sigtap"
+          volumeMounts:
+            - name: policy
+              mountPath: /policy
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+      volumes:
+        - name: policy
+          configMap:
+            name: minio-policy-cuidar-sigtap

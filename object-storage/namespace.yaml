@@ -20,7 +20,7 @@ spec:
     limits.memory: "8Gi"
     pods: "10"
     persistentvolumeclaims: "2"
-    requests.storage: "250Gi"
+    requests.storage: "30Gi"
 ---
 apiVersion: v1
 kind: LimitRange

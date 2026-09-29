@@ -8,4 +8,5 @@ resources:
   - statefulset.yaml
   - service.yaml
   - job-create-bucket.yaml
+  - job-create-app-user.yaml
 # secret.yaml NÃO entra no kustomize — aplicar à mão a partir de secret.yaml.example

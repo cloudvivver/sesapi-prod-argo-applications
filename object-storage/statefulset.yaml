@@ -17,9 +17,17 @@ spec:
       labels:
         app: minio
     spec:
+      # Imagem Chainguard roda como UID 65532; fsGroup dá permissão de escrita no volume EBS.
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
       containers:
         - name: minio
-          image: quay.io/minio/minio:RELEASE.2024-12-18T13-15-44Z
+          # quay.io/minio e docker.io/minio não publicam mais imagens públicas (401/404).
+          # Chainguard free só expõe :latest; fixado por digest (minio RELEASE.2026-09-22T19-25-18Z).
+          image: cgr.dev/chainguard/minio@sha256:71674988a1c7ddd5724928633199152b11e4ddefd6c6ce2d60772ff4a8f22ca9
           args:
             - server
             - /data
@@ -72,4 +80,4 @@ spec:
         storageClassName: gp3
         resources:
           requests:
-            storage: 200Gi
+            storage: 20Gi
