@@ -1,4 +1,7 @@
-# Cria o usuário do app (cuidar-sigtap) com acesso só a cuidar-storage/prd/*.
+# Cria o usuário do app (cuidar-sigtap) com acesso só a cuidar-storage/prd/* (SIGTAP/SIA)
+# e cuidar-storage/saude/* (Fwk::SharedStorage, STORAGE_BACKEND=s3).
+# Para atualizar a policy num MinIO já provisionado, recrie o Job (Jobs são imutáveis):
+#   kubectl -n object-storage delete job minio-create-app-user && kubectl apply -k .
 # Requer os Secrets minio-root e minio-app-user (ver app-user-secret.yaml.example).
 # As mesmas credenciais vão para o Secret minio-s3-credentials de cada tenant.
 apiVersion: v1
@@ -27,7 +30,7 @@ data:
             "s3:AbortMultipartUpload",
             "s3:ListMultipartUploadParts"
           ],
-          "Resource": ["arn:aws:s3:::cuidar-storage/prd/*"]
+          "Resource": ["arn:aws:s3:::cuidar-storage/prd/*", "arn:aws:s3:::cuidar-storage/saude/*"]
         }
       ]
     }
