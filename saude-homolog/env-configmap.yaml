@@ -77,6 +77,12 @@ data:
   AWS_REGION: "sa-east-1"
   AWS_ENDPOINT_URL: "http://minio.object-storage.svc.cluster.local:9000"
 
+  # Fwk::SharedStorage (e-SUS, ACS, PPI, CNES, leito, encerramento, restauração)
+  # Keys: cuidar-storage/saude/<tenant>/<modulo>/ — requer master-198+.
+  STORAGE_BACKEND: "s3"
+  STORAGE_S3_BUCKET: "cuidar-storage"
+  STORAGE_S3_PREFIX: "saude"
+
   # CEP API (edne-endereco) - CEP_API_KEY vem do Secret app-secrets
   EDNE_CEP_API_URL: "http://cep-api-service.edne-endereco.svc.cluster.local"
 
