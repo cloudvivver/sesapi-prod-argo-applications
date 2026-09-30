@@ -16,6 +16,7 @@ saude-homolog/*.md
 object-storage/secret.yaml
 object-storage/app-user-secret.yaml
 saude-homolog/minio-s3-credentials.secret.yaml
+bomjesus/minio-s3-credentials.secret.yaml
 PLANO_ROLLOUT_JEMALLOC.md
 SOLUCAO_LENTIDAO_19DEC2025.md
 saude-publica-airflow/secrets.yaml.template
