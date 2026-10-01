@@ -21,7 +21,7 @@ spec:
       serviceAccountName: cuidar-sigtap-sa
       containers:
         - name: sidekiq
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-dev:20260818-3
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-dev:20261001-2
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
