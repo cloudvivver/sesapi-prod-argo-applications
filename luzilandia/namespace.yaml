@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: luzilandia
+  labels:
+    name: luzilandia
+    environment: production
+    app: saude-publica
