@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: simpliciomendes-service
+  namespace: simpliciomendes
+  labels:
+    app: simpliciomendes
+    environment: production
+spec:
+  selector:
+    app: simpliciomendes
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
