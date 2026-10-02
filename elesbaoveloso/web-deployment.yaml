@@ -24,7 +24,7 @@ spec:
     spec:
       initContainers:
         - name: sync-public-assets
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-194
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-hotfix-2
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -36,7 +36,7 @@ spec:
               mountPath: /shared-public
       containers:
         - name: elesbaoveloso
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-194
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-hotfix-2
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
@@ -70,6 +70,9 @@ spec:
                 name: env
             - secretRef:
                 name: app-secrets
+            - secretRef:
+                name: minio-s3-credentials
+                optional: true
             - secretRef:
                 name: c-tv-api-key
                 optional: true
