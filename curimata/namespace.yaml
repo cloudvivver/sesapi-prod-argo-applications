@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: curimata
+  labels:
+    name: curimata
+    environment: production
+    app: saude-publica
