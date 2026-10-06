@@ -14,6 +14,15 @@ data:
   TZ: "America/Sao_Paulo"
   APP_BASE_URL: https://cuidarpi.curimata.saude.pi.gov.br
   APP_HOST: cuidarpi.curimata.saude.pi.gov.br
+  REPORT_SERVICE_URL: "https://event-agent.bigdatasys.net/api/events/report"
+  WEBSOCKET_NOTIFICATION_URL: "wss://notificacao.bigdatasys.net/ws/relatorios"
+  WEBSOCKET_NOTIFICATION_ORIGIN: "cuidarpi-curimata"
+
+  # External APIs
+  PI_DIGITAL_API_URL: "https://pidigital.pi.gov.br/api/assinatura-ws/assinatura"
+  PI_KEYCLOAK_URL: "https://login.pi.gov.br"
+  PI_LOGIN_SITE_URL: "https://login.pi.gov.br"
+
   # Redis Configuration
   REDIS_HOST: redis
   REDIS_PORT: "6379"
@@ -24,6 +33,7 @@ data:
   # Database Configuration (AWS RDS via Proxy)
   DATABASE_HOST: proxy-db-viverdb.proxy-cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
   DATABASE_PORT: "5432"
+  DATABASE_NAME: cuidar_curimata_pi
   DATABASE_PROD: cuidar_curimata_pi
   DATABASE_BI_SESAPI: ""
 
@@ -72,4 +82,12 @@ data:
   PUBLISH_ATENDIMENTO_EVENTS: "false"
   ATENDIMENTO_EVENTS_GATEWAY_URL: "http://saude-bi-gateway.saude-bi.svc.cluster.local/events"
   AUDITORIA_API_URL: "http://saude-auditoria-api.saude-auditoria-gateway.svc.cluster.local/api/v1"
+  # Report Processing (based on sidekiq CPU limit: 500m = 0.5 cores)
+  REPORT_PARALLEL_WORKERS: "1"
   PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
+
+  # SIGTAP/SIA storage (efs = mount atual; s3 = cuidar-storage via IRSA)
+  SIGTAP_STORAGE: "efs"
+  SIGTAP_S3_BUCKET: "cuidar-storage"
+  SIGTAP_S3_PREFIX: "prd"
+  AWS_REGION: "sa-east-1"
