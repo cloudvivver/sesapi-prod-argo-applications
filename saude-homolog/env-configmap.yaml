@@ -85,7 +85,7 @@ data:
 
   # CEP API (edne-endereco) - CEP_API_KEY vem do Secret app-secrets
   EDNE_CEP_API_URL: "http://cep-api-service.edne-endereco.svc.cluster.local"
-  TRIAGEM_EVENTS_ENABLED: false
+  TRIAGEM_EVENTS_ENABLED: "false"
 
 
 kind: ConfigMap
