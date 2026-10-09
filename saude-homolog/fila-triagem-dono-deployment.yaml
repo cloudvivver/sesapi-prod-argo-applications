@@ -46,6 +46,14 @@ spec:
               value: "5432"
             - name: DATABASE_HOST
               value: db-viverdb.cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
+            # Teto de recálculo por escopo: 30 s = no máximo 2 por minuto, o mesmo que o polling
+            # de uma tela. A primeira mudança de uma rajada chega em ~1 s; a seguinte, em até 30 s.
+            - name: FILA_TRIAGEM_INTERVALO_MINIMO
+              value: "30"
+            # Reconciliação de todos os escopos ativos. Subir para 300 só depois de
+            # rake fila_triagem:conferir sem divergências (docs/expectativa-producao.md).
+            - name: FILA_TRIAGEM_RECONCILIAR_S
+              value: "60"
             - name: FILA_TRIAGEM_ARQUIVO_VIVO
               value: /tmp/fila_triagem_vivo
             - name: FILA_TRIAGEM_VERBOSO
