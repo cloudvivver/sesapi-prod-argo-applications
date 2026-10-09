@@ -85,7 +85,10 @@ data:
 
   # CEP API (edne-endereco) - CEP_API_KEY vem do Secret app-secrets
   EDNE_CEP_API_URL: "http://cep-api-service.edne-endereco.svc.cluster.local"
-  TRIAGEM_EVENTS_ENABLED: "false"
+  # Fila de acolhimento por eventos (gateway triagem-events + dono fila-triagem-dono).
+  # TRIAGEM_EVENTS_UNITS vazio = todas as unidades; ex.: "2208403:1,2208403:5".
+  TRIAGEM_EVENTS_ENABLED: "true"
+  TRIAGEM_EVENTS_UNITS: ""
 
 
 kind: ConfigMap
