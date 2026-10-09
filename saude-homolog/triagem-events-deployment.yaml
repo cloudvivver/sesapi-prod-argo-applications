@@ -28,6 +28,9 @@ spec:
       terminationGracePeriodSeconds: 15
       securityContext:
         runAsNonRoot: true
+        # Usuário "nonroot" da imagem distroless; numérico para o kubelet poder conferir.
+        runAsUser: 65532
+        runAsGroup: 65532
         seccompProfile:
           type: RuntimeDefault
       containers:
