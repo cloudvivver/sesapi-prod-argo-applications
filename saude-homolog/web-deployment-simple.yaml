@@ -119,10 +119,6 @@ spec:
             - secretRef:
                 name: c-tv-api-key
                 optional: true
-            # TRIAGEM_EVENTS_SECRET (assina o token do gateway) e FILA_TRIAGEM_REDIS_URL
-            # (redis-fila: a grade lida do snapshot e os escopos ativos).
-            - secretRef:
-                name: triagem-events
           resources:
             requests:
               cpu: "250m"

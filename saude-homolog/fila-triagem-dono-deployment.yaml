@@ -1,10 +1,10 @@
-# Dono da fila de acolhimento (rake fila_triagem:dono, no saude-publica-legado).
-# Processo único por banco: escuta as notificações das tabelas da fila (LISTEN fila_triagem),
-# reconstrói os escopos com tela aberta e publica os snapshots no redis-fila, de onde o
-# gateway triagem-events avisa as telas. Uma segunda instância não inicia (trava consultiva
-# no banco), por isso 1 réplica e Recreate: o pod antigo sai antes de o novo subir.
-# Sem ele, as telas continuam funcionando pelo polling de antes (o gateway responde
-# "unavailable" quando o sinal de vida do dono some).
+# Dono da fila (rake fila_triagem:dono, no saude-publica-legado).
+# Processo único por banco: lê as mudanças das tabelas da fila (fila_mudanca, gravada por trigger),
+# reconstrói os escopos com tela aberta e grava os snapshots em fila_snapshot, de onde a grade lê.
+# Uma segunda instância não inicia (trava consultiva no banco), por isso no máximo 1 réplica e
+# Recreate: o pod antigo sai antes de o novo subir. Sem ele, as telas usam a consulta de sempre
+# (a grade só confia no snapshot com o dono visto nos últimos 2 min).
+# replicas: 0 até a imagem conter a migration CriaFilaSnapshot (a master-211 ainda usa Redis/LISTEN).
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,7 +13,7 @@ metadata:
   labels:
     app: fila-triagem-dono
 spec:
-  replicas: 1
+  replicas: 0
   strategy:
     type: Recreate
   selector:
@@ -35,24 +35,18 @@ spec:
               export RBENV_ROOT=/usr/local/rbenv
               export PATH="${RBENV_ROOT}/bin:${RBENV_ROOT}/shims:${PATH}"
               eval "$(rbenv init - bash)"
-              # exec: o rake recebe o SIGTERM e encerra o ciclo (solta a trava e o LISTEN).
+              # exec: o rake recebe o SIGTERM, grava as métricas e encerra (solta a trava).
               exec bundle exec rake fila_triagem:dono
           env:
-            # LISTEN e a trava consultiva são de sessão: precisam da instância do banco,
-            # não do RDS Proxy (DATABASE_HOST do ConfigMap env).
-            - name: FILA_TRIAGEM_ESCUTA_HOST
-              value: db-viverdb.cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
-            - name: FILA_TRIAGEM_ESCUTA_PORT
-              value: "5432"
+            # A trava consultiva é de sessão: o dono fala direto com a instância, não pelo RDS
+            # Proxy (DATABASE_HOST do ConfigMap env).
             - name: DATABASE_HOST
               value: db-viverdb.cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
-            # Teto de recálculo por escopo: no máximo 1 a cada 10 s. Desde o master-211 o recálculo
-            # custa ~150 ms (antes ~1,3 s), então 6 por minuto ainda ficam abaixo do polling de uma
-            # tela; uma mudança chega à tela em até ~10 s.
+            # Teto de recálculo por escopo: no máximo 1 a cada 10 s. O recálculo custa ~150 ms, então
+            # 6 por minuto ainda ficam abaixo do polling de uma tela.
             - name: FILA_TRIAGEM_INTERVALO_MINIMO
               value: "10"
-            # Reconciliação de todos os escopos ativos a cada 5 min (conferir sem divergências na
-            # simulação de Piripiri: docs/expectativa-producao.md).
+            # Reconciliação de todos os escopos ativos a cada 5 min.
             - name: FILA_TRIAGEM_RECONCILIAR_S
               value: "300"
             - name: FILA_TRIAGEM_ARQUIVO_VIVO
@@ -64,10 +58,7 @@ spec:
                 name: env
             - secretRef:
                 name: app-secrets
-            # FILA_TRIAGEM_REDIS_URL (redis-fila, com senha).
-            - secretRef:
-                name: triagem-events
-          # O dono toca o arquivo a cada passo (no máximo ~1 s parado, fora reconstruções);
+          # O dono toca o arquivo a cada passo (~0,5 s, fora reconstruções);
           # 2 min sem tocar = travado: o kubelet reinicia o pod.
           livenessProbe:
             exec:
