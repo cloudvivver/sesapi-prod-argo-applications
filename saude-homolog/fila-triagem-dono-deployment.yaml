@@ -4,7 +4,7 @@
 # Uma segunda instância não inicia (trava consultiva no banco), por isso no máximo 1 réplica e
 # Recreate: o pod antigo sai antes de o novo subir. Sem ele, as telas usam a consulta de sempre
 # (a grade só confia no snapshot com o dono visto nos últimos 2 min).
-# replicas: 0 até a imagem conter a migration CriaFilaSnapshot (a master-211 ainda usa Redis/LISTEN).
+# As migrations rodam no início do webhomolog; até lá o dono falha e o kubelet o reinicia.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,7 +13,7 @@ metadata:
   labels:
     app: fila-triagem-dono
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:

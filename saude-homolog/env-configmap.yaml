@@ -87,7 +87,7 @@ data:
   EDNE_CEP_API_URL: "http://cep-api-service.edne-endereco.svc.cluster.local"
   # Fila lida do snapshot no PostgreSQL (fila_snapshot, mantido pelo fila-triagem-dono).
   # Chave geral; cada unidade liga pelos parâmetros fila_triagem_snapshot / fila_atendimento_snapshot.
-  FILA_SNAPSHOT_ENABLED: "false"
+  FILA_SNAPSHOT_ENABLED: "true"
 
 
 kind: ConfigMap
