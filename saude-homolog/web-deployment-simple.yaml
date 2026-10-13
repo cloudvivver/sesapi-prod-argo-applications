@@ -21,7 +21,6 @@ spec:
       labels:
         io.kompose.service: webhomolog
     spec:
-      serviceAccountName: cuidar-sigtap-sa
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -104,8 +103,8 @@ spec:
             periodSeconds: 20
             failureThreshold: 5
           volumeMounts:
-            - name: azurefile
-              mountPath: /mnt/compartilhado
+            - name: shared-storage
+              mountPath: /mnt/compartilhado/saude_devel_pi
             - name: public-assets
               mountPath: /app/public
           envFrom:
@@ -113,9 +112,6 @@ spec:
                 name: env
             - secretRef:
                 name: app-secrets
-            - secretRef:
-                name: minio-s3-credentials
-                optional: true
             - secretRef:
                 name: c-tv-api-key
                 optional: true
@@ -232,9 +228,9 @@ spec:
               cpu: "200m"
               memory: "256Mi"
       volumes:
-        - name: azurefile
+        - name: shared-storage
           persistentVolumeClaim:
-            claimName: shared-storage-pvc
+            claimName: s3-storage-pvc
         - name: nginx-config
           configMap:
             name: nginx-sidecar-pageview-config
