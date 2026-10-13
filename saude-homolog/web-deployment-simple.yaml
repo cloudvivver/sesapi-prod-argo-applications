@@ -21,6 +21,8 @@ spec:
       labels:
         io.kompose.service: webhomolog
     spec:
+      # Explícito: sem isso o campo legado spec.serviceAccount (cuidar-sigtap-sa) volta a preencher serviceAccountName.
+      serviceAccountName: default
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
