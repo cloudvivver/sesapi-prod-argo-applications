@@ -1,0 +1,83 @@
+# Dono da fila (rake fila_triagem:dono, no saude-publica-legado).
+# Processo único por banco: lê as mudanças das tabelas da fila (fila_mudanca, gravada por trigger),
+# reconstrói os escopos com tela aberta e grava os snapshots em fila_snapshot, de onde a grade lê.
+# Uma segunda instância não inicia (trava consultiva no banco), por isso no máximo 1 réplica e
+# Recreate: o pod antigo sai antes de o novo subir. Sem ele, as telas usam a consulta de sempre
+# (a grade só confia no snapshot com o dono visto nos últimos 2 min).
+# As migrations rodam na subida do web; até lá o dono falha e o kubelet o reinicia.
+# Desligado (replicas: 0) até o município entrar: para ligar, replicas: 1 e FILA_SNAPSHOT_ENABLED "true"
+# no env-configmap.yaml; depois os parâmetros por unidade. Sem o dono os triggers não gravam nada.
+# Para desligar a fila depressa: replicas: 0 (em até 2 min todas as telas voltam para a consulta).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fila-triagem-dono
+  namespace: saomigueltapuio
+  labels:
+    app: fila-triagem-dono
+spec:
+  replicas: 0
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: fila-triagem-dono
+  template:
+    metadata:
+      labels:
+        app: fila-triagem-dono
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: dono
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-213
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              export RBENV_ROOT=/usr/local/rbenv
+              export PATH="${RBENV_ROOT}/bin:${RBENV_ROOT}/shims:${PATH}"
+              eval "$(rbenv init - bash)"
+              # exec: o rake recebe o SIGTERM, grava as métricas e encerra (solta a trava).
+              exec bundle exec rake fila_triagem:dono
+          env:
+            # A trava consultiva é de sessão: o dono fala direto com a instância, não pelo RDS
+            # Proxy (DATABASE_HOST do ConfigMap env).
+            - name: DATABASE_HOST
+              value: db-viverdb.cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
+            # Teto de recálculo por escopo: no máximo 1 a cada 10 s. O recálculo custa ~150 ms, então
+            # 6 por minuto ainda ficam abaixo do polling de uma tela.
+            - name: FILA_TRIAGEM_INTERVALO_MINIMO
+              value: "10"
+            # Reconciliação de todos os escopos ativos a cada 5 min.
+            - name: FILA_TRIAGEM_RECONCILIAR_S
+              value: "300"
+            - name: FILA_TRIAGEM_ARQUIVO_VIVO
+              value: /tmp/fila_triagem_vivo
+            # Log de cada publicação durante o piloto.
+            - name: FILA_TRIAGEM_VERBOSO
+              value: "1"
+          envFrom:
+            - configMapRef:
+                name: env
+            - secretRef:
+                name: app-secrets
+          # O dono toca o arquivo a cada passo (~0,5 s, fora reconstruções);
+          # 2 min sem tocar = travado: o kubelet reinicia o pod.
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - test $(( $(date +%s) - $(stat -c %Y /tmp/fila_triagem_vivo) )) -lt 120
+            initialDelaySeconds: 180
+            periodSeconds: 30
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1536Mi"
+      restartPolicy: Always

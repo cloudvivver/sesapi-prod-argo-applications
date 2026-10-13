@@ -69,3 +69,8 @@ data:
   # External Services
   HYDRA_HOST: "https://regulapiaui.sesapi.pi.gov.br"
   PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
+
+  # Fila lida do snapshot no PostgreSQL (fila_snapshot, mantido pelo fila-triagem-dono).
+  # Chave geral; cada unidade liga pelos parâmetros fila_triagem_snapshot / fila_atendimento_snapshot (padrão N).
+  # Desligada até o município entrar: "true" junto com replicas: 1 em fila-triagem-dono-deployment.yaml.
+  FILA_SNAPSHOT_ENABLED: "false"
