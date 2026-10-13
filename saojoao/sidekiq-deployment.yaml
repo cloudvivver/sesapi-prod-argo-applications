@@ -33,7 +33,7 @@ spec:
               bundle exec sidekiq -C config/sidekiq.yml
           volumeMounts:
             - name: shared-storage
-              mountPath: /mnt/compartilhado
+              mountPath: /mnt/compartilhado/cuidar_saojoao_pi
           envFrom:
             - configMapRef:
                 name: env
@@ -50,6 +50,6 @@ spec:
       volumes:
         - name: shared-storage
           persistentVolumeClaim:
-            claimName: azurefile-pvc
+            claimName: s3-storage-pvc
 
       restartPolicy: Always

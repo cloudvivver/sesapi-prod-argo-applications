@@ -71,7 +71,7 @@ spec:
             - name: public-assets
               mountPath: /app/public
             - name: shared-storage
-              mountPath: /mnt/compartilhado
+              mountPath: /mnt/compartilhado/cuidar_curimata_pi
           envFrom:
             - configMapRef:
                 name: env
@@ -196,7 +196,7 @@ spec:
           emptyDir: {}
         - name: shared-storage
           persistentVolumeClaim:
-            claimName: azurefile-pvc
+            claimName: s3-storage-pvc
         - name: nginx-logs
           emptyDir: {}
 

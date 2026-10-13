@@ -75,6 +75,11 @@ data:
   AUDITORIA_API_URL: "http://saude-auditoria-api.saude-auditoria-gateway.svc.cluster.local/api/v1"
   PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
 
+  # /mnt/compartilhado/<DATABASE_PROD> = S3 cuidar-storage/compartilhado/<DATABASE_PROD>/ via Mountpoint S3 CSI
+  # (PVC s3-storage-pvc). "efs" = modo filesystem; a app não usa SDK/credenciais AWS para isso.
+  SIGTAP_STORAGE: "efs"
+  STORAGE_BACKEND: "efs"
+
   # Fila lida do snapshot no PostgreSQL (fila_snapshot, mantido pelo fila-triagem-dono).
   # Chave geral; cada unidade liga pelos parâmetros fila_triagem_snapshot / fila_atendimento_snapshot (padrão N).
   # Desligada até o município entrar: "true" junto com replicas: 1 em fila-triagem-dono-deployment.yaml.

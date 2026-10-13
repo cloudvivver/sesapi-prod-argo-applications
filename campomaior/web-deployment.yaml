@@ -78,7 +78,7 @@ spec:
             - name: public-assets
               mountPath: /app/public
             - name: shared-storage
-              mountPath: /mnt/compartilhado
+              mountPath: /mnt/compartilhado/cuidar_campomaior_pi
           envFrom:
             - configMapRef:
                 name: env
@@ -206,7 +206,7 @@ spec:
           emptyDir: {}
         - name: shared-storage
           persistentVolumeClaim:
-            claimName: shared-storage-pvc
+            claimName: s3-storage-pvc
 
       affinity:
         podAntiAffinity:

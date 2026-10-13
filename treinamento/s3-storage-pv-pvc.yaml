@@ -1,0 +1,49 @@
+# /mnt/compartilhado/treinamento_pi → s3://cuidar-storage/compartilhado/treinamento_pi/ (Mountpoint S3 CSI).
+# Ver shared-storage/S3-MOUNTPOINT-CSI.md.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: s3-cuidar-treinamento
+  labels:
+    app.kubernetes.io/name: cuidar
+    app.kubernetes.io/component: shared-storage-s3
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  claimRef:
+    namespace: treinamento
+    name: s3-storage-pvc
+  mountOptions:
+    - region sa-east-1
+    - prefix compartilhado/treinamento_pi/
+    - allow-delete
+    - allow-overwrite
+    - allow-other
+    - uid=1000
+    - gid=1000
+  csi:
+    driver: s3.csi.aws.com
+    volumeHandle: s3-cuidar-treinamento
+    volumeAttributes:
+      bucketName: cuidar-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: s3-storage-pvc
+  namespace: treinamento
+  labels:
+    app.kubernetes.io/name: cuidar
+    app.kubernetes.io/component: shared-storage-s3
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 100Gi
+  volumeName: s3-cuidar-treinamento

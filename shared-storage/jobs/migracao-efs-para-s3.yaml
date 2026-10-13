@@ -1,0 +1,53 @@
+# Copia /mnt/compartilhado/<DATABASE_PROD> do PVC EFS para o PVC S3 (Mountpoint) do tenant.
+# Não aplicar direto: usar ./run-migracao.sh <dir> efs (substitui __NAMESPACE__, __DATABASE_PROD__, __EFS_PVC__).
+# EFS montado read-only; arquivos que já existem no S3 não são sobrescritos.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migracao-s3-efs
+  namespace: __NAMESPACE__
+  labels:
+    app.kubernetes.io/name: cuidar
+    app.kubernetes.io/component: migracao-s3
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: migracao-s3
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: copiar
+          image: alpine:3.19
+          command: ["/bin/sh", "/scripts/copiar-para-s3.sh", "/efs/__DATABASE_PROD__", "/s3"]
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+            - name: efs
+              mountPath: /efs
+              readOnly: true
+            - name: s3
+              mountPath: /s3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+      volumes:
+        - name: scripts
+          configMap:
+            name: migracao-s3-scripts
+        - name: efs
+          persistentVolumeClaim:
+            claimName: __EFS_PVC__
+            readOnly: true
+        - name: s3
+          persistentVolumeClaim:
+            claimName: s3-storage-pvc

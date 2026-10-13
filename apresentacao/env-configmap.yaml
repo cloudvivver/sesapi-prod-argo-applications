@@ -64,3 +64,8 @@ data:
 
   # External Services
   HYDRA_HOST: "https://regulapiaui.sesapi.pi.gov.br"
+
+  # /mnt/compartilhado/<DATABASE_PROD> = S3 cuidar-storage/compartilhado/<DATABASE_PROD>/ via Mountpoint S3 CSI
+  # (PVC s3-storage-pvc). "efs" = modo filesystem; a app não usa SDK/credenciais AWS para isso.
+  SIGTAP_STORAGE: "efs"
+  STORAGE_BACKEND: "efs"

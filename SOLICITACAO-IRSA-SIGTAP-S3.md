@@ -4,7 +4,7 @@
 **Data:** 5 de agosto de 2026  
 **Solicitante:** Equipe Vivver / Cuidar  
 **Prioridade:** Alta (mitigação de hangs NFS/EFS nos nós; migração de storage da importação PRD)  
-**Status:** Aguardando implementação AWS (IAM) — lado Kubernetes do homolog já preparado  
+**Status:** **Atendida de outra forma (2026-10-13)** — a infra instalou o Mountpoint S3 CSI (role `AmazonEKS_S3_CSI_DriverRole` no SA do driver, policy `amzn-s3-cuidar-storage`). A role `cuidar-sigtap-s3` não será criada; a app monta o bucket via PVC. Ver [shared-storage/S3-MOUNTPOINT-CSI.md](./shared-storage/S3-MOUNTPOINT-CSI.md) e a pendência em [SOLICITACAO-POLICY-S3-MOUNTPOINT.md](./SOLICITACAO-POLICY-S3-MOUNTPOINT.md).  
 
 ---
 

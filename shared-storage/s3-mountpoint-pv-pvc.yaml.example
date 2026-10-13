@@ -1,0 +1,50 @@
+# /mnt/compartilhado/<DATABASE_PROD> → s3://cuidar-storage/compartilhado/<DATABASE_PROD>/ (Mountpoint S3 CSI).
+# Copiar para <dir-do-tenant>/s3-storage-pv-pvc.yaml trocando <NAMESPACE> e <DATABASE_PROD>.
+# Ver S3-MOUNTPOINT-CSI.md.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: s3-cuidar-<NAMESPACE>
+  labels:
+    app.kubernetes.io/name: cuidar
+    app.kubernetes.io/component: shared-storage-s3
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  claimRef:
+    namespace: <NAMESPACE>
+    name: s3-storage-pvc
+  mountOptions:
+    - region sa-east-1
+    - prefix compartilhado/<DATABASE_PROD>/
+    - allow-delete
+    - allow-overwrite
+    - allow-other
+    - uid=1000
+    - gid=1000
+  csi:
+    driver: s3.csi.aws.com
+    volumeHandle: s3-cuidar-<NAMESPACE>
+    volumeAttributes:
+      bucketName: cuidar-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: s3-storage-pvc
+  namespace: <NAMESPACE>
+  labels:
+    app.kubernetes.io/name: cuidar
+    app.kubernetes.io/component: shared-storage-s3
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 100Gi
+  volumeName: s3-cuidar-<NAMESPACE>

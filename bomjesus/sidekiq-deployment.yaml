@@ -24,14 +24,14 @@ spec:
               # Configurar PATH para rbenv
               export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec sidekiq -C config/sidekiq.yml
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /mnt/compartilhado/cuidar_bomjesus_pi
           envFrom:
             - configMapRef:
                 name: env
             - secretRef:
                 name: app-secrets
-            - secretRef:
-                name: minio-s3-credentials
-                optional: true
           resources:
             requests:
               cpu: "400m"
@@ -39,5 +39,10 @@ spec:
             limits:
               cpu: "800m"
               memory: "2Gi"
+
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: s3-storage-pvc
 
       restartPolicy: Always

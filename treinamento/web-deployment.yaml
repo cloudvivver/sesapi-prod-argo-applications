@@ -63,7 +63,7 @@ spec:
             - containerPort: 3000
           volumeMounts:
             - name: shared-storage
-              mountPath: /mnt/compartilhado
+              mountPath: /mnt/compartilhado/treinamento_pi
             - name: public-assets
               mountPath: /app/public
 
@@ -186,7 +186,7 @@ spec:
       volumes:
         - name: shared-storage
           persistentVolumeClaim:
-            claimName: shared-storage-pvc
+            claimName: s3-storage-pvc
         - name: nginx-logs
           emptyDir: {}
         - name: nginx-config

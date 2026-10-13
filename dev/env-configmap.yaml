@@ -73,12 +73,10 @@ data:
   # External Services
   HYDRA_HOST: "https://regulapiaui.sesapi.pi.gov.br"
 
-  # SIGTAP/SIA — S3 AWS via IRSA (SA cuidar-sigtap-sa). Sem Access Keys / MinIO.
-  # NÃO definir AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY nem AWS_ENDPOINT_URL
-  # (senão a SDK ignora Web Identity / IRSA).
-  # Prefixo efetivo: prd/sigtap/<DATABASE_PROD>/ e prd/sia/<DATABASE_PROD>/
-  SIGTAP_STORAGE: "s3"
-  SIGTAP_S3_BUCKET: "cuidar-storage"
-  SIGTAP_S3_PREFIX: "prd"
-  AWS_REGION: "sa-east-1"
   PRD_IMPORTACAO_SIGTAP_TIMEOUT_MS: "1800000"
+
+  # /mnt/compartilhado/<DATABASE_PROD> = S3 cuidar-storage/compartilhado/<DATABASE_PROD>/ via Mountpoint S3 CSI
+  # (PVC s3-storage-pvc). "efs" = modo filesystem; a app não usa SDK/credenciais AWS para isso.
+  SIGTAP_STORAGE: "efs"
+  STORAGE_BACKEND: "efs"
+

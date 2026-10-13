@@ -24,6 +24,9 @@ spec:
               # Configurar PATH para rbenv
               export PATH="/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
               bundle exec sidekiq -C config/sidekiq.yml
+          volumeMounts:
+            - name: shared-storage
+              mountPath: /mnt/compartilhado/treinamento_pi
           envFrom:
             - configMapRef:
                 name: env
@@ -36,5 +39,10 @@ spec:
             limits:
               cpu: "600m"
               memory: "2Gi"
+
+      volumes:
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: s3-storage-pvc
 
       restartPolicy: Always

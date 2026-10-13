@@ -24,7 +24,8 @@ spec:
       annotations:
         kubectl.kubernetes.io/restartedAt: "2025-12-20T23:20:51Z"
     spec:
-      serviceAccountName: cuidar-sigtap-sa
+      # Explícito: sem isso o campo legado spec.serviceAccount (cuidar-sigtap-sa) volta a preencher serviceAccountName.
+      serviceAccountName: default
       initContainers:
         - name: sync-public-assets
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-dev:20261001-2
@@ -93,6 +94,8 @@ spec:
           volumeMounts:
             - name: public-assets
               mountPath: /app/public
+            - name: shared-storage
+              mountPath: /mnt/compartilhado/cuidar_isac_pi
           envFrom:
             - configMapRef:
                 name: env
@@ -134,6 +137,9 @@ spec:
             name: nginx-sidecar-config
         - name: public-assets
           emptyDir: {}
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: s3-storage-pvc
 
       affinity:
         podAntiAffinity:

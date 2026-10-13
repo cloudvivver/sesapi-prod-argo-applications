@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# SUBSTITUÍDO (2026-10-13): não usar. A infra entregou o Mountpoint S3 CSI (ver S3-MOUNTPOINT-CSI.md).
 # Cria/atualiza policy + role IRSA cuidar-sigtap-s3 (conta SESAPI 961341521437).
 # Uso (com credenciais da conta SESAPI, região sa-east-1):
 #   ./shared-storage/setup-sigtap-irsa.sh
