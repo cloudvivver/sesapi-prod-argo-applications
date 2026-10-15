@@ -43,10 +43,10 @@ spec:
             # Proxy (DATABASE_HOST do ConfigMap env).
             - name: DATABASE_HOST
               value: db-viverdb.cb8m6qcy2cyh.sa-east-1.rds.amazonaws.com
-            # Teto de recálculo por escopo: no máximo 1 a cada 10 s. O recálculo custa ~150 ms, então
-            # 6 por minuto ainda ficam abaixo do polling de uma tela.
+            # Teto de recálculo por escopo: no máximo 1 a cada 20 s. A triagem do setor 33 custa ~650 ms
+            # por recálculo; com a tela atualizando a cada 30 s, a grade atrasa no máximo ~50 s.
             - name: FILA_TRIAGEM_INTERVALO_MINIMO
-              value: "10"
+              value: "20"
             # Reconciliação de todos os escopos ativos a cada 5 min.
             - name: FILA_TRIAGEM_RECONCILIAR_S
               value: "300"
