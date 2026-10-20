@@ -22,6 +22,16 @@ spec:
       labels:
         app: caps
     spec:
+      # Durante o rollout (maxSurge: 1) o pod novo precisa de um nó com 2 vagas:
+      # a dele e a do pod auxiliar do volume S3. Espalhar evita empilhar réplicas
+      # no mesmo nó. ScheduleAnyway não trava o agendamento se não houver nó ideal.
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: caps
       initContainers:
         - name: sync-public-assets
           image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-219
