@@ -5,8 +5,8 @@
 # Recreate: o pod antigo sai antes de o novo subir. Sem ele, as telas usam a consulta de sempre
 # (a grade só confia no snapshot com o dono visto nos últimos 2 min).
 # As migrations rodam na subida do web; até lá o dono falha e o kubelet o reinicia.
-# Desligado (replicas: 0) até o município entrar: para ligar, replicas: 1 e FILA_SNAPSHOT_ENABLED "true"
-# no env-configmap.yaml; depois os parâmetros por unidade. Sem o dono os triggers não gravam nada.
+# Ligado para a fila da UPA (fila_atendimento_snapshot por unidade); a triagem segue na consulta.
+# Sem o dono os triggers não gravam nada.
 # Para desligar a fila depressa: replicas: 0 (em até 2 min todas as telas voltam para a consulta).
 apiVersion: apps/v1
 kind: Deployment
@@ -16,7 +16,7 @@ metadata:
   labels:
     app: fila-triagem-dono
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
