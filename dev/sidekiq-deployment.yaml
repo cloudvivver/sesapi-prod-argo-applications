@@ -38,6 +38,14 @@ spec:
           volumeMounts:
             - name: shared-storage
               mountPath: /mnt/compartilhado/cuidar_isac_pi
+          env:
+            - name: AUDITORIA_GATEWAY_URL
+              value: http://saude-auditoria-gateway.saude-auditoria-gateway.svc.cluster.local/api/v1/events
+            - name: AUDITORIA_GATEWAY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: auditoria-gateway-secret-correct
+                  key: shared-secret
           envFrom:
             - configMapRef:
                 name: env
