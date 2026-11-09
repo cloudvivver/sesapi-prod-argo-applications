@@ -1,6 +1,5 @@
 homolog.saude.pi.gov.br (essa já foi)
 
-apresentacao.saude.pi.gov.br
 argo.saude.pi.gov.br
 pgadmin.saude.pi.gov.br
 c-tv.saude.pi.gov.br

@@ -122,19 +122,6 @@ spec:
       app: raimundononato
 
 ---
-# apresentacao
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: apresentacao-pdb
-  namespace: apresentacao
-spec:
-  minAvailable: 1
-  selector:
-    matchLabels:
-      app: apresentacao
-
----
 # treinamento
 apiVersion: policy/v1
 kind: PodDisruptionBudget
