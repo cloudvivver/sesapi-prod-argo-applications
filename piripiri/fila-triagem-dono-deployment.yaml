@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: dono
-          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-245
+          image: 961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-244961341521437.dkr.ecr.sa-east-1.amazonaws.com/saude-publica-web:master-246
           command: ["/bin/bash", "-c"]
           args:
             - |
